@@ -1,8 +1,8 @@
 deployment:
   staging:
     branch: master
-    heroku: reservaslab
-      appname: pdsw-circleci-demo
+    heroku: 
+      appname: reservaslab
 
 test:
   post:
