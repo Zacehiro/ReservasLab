@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Solicitud de Software </title>
+    </h:head>
+    <body>
+        <h1 style="text-align: center">Laboratorio de Ingenieria de Sistemas</h1>
+        <hr align="center">
+        <h2 style="text-align: center">Solicitud de software</h2>
+        </hr>
+        <h:body>
+            <p:separator />
+            <p align="left">
+                Para realizar su solicitud de software, ingrese por favor el link de la página oficial del software, el link de descarga y el sistema operativo en que desea ejecutarlo. 
+            </p>
+            <p:panel header="Formulario" style="margin-top: 10px">
+            <h:form>
+                <center>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="link" value="Link del programa: "></p:outputLabel>
+                    <p:inputText id="link"></p:inputText>
+                    <p:outputLabel for="linkDes" value="Link de descarga: "></p:outputLabel>
+                    <p:inputText id="linkDes"></p:inputText>
+                    <p:selectOneMenu id="so">
+                        <f:selectItem itemLabel="Selecione el Sistema Operativo" itemValue="" noSelectionOption="true"></f:selectItem>
+                        <f:selectItems value="#{reservasLabBackingBean.SO}"></f:selectItems>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                </center>
+                <p:commandButton id="siguiente" value="Siguiente" type="button"/>
+                <p:overlayPanel id="moviePanel" for="siguiente" hideEffect="fade" dynamic="true" style="width:600px">
+                    <p:dataTable var="movies" value="#{reservasLabBackingBean.SO}" rows="10">
+                        <p:column headerText="Laboratorios disponibles para la instalación">
+                            <h:outputText value="#{movies}" />
+                    </p:column>
+                </p:dataTable>
+                    <p:commandButton id="cancel" type="Button" value="Cancelar"/>
+                    <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" style="float: right" action="procesoSolicitud"/>
+            </p:overlayPanel>
+            </h:form>
+            </p:panel>
+        </h:body>
+    </body>
+</html>
