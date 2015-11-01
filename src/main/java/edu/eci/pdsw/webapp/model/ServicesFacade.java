@@ -23,9 +23,14 @@ import java.util.logging.Logger;
 public class ServicesFacade {
     private final static ServicesFacade instance=new ServicesFacade();
     private DaoFactory df=DaoFactory.getInstance();
+    private String[] so = {"Windows","Mac OS X","Linux"};
     
     private ServicesFacade(){
         
+    }
+
+    public String[] getSo() {
+        return so;
     }
     
     public static ServicesFacade getInstance(){
