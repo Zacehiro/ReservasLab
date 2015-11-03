@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * @author Zacehiro
  */
 public class ServicesFacade {
-    private DaoFactory df;
+    private DaoFactory df = null;
     private String[] so = {"Windows","Mac OS X","Linux"};
     private static ServicesFacade instance=null;
     private final Properties properties=new Properties();
@@ -34,7 +34,6 @@ public class ServicesFacade {
 	InputStream input = null;
         input = this.getClass().getClassLoader().getResourceAsStream(propFileName);
         properties.load(input);
-        df=DaoFactory.getInstance(properties);
     }
     
     public static ServicesFacade getInstance(String propertiesFileName) throws RuntimeException{

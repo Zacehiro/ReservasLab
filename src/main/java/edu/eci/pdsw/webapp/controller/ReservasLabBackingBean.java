@@ -17,6 +17,6 @@ public class ReservasLabBackingBean {
     private String[] so;
     
     public String[] getSO(){
-        return ServicesFacade.getInstance().getSo();
+        return ServicesFacade.getInstance("config.properties").getSo();
     }
 }
