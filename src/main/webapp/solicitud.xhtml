@@ -8,7 +8,7 @@
         <title>Solicitud de Software </title>
     </h:head>
     <body>
-        <h1 style="text-align: center">Laboratorio de Ingenieria de Sistemas</h1>
+        <h1 style="text-align: center">Laboratorio de Ingeniería de Sistemas</h1>
         <hr align="center">
         <h2 style="text-align: center">Solicitud de software</h2>
         </hr>
@@ -30,17 +30,18 @@
                         <f:selectItems value="#{reservasLabBackingBean.SO}"></f:selectItems>
                     </p:selectOneMenu>
                 </h:panelGrid>
-                </center>
                 <p:commandButton id="siguiente" value="Siguiente" type="button"/>
                 <p:overlayPanel id="moviePanel" for="siguiente" hideEffect="fade" dynamic="true" style="width:600px">
                     <p:dataTable var="movies" value="#{reservasLabBackingBean.SO}" rows="10">
                         <p:column headerText="Laboratorios disponibles para la instalación">
                             <h:outputText value="#{movies}" />
-                    </p:column>
-                </p:dataTable>
-                    <p:commandButton id="cancel" type="Button" value="Cancelar"/>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton id="cancel" type="Button" value="Cancelar" style="float: left"/>
                     <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" style="float: right" action="procesoSolicitud"/>
-            </p:overlayPanel>
+                </p:overlayPanel>
+                </center>
+                
             </h:form>
             </p:panel>
         </h:body>

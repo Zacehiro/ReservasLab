@@ -38,102 +38,85 @@ import java.util.logging.Logger;
  */
 public class JDBCDaoFactory extends DaoFactory {
 
-    Connection con;
-    Properties prop = new Properties();
-    InputStream input = null;
-    
-    
-    private Connection openConnection() throws PersistenceException{
+    private static final ThreadLocal<Connection> connectionInstance = new ThreadLocal<Connection>() {
+    };
+
+    private static Properties appProperties = null;
+
+    public JDBCDaoFactory(Properties appProperties) {
+        this.appProperties = appProperties;
+    }
+
+    private static Connection openConnection() throws PersistenceException {
+        String url = appProperties.getProperty("url");
+        String driver = appProperties.getProperty("driver");
+        String user = appProperties.getProperty("user");
+        String pwd = appProperties.getProperty("pwd");
+
         try {
-            //input = new FileInputStream(new File("./target/classes/config.properties")); estaba antes 
-            input = ClassLoader.getSystemResourceAsStream("config.properties");
-            prop.load(input);
-            String url=prop.getProperty("url");//"jdbc:mysql://desarrollo.is.escuelaing.edu.co:3306/bdprueba";
-            String driver=prop.getProperty("driver");//"com.mysql.jdbc.Driver";
-            String user=prop.getProperty("user");//"bdprueba";
-            String pwd=prop.getProperty("pwd");//"bdprueba";
-            
             Class.forName(driver);
-            Connection _con=DriverManager.getConnection(url,user,pwd);
+            Connection _con = DriverManager.getConnection(url, user, pwd);
             _con.setAutoCommit(false);
             return _con;
         } catch (ClassNotFoundException | SQLException ex) {
-            throw new PersistenceException("Error on connection opening.",ex);
-        }catch (FileNotFoundException ex) {
-                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
-                throw new RuntimeException("Invalid factory configuration.",ex);
-        } catch (IOException ex) {
-                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
-                throw new RuntimeException("Invalid factory configuration.",ex);
+            throw new PersistenceException("Error on connection opening.", ex);
         }
 
     }
-    
+
     @Override
     public void beginSession() throws PersistenceException {
-        try {
-            if (con==null || con.isClosed()){            
-                con=openConnection();
-            }
-            else{
-                throw new PersistenceException("Session was already opened.");
-            }
-        } catch (SQLException ex) {
-            throw new PersistenceException("An error ocurred while opening a JDBC connection.",ex);
-        }
-        
-    }
+        connectionInstance.set(openConnection());
 
-    @Override
-    public DaoLaboratorio getDaoLaboratorio() {        
-        return null;//new JDBCDaoProducto(con);
-    }
-
-    @Override
-    public DaoUsuario getDaoUsuario() {
-        return null;//new JDBCDaoPedido(con);
     }
 
     @Override
     public void endSession() throws PersistenceException {
         try {
-            if (con==null || con.isClosed()){
+            if (connectionInstance.get() == null || connectionInstance.get().isClosed()) {
                 throw new PersistenceException("Conection is null or is already closed.");
+            } else {
+                connectionInstance.get().close();
             }
-            else{
-                con.close();
-            }            
         } catch (SQLException ex) {
-            throw new PersistenceException("Error on connection closing.",ex);
+            throw new PersistenceException("Error on connection closing.", ex);
         }
     }
 
     @Override
     public void commitTransaction() throws PersistenceException {
         try {
-            if (con==null || con.isClosed()){
+            if (connectionInstance.get() == null || connectionInstance.get().isClosed()) {
                 throw new PersistenceException("Conection is null or is already closed.");
+            } else {
+                connectionInstance.get().commit();
             }
-            else{
-                con.commit();
-            }            
         } catch (SQLException ex) {
-            throw new PersistenceException("Error on connection closing.",ex);
-        }        
+            throw new PersistenceException("Error on connection closing.", ex);
+        }
     }
 
     @Override
     public void rollbackTransaction() throws PersistenceException {
-                try {
-            if (con==null || con.isClosed()){
+        try {
+            if (connectionInstance.get() == null || connectionInstance.get().isClosed()) {
                 throw new PersistenceException("Conection is null or is already closed.");
+            } else {
+                connectionInstance.get().rollback();
             }
-            else{
-                con.rollback();
-            }            
         } catch (SQLException ex) {
-            throw new PersistenceException("Error on connection closing.",ex);
+            throw new PersistenceException("Error on connection closing.", ex);
         }
     }
-    
+
+    @Override
+    public DaoLaboratorio getDaoLaboratorio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DaoUsuario getDaoUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
