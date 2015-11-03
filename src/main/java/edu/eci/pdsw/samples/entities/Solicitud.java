@@ -22,8 +22,9 @@ public class Solicitud {
     private Date fecha_resp;
     private String justificacion;
     private Laboratorio laboratorio;
+    private SistemaOperativo so;
     
-    public Solicitud(int id, String software, String link_licencia, String link_descarga, boolean estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, Laboratorio laboratorio){
+    public Solicitud(int id, String software, String link_licencia, String link_descarga, boolean estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, Laboratorio laboratorio, SistemaOperativo so){
         this.id=id;
         this.estado=estado;
         this.fecha_posible=fecha_posible;
@@ -34,10 +35,23 @@ public class Solicitud {
         this.link_licencia=link_licencia;
         this.software=software;
         this.laboratorio=laboratorio;
+        this.so=so;
     }
-
+    
+    public Solicitud(){
+        
+    }
+    
     public Laboratorio getLaboratorio() {
         return laboratorio;
+    }
+    
+    public SistemaOperativo getSo() {
+        return so;
+    }
+
+    public void setSo(SistemaOperativo so) {
+        this.so = so;
     }
 
     public void setLaboratorio(Laboratorio laboratorio) {

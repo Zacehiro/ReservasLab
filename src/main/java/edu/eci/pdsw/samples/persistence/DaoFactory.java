@@ -36,69 +36,20 @@ public abstract class DaoFactory {
     protected DaoFactory(){}
     private static DaoFactory instance=null;
     
-    private static final ThreadLocal<DaoFactory> perThreadInstance = new ThreadLocal<DaoFactory>() {
-        @Override
-        protected DaoFactory initialValue() {
-            Properties prop = new Properties();
-            InputStream input = null;
-            
-            try {
-               
-                //input = ClassLoader.getSystemResourceAsStream("config.properties");
-                input=this.getClass().getClassLoader().getResourceAsStream("config.properties");
-                //input = new FileInputStream(new File("./target/classes/config.properties"));
-                if (input==null){
-                    throw new RuntimeException("No se encuentra config.properties");
+    public static DaoFactory getInstance(Properties appProperties) {
+        if (instance == null) {
+            synchronized (DaoFactory.class) {
+                if (instance == null) {
+                    if (appProperties.get("dao").equals("jdbc")) {
+                        instance = new JDBCDaoFactory(appProperties);
+                    } else {
+                        throw new RuntimeException("Wrong configuration: Unsupported DAO:" + appProperties.get("dao"));
+                    }
                 }
-                
-                prop.load(input);
-                if (prop.getProperty("persistence").equals("mybatis")){
-                    instance=new MyBatisMapperFactory();
-                }
-                else if (prop.getProperty("persistence").equals("jdbc")){
-                    instance=new JDBCDaoFactory();
-                }
-                else{
-                    throw new RuntimeException("Invalid factory configuration.");
-                }
-                
-                
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
-                throw new RuntimeException("Invalid factory configuration.",ex);
-            } catch (IOException ex) {
-                Logger.getLogger(DaoFactory.class.getName()).log(Level.SEVERE, null, ex);
-                throw new RuntimeException("Invalid factory configuration.",ex);
             }
-            return instance;
         }
-    };
-    
-    public static DaoFactory getInstance(){          
-        return perThreadInstance.get();
+        return instance;
     }
-
-
-    /*
-        //EL ESQUEMA ANTERIOR ES UNA ALTERNATIVA AL MECANISMO DE FÁBRICA
-        //ABSTRACTA VISTO ANTERIORMENTE:
-        
-        private static final DaoFactory instance=null;
-    
-        public static DaoFactory getInstance(){          
-            if (instance=null){
-                instance= ...
-            }
-            return instance;
-        }
-        
-        //EN PRINCIPIO FUNCIONAN IGUAL, PERO EL NUEVO MECANISMO
-        //GARANTIZA CONSISTENCIA CUANDO LA FÁBRICA SEA UTILIZADA
-        //CONCURRENTEMENTE.
-    */
-    
-    
-    
     
     public abstract void beginSession() throws PersistenceException;
     
