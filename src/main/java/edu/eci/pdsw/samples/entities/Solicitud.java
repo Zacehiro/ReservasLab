@@ -16,7 +16,7 @@ public class Solicitud {
     private String software;
     private String link_licencia;
     private String link_descarga;
-    private boolean estado;
+    private String estado;
     private Date fecha_rad;
     private Date fecha_posible;
     private Date fecha_resp;
@@ -24,7 +24,7 @@ public class Solicitud {
     private Laboratorio laboratorio;
     private SistemaOperativo so;
     
-    public Solicitud(int id, String software, String link_licencia, String link_descarga, boolean estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, Laboratorio laboratorio, SistemaOperativo so){
+    public Solicitud(int id, String software, String link_licencia, String link_descarga, String estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, Laboratorio laboratorio, SistemaOperativo so){
         this.id=id;
         this.estado=estado;
         this.fecha_posible=fecha_posible;
@@ -82,11 +82,11 @@ public class Solicitud {
         this.link_descarga = link_descarga;
     }
 
-    public boolean isEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
