@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Laboratorio {
     
+
     private String nombre;
     private int id;
     private int cant_equipos;

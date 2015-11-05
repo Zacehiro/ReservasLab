@@ -79,7 +79,7 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Solicitud> loadSolicitudResp() {
+    public List<Solicitud> loadSolicitudResp() throws PersistenceException {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();
@@ -91,7 +91,7 @@ public class ServicesFacade {
         return ans;
     }
 
-    public List<Solicitud> loadSolicitudSinResp() {
+    public List<Solicitud> loadSolicitudSinResp() throws PersistenceException {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();

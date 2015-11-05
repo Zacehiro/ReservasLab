@@ -15,5 +15,6 @@ import java.util.List;
 public interface DaoSolicitud {
     public void save(Solicitud s) throws PersistenceException;
     public Solicitud loadSolicitud(int id) throws PersistenceException;
-    public List<Solicitud> loadAll();
+    public List<Solicitud> loadAll() throws PersistenceException;
+
 }

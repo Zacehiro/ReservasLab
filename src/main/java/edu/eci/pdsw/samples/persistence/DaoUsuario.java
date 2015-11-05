@@ -29,6 +29,6 @@ public interface DaoUsuario {
     public void save(Usuario u) throws PersistenceException;
     public Usuario load(int id) throws PersistenceException;
     public void Update(Usuario u) throws PersistenceException;
-    public ArrayList<Usuario> loadAll() throws PersistenceException;
+    public List<Usuario> loadAll() throws PersistenceException;
    
 }
