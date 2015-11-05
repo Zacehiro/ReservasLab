@@ -84,9 +84,9 @@ public class AppTest {
       } catch (SQLException ex) {
         Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
     }
-      
-      
+     
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
+      
   }
 } 
 
