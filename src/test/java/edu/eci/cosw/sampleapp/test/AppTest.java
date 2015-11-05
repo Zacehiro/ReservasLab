@@ -26,7 +26,7 @@ public class AppTest {
         Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
         Statement stmt = conn.createStatement();
         stmt.execute("delete from SOLICITUD");
-        stmt.execute("delete from SISTEMA_OPERATIO");
+        stmt.execute("delete from SISTEMA_OPERATIVO");
         stmt.execute("delete from LABORATORIO");
         conn.commit();
         conn.close();
