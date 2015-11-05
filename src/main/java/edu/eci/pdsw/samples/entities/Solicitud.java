@@ -13,6 +13,10 @@ import java.util.Date;
  */
 public class Solicitud {
     private int id;
+
+    public int getId() {
+        return id;
+    }
     private String software;
     private String link_licencia;
     private String link_descarga;

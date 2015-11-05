@@ -47,7 +47,7 @@ public class ServicesFacade {
             } catch (IOException ex) {
                 throw new RuntimeException("Error on application configuration:",ex);
             }
-        }        
+        }
         return instance;
     }
 
@@ -92,16 +92,17 @@ public class ServicesFacade {
     }
 
     public List<Solicitud> loadSolicitudSinResp() {
-        df= DaoFactory.getInstance(properties);
-        DaoSolicitud ds= df.getDaoSolicitud();
+        //df= DaoFactory.getInstance(properties);
+        //DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();
-        for (Solicitud sol : ds.loadAll()) {
-            if(sol.getEstado()==null){
-                ans.add(sol);
-            }
-        }
-        Laboratorio templab= new Laboratorio("Redes", 1,8, true);
-        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, null, null);
+        //for (Solicitud sol : ds.loadAll()) {
+            //if(sol.getEstado()==null){
+               // ans.add(sol);
+           // }
+        //}
+        Laboratorio templab= new Laboratorio("Redes", 1, 8, true);
+        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null);
+        ans.add(temp);
         return ans;
     }
     
