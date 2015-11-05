@@ -84,4 +84,12 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * Carga todos los sistemas operativos que estan vigentes en los laboratorios.
+     * @return ArrayList<SistemaOperativo> lista con los sistemas operativos 
+     */
+    public ArrayList<SistemaOperativo> loadAllSo(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

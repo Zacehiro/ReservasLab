@@ -33,7 +33,14 @@ public class AppTest {
     }
   
   @Test
-  public void emailOPaginaIncorrectosTest() {
+  public void emailOPaginaIncorrectosTest() throws SQLException {
+      Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+      Statement stmt = conn.createStatement();
+      stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
+      stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, ID_laboratorio) values(1,'Windows','8.1', 1)");
+      conn.commit();
+      
+      
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
       boolean posible=true;
       Solicitud s = new Solicitud();
@@ -44,10 +51,12 @@ public class AppTest {
       s.setSo(so);
       try{
         sf.saveSolicitud(s);
+     // }catch(SQLException sql){
+        //  posible =false;
       }catch(Exception e){
           posible=false;
       }
-      Assert.assertTrue(posible);
+      Assert.assertFalse(posible);
   }
   
   @Test
@@ -59,7 +68,7 @@ public class AppTest {
       s.setLink_licencia("licencia");
       SistemaOperativo so = new SistemaOperativo("Windows", "8.1");
       s.setSo(so);
-      
+      Assert.assertTrue(false);
   }
 } 
 
