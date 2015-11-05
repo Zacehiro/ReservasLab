@@ -23,7 +23,7 @@ public class Solicitud {
     private String justificacion;
     private Laboratorio laboratorio;
     private SistemaOperativo so;
-    
+
     public Solicitud(int id, String software, String link_licencia, String link_descarga, String estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, Laboratorio laboratorio, SistemaOperativo so){
         this.id=id;
         this.estado=estado;
@@ -87,7 +87,6 @@ public class Solicitud {
     }
 
     public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public Date getFecha_rad() {

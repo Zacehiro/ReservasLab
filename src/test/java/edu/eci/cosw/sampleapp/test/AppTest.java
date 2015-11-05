@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import static org.junit.Assert.fail;
@@ -69,6 +71,22 @@ public class AppTest {
       SistemaOperativo so = new SistemaOperativo("Windows", "8.1");
       s.setSo(so);
       Assert.assertTrue(false);
+  }
+  @Test
+  public void cargaCorrectamenteTest(){
+      Connection conn;
+    try {
+        conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+      Statement stmt = conn.createStatement();
+      stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
+      stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, ID_laboratorio) values(1,'Windows','8.1', 1)");
+      conn.commit();
+      } catch (SQLException ex) {
+        Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
+      
+      
+      ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
   }
 } 
 
