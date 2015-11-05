@@ -57,6 +57,8 @@ public abstract class DaoFactory {
     
     public abstract DaoUsuario getDaoUsuario();
     
+    public abstract DaoSolicitud getDaoSolicitud();
+    
     public abstract void commitTransaction() throws PersistenceException;
     
     public abstract void rollbackTransaction() throws PersistenceException;

@@ -8,6 +8,7 @@ package edu.eci.pdsw.samples.persistence.factory;
 import edu.eci.pdsw.samples.persistence.DaoFactory;
 import edu.eci.pdsw.samples.persistence.DaoUsuario;
 import edu.eci.pdsw.samples.persistence.DaoLaboratorio;
+import edu.eci.pdsw.samples.persistence.DaoSolicitud;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +72,11 @@ public class MyBatisMapperFactory extends DaoFactory {
     public DaoUsuario getDaoUsuario() {
         //PedidoMapper pm=sqlss.getMapper(PedidoMapper.class);
         return null;//new MybatisPedido(pm);
+    }
+
+    @Override
+    public DaoSolicitud getDaoSolicitud() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

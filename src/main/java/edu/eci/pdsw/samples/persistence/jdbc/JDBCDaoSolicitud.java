@@ -8,6 +8,7 @@ package edu.eci.pdsw.samples.persistence.jdbc;
 import edu.eci.pdsw.samples.entities.Solicitud;
 import edu.eci.pdsw.samples.persistence.DaoSolicitud;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
+import java.util.List;
 
 /**
  *
@@ -22,6 +23,11 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
 
     @Override
     public Solicitud loadSolicitud(int id) throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Solicitud> loadAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

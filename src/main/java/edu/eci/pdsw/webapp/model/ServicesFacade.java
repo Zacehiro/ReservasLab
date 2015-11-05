@@ -10,12 +10,14 @@ import edu.eci.pdsw.samples.entities.SistemaOperativo;
 import edu.eci.pdsw.samples.entities.Solicitud;
 import edu.eci.pdsw.samples.entities.Usuario;
 import edu.eci.pdsw.samples.persistence.DaoFactory;
+import edu.eci.pdsw.samples.persistence.DaoSolicitud;
 import edu.eci.pdsw.samples.persistence.DaoUsuario;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -30,6 +32,7 @@ public class ServicesFacade {
     private String[] so = {"Windows","Mac OS X","Linux"};
     private static ServicesFacade instance=null;
     private final Properties properties=new Properties();
+    
     
     private ServicesFacade(String propFileName) throws IOException{        
 	InputStream input = null;
@@ -77,11 +80,29 @@ public class ServicesFacade {
     }
 
     public List<Solicitud> loadSolicitudResp() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        df= DaoFactory.getInstance(properties);
+        DaoSolicitud ds= df.getDaoSolicitud();
+        List<Solicitud> ans=new ArrayList<>();
+        for (Solicitud sol : ds.loadAll()) {
+            if(sol.getEstado()!=null){
+                ans.add(sol);
+            }
+        }
+        return ans;
     }
 
     public List<Solicitud> loadSolicitudSinResp() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        df= DaoFactory.getInstance(properties);
+        DaoSolicitud ds= df.getDaoSolicitud();
+        List<Solicitud> ans=new ArrayList<>();
+        for (Solicitud sol : ds.loadAll()) {
+            if(sol.getEstado()==null){
+                ans.add(sol);
+            }
+        }
+        Laboratorio templab= new Laboratorio("Redes", 1,8, true);
+        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, null, null);
+        return ans;
     }
     
     /**

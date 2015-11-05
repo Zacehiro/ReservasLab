@@ -15,6 +15,11 @@ public class Usuario {
     private int id;
     private String nombre;
     private String email;
+    /*
+    *Usuario tipo 1: PROFESORES
+    *Usuario tipo 2: Asistente Laboratorio
+    *Usuario tipo 3: cualquiera 
+    */
     private int tipo_usuario;
     private ArrayList<Solicitud> solicitud;
     

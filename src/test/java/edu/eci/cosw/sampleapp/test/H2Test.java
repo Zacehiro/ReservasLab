@@ -39,7 +39,6 @@ public class H2Test {
         stmt.execute("delete from SOLICITUD");
         stmt.execute("delete from USUARIO");
         stmt.execute("delete from SOLICITUD");
-        stmt.execute("delete from SISTEMA_OPERATIO");
         stmt.execute("delete from LABORATORIO");
         conn.commit();
         conn.close();

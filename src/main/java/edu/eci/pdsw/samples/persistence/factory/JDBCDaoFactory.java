@@ -19,6 +19,7 @@ package edu.eci.pdsw.samples.persistence.factory;
 import edu.eci.pdsw.samples.persistence.DaoFactory;
 import edu.eci.pdsw.samples.persistence.DaoUsuario;
 import edu.eci.pdsw.samples.persistence.DaoLaboratorio;
+import edu.eci.pdsw.samples.persistence.DaoSolicitud;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -116,6 +117,11 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public DaoUsuario getDaoUsuario() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DaoSolicitud getDaoSolicitud() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

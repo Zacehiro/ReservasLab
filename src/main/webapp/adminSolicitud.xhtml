@@ -19,7 +19,7 @@
             </p>
             <h:form id="formulario">
                 
-                <p:dataTable id="sol" var="sol" value="#{AdmSolicitudesBackingBean.solicitudes}" rowKey="#{sol.id}" style="margin-top: 10px">
+                <p:dataTable id="sol" var="sol" value="#{AdmSolicitudesBackingBean.solicitudes}" selectionMode="single" selection="#{AdmSolicitudesBackingBean.solselc}" rowKey="#{sol.id}" style="margin-top: 10px">
                     <f:facet name="header">
                         Solicitudes
                     </f:facet>

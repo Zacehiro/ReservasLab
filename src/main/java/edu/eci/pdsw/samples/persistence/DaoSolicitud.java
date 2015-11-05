@@ -6,6 +6,7 @@
 package edu.eci.pdsw.samples.persistence;
 
 import edu.eci.pdsw.samples.entities.Solicitud;
+import java.util.List;
 
 /**
  *
@@ -14,4 +15,5 @@ import edu.eci.pdsw.samples.entities.Solicitud;
 public interface DaoSolicitud {
     public void save(Solicitud s) throws PersistenceException;
     public Solicitud loadSolicitud(int id) throws PersistenceException;
+    public List<Solicitud> loadAll();
 }

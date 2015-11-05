@@ -14,13 +14,17 @@ import java.util.ArrayList;
 public class Laboratorio {
     
     private String nombre;
-    private String version;
+    private int id;
+    private int cant_equipos;
+    private boolean videobeam;
     private ArrayList<SistemaOperativo> sos;
     private ArrayList<Software> software;
     
-    public Laboratorio(String nombre, String version){
-        this.nombre=nombre;
-        this.version=version;
+    public Laboratorio(String nombre, int id, int cant_equipos, boolean videobeam){
+        this.nombre = nombre;
+        this.id = id;
+        this.cant_equipos = cant_equipos;
+        this.videobeam = videobeam;
         sos=new ArrayList<SistemaOperativo>();
         software= new ArrayList<Software>();
     }
@@ -33,12 +37,28 @@ public class Laboratorio {
         this.nombre = nombre;
     }
 
-    public String getVersion() {
-        return version;
+    public int getId() {
+        return id;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCant_equipos() {
+        return cant_equipos;
+    }
+
+    public void setCant_equipos(int cant_equipos) {
+        this.cant_equipos = cant_equipos;
+    }
+
+    public boolean isVideobeam() {
+        return videobeam;
+    }
+
+    public void setVideobeam(boolean videobeam) {
+        this.videobeam = videobeam;
     }
 
     public ArrayList<SistemaOperativo> getSos() {
