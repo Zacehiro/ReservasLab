@@ -44,7 +44,7 @@ public class H2Test {
         conn.close();
     }
     @Test
-    public void c1Test() {
+    public void c1Test() throws PersistenceException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
@@ -53,7 +53,7 @@ public class H2Test {
     }
     
     @Test
-    public void c2Test() {
+    public void c2Test() throws PersistenceException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
@@ -64,7 +64,7 @@ public class H2Test {
     }
     
     @Test
-    public void c3Test() {
+    public void c3Test() throws PersistenceException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
@@ -75,7 +75,7 @@ public class H2Test {
     }
     
     @Test
-    public void c4Test() {
+    public void c4Test() throws PersistenceException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
@@ -86,7 +86,7 @@ public class H2Test {
     }
     
     @Test
-    public void c5Test() {
+    public void c5Test() throws PersistenceException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesSinRespuesta=sf.loadSolicitudSinResp();
         for (Solicitud s : solicitudesSinRespuesta) {
