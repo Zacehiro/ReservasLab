@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
@@ -46,43 +48,69 @@ public class H2Test {
     @Test
     public void c1Test() {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
+        List<Solicitud> solicitudesRespondidas;
+        
+    try {
+        solicitudesRespondidas = sf.loadSolicitudResp();
+        
         for (Solicitud s : solicitudesRespondidas) {
             assertTrue(s.getEstado().equals("aprobada")||s.getEstado().equals("negada"));
         }
+    } catch (PersistenceException ex) {
+        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
     
     @Test
     public void c2Test() {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
+        List<Solicitud> solicitudesRespondidas;
+        
+    try {
+        solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("aprobada")){
                 assertTrue(s.getFecha_posible()!=null);
             }
         }
+    } catch (PersistenceException ex) {
+        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
     }
     
     @Test
     public void c3Test() {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
+        List<Solicitud> solicitudesRespondidas;
+    try {
+        solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("negada")){
                 assertTrue(s.getJustificacion()!=null);
             }
         }
+    } catch (PersistenceException ex) {
+        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
     }
     
     @Test
     public void c4Test() {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesRespondidas=sf.loadSolicitudResp();
+        List<Solicitud> solicitudesRespondidas;
+    try {
+        solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("negada")){
                 assertTrue(s.getFecha_posible()==null);
             }
         }
+    } catch (PersistenceException ex) {
+        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
     }
     
     @Test

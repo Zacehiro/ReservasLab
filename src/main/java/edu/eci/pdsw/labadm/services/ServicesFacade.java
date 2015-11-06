@@ -79,7 +79,7 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Solicitud> loadSolicitudResp() {
+    public List<Solicitud> loadSolicitudResp() throws PersistenceException {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();
@@ -91,16 +91,22 @@ public class ServicesFacade {
         return ans;
     }
 
-    public List<Solicitud> loadSolicitudSinResp() {
-        //df= DaoFactory.getInstance(properties);
-        //DaoSolicitud ds= df.getDaoSolicitud();
+
+    public List<Solicitud> loadSolicitudSinResp(){
+        df= DaoFactory.getInstance(properties);
+        /*DaoSolicitud ds= df.getDaoSolicitud();*/
         List<Solicitud> ans=new ArrayList<>();
-        //for (Solicitud sol : ds.loadAll()) {
-            //if(sol.getEstado()==null){
-               // ans.add(sol);
-           // }
-        //}
-        Laboratorio templab= new Laboratorio("Redes", 1, 8, true);
+        /*
+        try {
+            for (Solicitud sol : ds.loadAll()) {
+                if(sol.getEstado()==null){
+                    ans.add(sol);
+                }
+            }
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        Laboratorio templab= new Laboratorio("Redes", 1,8, true);
         Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null);
         ans.add(temp);
         return ans;
