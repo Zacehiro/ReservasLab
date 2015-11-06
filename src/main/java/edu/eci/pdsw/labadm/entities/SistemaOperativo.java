@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.entities;
+package edu.eci.pdsw.labadm.entities;
 
 /**
  *
  * @author Zacehiro
  */
-public class Software {
+public class SistemaOperativo {
     private String nombre;
     private String version;
     
-    public Software(String nombre, String version){
+    public SistemaOperativo(String nombre, String version){
         this.nombre=nombre;
         this.version=version;
     }
@@ -33,6 +33,5 @@ public class Software {
     public void setVersion(String version) {
         this.version = version;
     }
-    
     
 }

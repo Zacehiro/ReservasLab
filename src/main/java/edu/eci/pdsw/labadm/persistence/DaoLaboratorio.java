@@ -1,7 +1,7 @@
-package edu.eci.pdsw.samples.persistence;
+package edu.eci.pdsw.labadm.persistence;
 
-import edu.eci.pdsw.samples.entities.Laboratorio;
-import edu.eci.pdsw.samples.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Laboratorio;
+import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import java.util.ArrayList;
 import java.util.List;
 

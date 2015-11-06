@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.persistence;
+package edu.eci.pdsw.labadm.persistence;
 
-import edu.eci.pdsw.samples.entities.Usuario;
+import edu.eci.pdsw.labadm.entities.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 

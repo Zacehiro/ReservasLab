@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.persistence.jdbc;
+package edu.eci.pdsw.labadm.persistence.jdbc;
 
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.util.List;
 
 /**

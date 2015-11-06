@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.webapp.model;
+package edu.eci.pdsw.labadm.services;
 
-import edu.eci.pdsw.samples.entities.Laboratorio;
-import edu.eci.pdsw.samples.entities.SistemaOperativo;
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.samples.entities.Usuario;
-import edu.eci.pdsw.samples.persistence.DaoFactory;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.DaoUsuario;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.entities.Laboratorio;
+import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.entities.Usuario;
+import edu.eci.pdsw.labadm.persistence.DaoFactory;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.DaoUsuario;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

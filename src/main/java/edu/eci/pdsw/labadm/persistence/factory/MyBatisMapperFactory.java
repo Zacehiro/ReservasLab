@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.persistence.factory;
+package edu.eci.pdsw.labadm.persistence.factory;
 
-import edu.eci.pdsw.samples.persistence.DaoFactory;
-import edu.eci.pdsw.samples.persistence.DaoUsuario;
-import edu.eci.pdsw.samples.persistence.DaoLaboratorio;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.persistence.DaoFactory;
+import edu.eci.pdsw.labadm.persistence.DaoUsuario;
+import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;

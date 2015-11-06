@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.persistence;
+package edu.eci.pdsw.labadm.persistence;
 
-import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
-import edu.eci.pdsw.samples.persistence.factory.MyBatisMapperFactory;
+import edu.eci.pdsw.labadm.persistence.factory.JDBCDaoFactory;
+import edu.eci.pdsw.labadm.persistence.factory.MyBatisMapperFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

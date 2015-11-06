@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.webapp.controller;
+package edu.eci.pdsw.labadm.webapp.controller;
 
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.webapp.model.ServicesFacade;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.services.ServicesFacade;
 import java.util.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
