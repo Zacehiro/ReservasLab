@@ -5,14 +5,14 @@
  */
 package edu.eci.pdsw.webapp.model;
 
-import edu.eci.pdsw.samples.entities.Laboratorio;
-import edu.eci.pdsw.samples.entities.SistemaOperativo;
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.samples.entities.Usuario;
-import edu.eci.pdsw.samples.persistence.DaoFactory;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.DaoUsuario;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.entities.Laboratorio;
+import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.entities.Usuario;
+import edu.eci.pdsw.labadm.persistence.DaoFactory;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.DaoUsuario;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -91,14 +91,18 @@ public class ServicesFacade {
         return ans;
     }
 
-    public List<Solicitud> loadSolicitudSinResp() throws PersistenceException {
+    public List<Solicitud> loadSolicitudSinResp(){
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();
-        for (Solicitud sol : ds.loadAll()) {
-            if(sol.getEstado()==null){
-                ans.add(sol);
+        try {
+            for (Solicitud sol : ds.loadAll()) {
+                if(sol.getEstado()==null){
+                    ans.add(sol);
+                }
             }
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         Laboratorio templab= new Laboratorio("Redes", 1,8, true);
         Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, null, null);

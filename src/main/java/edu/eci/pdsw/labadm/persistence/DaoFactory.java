@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.persistence;
+package edu.eci.pdsw.labadm.persistence;
 
-import edu.eci.pdsw.samples.persistence.factory.JDBCDaoFactory;
-import edu.eci.pdsw.samples.persistence.factory.MyBatisMapperFactory;
+import edu.eci.pdsw.labadm.persistence.factory.JDBCDaoFactory;
+import edu.eci.pdsw.labadm.persistence.factory.MyBatisMapperFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +40,7 @@ public abstract class DaoFactory {
         if (instance == null) {
             synchronized (DaoFactory.class) {
                 if (instance == null) {
-                    if (appProperties.get("dao").equals("jdbc")) {
+                    if (appProperties.get("persistence").equals("jdbc")) {
                         instance = new JDBCDaoFactory(appProperties);
                     } else {
                         throw new RuntimeException("Wrong configuration: Unsupported DAO:" + appProperties.get("dao"));

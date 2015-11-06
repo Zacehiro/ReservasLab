@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.persistence.factory;
+package edu.eci.pdsw.labadm.persistence.factory;
 
-import edu.eci.pdsw.samples.persistence.DaoFactory;
-import edu.eci.pdsw.samples.persistence.DaoUsuario;
-import edu.eci.pdsw.samples.persistence.DaoLaboratorio;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.persistence.DaoFactory;
+import edu.eci.pdsw.labadm.persistence.DaoUsuario;
+import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

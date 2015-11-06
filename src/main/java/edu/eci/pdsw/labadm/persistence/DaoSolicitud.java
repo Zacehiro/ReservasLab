@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.persistence;
+package edu.eci.pdsw.labadm.persistence;
 
-import edu.eci.pdsw.samples.entities.Solicitud;
+import edu.eci.pdsw.labadm.entities.Solicitud;
 import java.util.List;
 
 /**

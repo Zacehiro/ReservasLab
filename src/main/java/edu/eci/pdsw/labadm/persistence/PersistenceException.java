@@ -14,21 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package edu.eci.pdsw.samples.persistence;
-
-import edu.eci.pdsw.samples.entities.Usuario;
-import java.util.ArrayList;
-import java.util.List;
+package edu.eci.pdsw.labadm.persistence;
 
 /**
  *
- * @author Zacehiro
+ * @author hcadavid
  */
-public interface DaoUsuario {
+public class PersistenceException extends Exception {
+
+    public PersistenceException(String message) {
+        super(message);
+    }
+
+    public PersistenceException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public PersistenceException(Throwable cause) {
+        super(cause);
+    }
+
+    public PersistenceException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
     
-    public void save(Usuario u) throws PersistenceException;
-    public Usuario load(int id) throws PersistenceException;
-    public void Update(Usuario u) throws PersistenceException;
-    public List<Usuario> loadAll() throws PersistenceException;
-   
 }

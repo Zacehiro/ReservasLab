@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.persistence.jdbc;
+package edu.eci.pdsw.labadm.persistence.jdbc;
 
 import static com.mysql.jdbc.Messages.getString;
-import edu.eci.pdsw.samples.entities.Laboratorio;
-import edu.eci.pdsw.samples.entities.SistemaOperativo;
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.samples.persistence.DaoSolicitud;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.entities.Laboratorio;
+import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,8 +1,8 @@
 package edu.eci.cosw.sampleapp.test;
 
-import edu.eci.pdsw.samples.entities.SistemaOperativo;
-import edu.eci.pdsw.samples.entities.Solicitud;
-import edu.eci.pdsw.samples.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.webapp.model.ServicesFacade;
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.pdsw.samples.entities;
+package edu.eci.pdsw.labadm.entities;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class Laboratorio {
     
-
     private String nombre;
     private int id;
     private int cant_equipos;
