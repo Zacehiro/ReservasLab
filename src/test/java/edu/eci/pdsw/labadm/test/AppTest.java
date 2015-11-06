@@ -1,4 +1,4 @@
-package edu.eci.cosw.sampleapp.test;
+package edu.eci.pdsw.labadm.test;
 
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Solicitud;
