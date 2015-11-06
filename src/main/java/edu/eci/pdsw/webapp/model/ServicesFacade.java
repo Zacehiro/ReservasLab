@@ -93,8 +93,9 @@ public class ServicesFacade {
 
     public List<Solicitud> loadSolicitudSinResp(){
         df= DaoFactory.getInstance(properties);
-        DaoSolicitud ds= df.getDaoSolicitud();
+        /*DaoSolicitud ds= df.getDaoSolicitud();*/
         List<Solicitud> ans=new ArrayList<>();
+        /*
         try {
             for (Solicitud sol : ds.loadAll()) {
                 if(sol.getEstado()==null){
@@ -103,9 +104,10 @@ public class ServicesFacade {
             }
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
         Laboratorio templab= new Laboratorio("Redes", 1,8, true);
-        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, null, null);
+        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null);
+        ans.add(temp);
         return ans;
     }
     

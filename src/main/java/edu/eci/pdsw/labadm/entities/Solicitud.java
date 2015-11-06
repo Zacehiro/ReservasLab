@@ -37,6 +37,10 @@ public class Solicitud {
         this.laboratorio=laboratorio;
         this.so=so;
     }
+
+    public int getId() {
+        return id;
+    }
     
     public Solicitud(){
         
