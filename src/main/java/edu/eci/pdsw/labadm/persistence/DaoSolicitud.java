@@ -16,4 +16,5 @@ public interface DaoSolicitud {
     public void save(Solicitud s) throws PersistenceException;
     public Solicitud loadSolicitud(int id) throws PersistenceException;
     public List<Solicitud> loadAll() throws PersistenceException;
+    public void delete(Solicitud s) throws PersistenceException;
 }

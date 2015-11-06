@@ -59,8 +59,14 @@ public class ServicesFacade {
      * Guarda una Solicitud realizada por un usuario.
      * @param Solicitud
      */
-    public void saveSolicitud(Solicitud s){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
+        df=DaoFactory.getInstance(properties);
+        DaoSolicitud ds=df.getDaoSolicitud();
+        try {
+            ds.save(s);
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
     }
     /**
      * Carga todos los laboratorios que cuenten con el sistema operativo especificado.
@@ -79,14 +85,18 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Solicitud> loadSolicitudResp() throws PersistenceException {
+    public List<Solicitud> loadSolicitudResp() throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds= df.getDaoSolicitud();
         List<Solicitud> ans=new ArrayList<>();
-        for (Solicitud sol : ds.loadAll()) {
-            if(sol.getEstado()!=null){
-                ans.add(sol);
+        try {
+            for (Solicitud sol : ds.loadAll()) {
+                if(sol.getEstado()!=null){
+                    ans.add(sol);
+                }
             }
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
         return ans;
     }
@@ -120,4 +130,13 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public void deleteSolicitud(Solicitud sol) throws ServicesFacadeException{
+        df=DaoFactory.getInstance(properties);
+        DaoSolicitud ds=df.getDaoSolicitud();
+        try {
+            ds.delete(sol);
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+    }
 }
