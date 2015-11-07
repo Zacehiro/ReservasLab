@@ -9,6 +9,8 @@ import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -28,6 +30,7 @@ public class AdmSolicitudesBackingBean {
 
     public AdmSolicitudesBackingBean() {
         justificacion="";
+        fechaRealiz=new Date(0, 0, 0);
     }
 
  
@@ -38,27 +41,20 @@ public class AdmSolicitudesBackingBean {
         return ServicesFacade.getInstance("config.properties").loadSolicitudSinResp();
     }
     
-    public void nuevaRespuesta() throws ServicesFacadeException{
-        if(solselc!=null){
-            if((resp&&(fechaRealiz!=null)&&(justificacion==""))){
-                popUp="";
+    public void nuevaRespuesta(){
+        try {
+            if(resp){
                 solselc.setEstado("aprobada");
-                solselc.setFecha_posible(fechaRealiz);
-                solselc.setFecha_resp(new Date());
-                ServicesFacade.getInstance("config.properties").deleteSolicitud(solselc);
-                ServicesFacade.getInstance("config.properties").saveSolicitud(solselc);
-            }else if((!resp&&(fechaRealiz==null)&&(justificacion!=""))){
-                popUp="";
-                solselc.setEstado("negada");
-                solselc.setFecha_resp(new Date());
-                solselc.setJustificacion(justificacion);
-                ServicesFacade.getInstance("config.properties").deleteSolicitud(solselc);
-                ServicesFacade.getInstance("config.properties").saveSolicitud(solselc);
             }else{
-                popUp="Recuerde que si la solicitud se aprueba, debe agregar una fecha de realización y dejar la justificación en blanco y viceversa en caso contrario.";
+                solselc.setEstado("negada");
             }
-        }else{
-            popUp="Seleccione una solicitud para darle respuesta.";
+            solselc.setJustificacion(justificacion);
+            solselc.setFecha_posible(fechaRealiz);
+            solselc.setFecha_resp(new Date());
+            ServicesFacade.getInstance("config.properties").deleteSolicitud(solselc.getId());
+            ServicesFacade.getInstance("config.properties").saveSolicitud(solselc);
+        } catch (ServicesFacadeException ex) {
+            popUp=ex.getMessage();
         }
     }
 

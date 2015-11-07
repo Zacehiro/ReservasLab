@@ -62,10 +62,18 @@ public class ServicesFacade {
     public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds=df.getDaoSolicitud();
-        try {
-            ds.save(s);
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        if(s!=null){
+            if(((s.getEstado().equals("aprobada"))&&(!s.getFecha_resp().equals(new Date(0,0,0)))&&(s.getJustificacion().equals("")))||((s.getEstado().equals("negada"))&&(s.getFecha_posible().equals(new Date(0,0,0)))&&(!s.getJustificacion().equals("")))){
+                try {
+                    ds.save(s);
+                } catch (PersistenceException ex) {
+                    throw  new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                }
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_GUARDAR_SOLICITUD);
+            }
+        }else{
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_SOLICITUD_NO_SELECCIONADA);
         }
     }
     /**
@@ -130,7 +138,7 @@ public class ServicesFacade {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void deleteSolicitud(Solicitud sol) throws ServicesFacadeException{
+    public void deleteSolicitud(int sol) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds=df.getDaoSolicitud();
         try {

@@ -77,7 +77,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
     }
 
     @Override
-    public void delete(Solicitud s) throws PersistenceException {
+    public void delete(int s) throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

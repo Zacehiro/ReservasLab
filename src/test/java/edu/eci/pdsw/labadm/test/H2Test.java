@@ -5,6 +5,7 @@ import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
+import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class H2Test {
         for (Solicitud s : solicitudesRespondidas) {
             assertTrue(s.getEstado().equals("aprobada")||s.getEstado().equals("negada"));
         }
-    } catch (PersistenceException ex) {
+    } catch (ServicesFacadeException ex) {
         Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
@@ -73,7 +74,7 @@ public class H2Test {
                 assertTrue(s.getFecha_posible()!=null);
             }
         }
-    } catch (PersistenceException ex) {
+    } catch (ServicesFacadeException ex) {
         Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
     }
         
@@ -90,7 +91,7 @@ public class H2Test {
                 assertTrue(s.getJustificacion()!=null);
             }
         }
-    } catch (PersistenceException ex) {
+    } catch (ServicesFacadeException ex) {
         Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
     }
         
@@ -107,7 +108,7 @@ public class H2Test {
                 assertTrue(s.getFecha_posible()==null);
             }
         }
-    } catch (PersistenceException ex) {
+    } catch (ServicesFacadeException ex) {
         Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
     }
         
