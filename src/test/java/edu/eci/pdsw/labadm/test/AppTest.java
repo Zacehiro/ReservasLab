@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -16,6 +18,14 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 
 import org.junit.Test;
+
+/**
+ * CLASES DE EQUIVALENCIA:
+ * Todas las solicitudes realicidas deben tener como respuesta null.
+ * Todas las solicitudes deben contener el email y las dos paginas web con un formato correcto.
+ * Las solicitudes deben hacerse a un laboratorio con el sistema operativo indicado.
+ * Todas las solicitudes deben tener fecha de radicación.
+ **/
 
 public class AppTest {
 
@@ -30,18 +40,27 @@ public class AppTest {
         stmt.execute("delete from SOLICITUD");
         stmt.execute("delete from SISTEMA_OPERATIVO");
         stmt.execute("delete from LABORATORIO");
+        stmt.execute("delete from USUARIO");
+        stmt.execute("delete from SOFTWARE");
+        stmt.execute("delete from Laboratorio_sistema_operativo");
+        stmt.execute("delete from software_laboratorio");
         conn.commit();
         conn.close();
     }
   
   @Test
-  public void emailOPaginaIncorrectosTest() throws SQLException {
-      Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
-      Statement stmt = conn.createStatement();
-      stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
-      stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, ID_laboratorio) values(1,'Windows','8.1', 1)");
-      conn.commit();
+  public void emailOPaginaIncorrectosTest() {
       
+      Connection conn;
+    try {
+        conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(1,'Windows','8.1', 1)");
+        conn.commit();
+    } catch (SQLException ex) {
+        Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
       
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
       boolean posible=true;
@@ -62,6 +81,33 @@ public class AppTest {
   }
   
   @Test
+  public void autoGeneraFechaRadicacionTest(){
+       Connection conn;
+    try {
+        conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
+        stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values (1,'camilo', 'camilo@hotmail.com', 1)");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) values(1,'Windows','8.1')");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo) values (1,1,'openmaint','http//:www.openmaint.com','http//:www.openmaint.com/descargas',null,null,null,null,1,1)");
+        conn.commit();
+    } catch (SQLException ex) {
+        Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
+        Date d = new Date();
+        boolean fine= true;
+        ArrayList<Solicitud> solicitudes = sf.loadAllSolicitud();
+        for (Solicitud s : solicitudes) {
+          if(!s.getFecha_rad().equals(d)){
+              fine= false;
+          }
+      }
+        Assert.assertTrue(fine);
+        
+  }
+  
+  @Test
   public void laboratoriosConSistemaOperativoTest(){
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
       Solicitud s = new Solicitud();
@@ -73,17 +119,17 @@ public class AppTest {
       Assert.assertTrue(false);
   }
   @Test
-  public void cargaCorrectamenteTest(){
+  public void solicitudesSinRespuestaTest(){
       Connection conn;
     try {
       conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
       Statement stmt = conn.createStatement();
       stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
-      stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");
-      stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, ID_laboratorio) values(1,'Windows','8.1', 1)");
-      stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id)"
-              + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1)");
-      stmt.execute("INSERT INTO SOFTWARE (ID_software, nombre, version, ID_laboratorio) values(1,'glass','1', 1)");
+      stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");      
+      stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(1,'Windows','8.1', 1)");
+      stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo)"
+              + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
+      stmt.execute("INSERT INTO SOFTWARE (ID_software, nombre, version) values(1,'glass','1')");
       
       conn.commit();
       } catch (SQLException ex) {
@@ -91,8 +137,15 @@ public class AppTest {
     }
      
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-      sf.loadAllSo();
-      
+      ArrayList<Solicitud> s =sf.loadAllSolicitud();
+      boolean fine = true;
+      for (Solicitud s1 : s) {
+              if(!s1.getJustificacion().equals(null)){
+                  fine = false;
+                  break;
+              }
+          }
+      Assert.assertTrue(fine);
   }
 } 
 

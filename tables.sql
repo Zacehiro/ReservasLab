@@ -1,5 +1,7 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2015-11-03 18:57:17.842
+-- Last modification date: 2015-11-08 21:15:02.671
+
+
 
 
 -- tables
@@ -12,12 +14,19 @@ CREATE TABLE LABORATORIO (
     CONSTRAINT LABORATORIO_pk PRIMARY KEY (ID_laboratorio)
 );
 
+-- Table Laboratorio_sistema_operativo
+CREATE TABLE Laboratorio_sistema_operativo (
+    LABORATORIO_ID_laboratorio int  NOT NULL,
+    SISTEMA_OPERATIVO_ID_sistema_operativo int  NOT NULL,
+    CONSTRAINT Laboratorio_sistema_operativo_pk PRIMARY KEY (LABORATORIO_ID_laboratorio,SISTEMA_OPERATIVO_ID_sistema_operativo)
+);
+
 -- Table SISTEMA_OPERATIVO
 CREATE TABLE SISTEMA_OPERATIVO (
     ID_sistema_operativo int  NOT NULL,
     nombre varchar(255)  NOT NULL,
     version varchar(300)  NOT NULL,
-    ID_laboratorio int  NOT NULL,
+    Solicitud_id int  NOT NULL,
     CONSTRAINT SISTEMA_OPERATIVO_pk PRIMARY KEY (ID_sistema_operativo)
 );
 
@@ -26,7 +35,6 @@ CREATE TABLE SOFTWARE (
     ID_software int  NOT NULL,
     nombre varchar(300)  NOT NULL,
     version varchar(300)  NOT NULL,
-    Laboratorio_id int  NOT NULL,
     CONSTRAINT SOFTWARE_pk PRIMARY KEY (ID_software)
 );
 
@@ -43,6 +51,7 @@ CREATE TABLE SOLICITUD (
     Fecha_respuesta date  NULL,
     Justificacion varchar(2000)  NULL,
     Usuario_id int  NOT NULL,
+    SISTEMA_OPERATIVO_ID_sistema_operativo int  NOT NULL,
     CONSTRAINT SOLICITUD_pk PRIMARY KEY (ID_solicitud)
 );
 
@@ -56,18 +65,33 @@ CREATE TABLE USUARIO (
     CONSTRAINT USUARIO_pk PRIMARY KEY (ID_usuario)
 );
 
+-- Table software_laboratorio
+CREATE TABLE software_laboratorio (
+    SOFTWARE_ID_software int  NOT NULL,
+    LABORATORIO_ID_laboratorio int  NOT NULL,
+    CONSTRAINT software_laboratorio_pk PRIMARY KEY (SOFTWARE_ID_software,LABORATORIO_ID_laboratorio)
+);
+
+
+
+
 
 -- foreign keys
--- Reference:  SISTEMA_OPERATIVO_LABORATORIO (table: SISTEMA_OPERATIVO)
+-- Reference:  Laboratorio_sistema_operativo_LABORATORIO (table: Laboratorio_sistema_operativo)
 
 
-ALTER TABLE SISTEMA_OPERATIVO ADD CONSTRAINT SISTEMA_OPERATIVO_LABORATORIO FOREIGN KEY (ID_laboratorio)
+ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_LABORATORIO FOREIGN KEY (LABORATORIO_ID_laboratorio)
     REFERENCES LABORATORIO (ID_laboratorio);
--- Reference:  Software_Laboratorio (table: SOFTWARE)
+-- Reference:  Laboratorio_sistema_operativo_SISTEMA_OPERATIVO (table: Laboratorio_sistema_operativo)
 
 
-ALTER TABLE SOFTWARE ADD CONSTRAINT Software_Laboratorio FOREIGN KEY (Laboratorio_id)
-    REFERENCES LABORATORIO (ID_laboratorio);
+ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_SISTEMA_OPERATIVO FOREIGN KEY (SISTEMA_OPERATIVO_ID_sistema_operativo)
+    REFERENCES SISTEMA_OPERATIVO (ID_sistema_operativo);
+-- Reference:  SOLICITUD_SISTEMA_OPERATIVO (table: SOLICITUD)
+
+
+ALTER TABLE SOLICITUD ADD CONSTRAINT SOLICITUD_SISTEMA_OPERATIVO FOREIGN KEY (SISTEMA_OPERATIVO_ID_sistema_operativo)
+    REFERENCES SISTEMA_OPERATIVO (ID_sistema_operativo);
 -- Reference:  Solicitud_Laboratorio (table: SOLICITUD)
 
 
@@ -78,6 +102,16 @@ ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Laboratorio FOREIGN KEY (Laborato
 
 ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Usuario FOREIGN KEY (Usuario_id)
     REFERENCES USUARIO (ID_usuario);
+-- Reference:  software_laboratorio_LABORATORIO (table: software_laboratorio)
+
+
+ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_LABORATORIO FOREIGN KEY (LABORATORIO_ID_laboratorio)
+    REFERENCES LABORATORIO (ID_laboratorio);
+-- Reference:  software_laboratorio_SOFTWARE (table: software_laboratorio)
+
+
+ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_SOFTWARE FOREIGN KEY (SOFTWARE_ID_software)
+    REFERENCES SOFTWARE (ID_software);
 
 
 
