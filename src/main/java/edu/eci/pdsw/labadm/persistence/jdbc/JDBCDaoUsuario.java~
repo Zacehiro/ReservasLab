@@ -14,8 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,8 +35,9 @@ public class JDBCDaoUsuario implements DaoUsuario{
             ps.setString(2, u.getNombre());
             ps.setString(3, u.getEmail());
             ps.setInt(4, u.getTipo_usuario());
+            
             ps.execute();
-            con.commit();
+            
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while saving an user.",ex);
         }
@@ -66,16 +65,7 @@ public class JDBCDaoUsuario implements DaoUsuario{
 
     @Override
     public void Update(Usuario u) throws PersistenceException {
-        PreparedStatement ps;
-        try {
-            ps=con.prepareStatement("DELETE FROM USUARIO WHERE USUARIO.ID_usuario=?");
-            ps.setInt(1, u.getId());
-            ps.execute();
-            con.commit();
-            this.save(u);
-        } catch (SQLException ex) {
-            Logger.getLogger(JDBCDaoSolicitud.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
