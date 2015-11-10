@@ -4,6 +4,7 @@ import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
+import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -72,11 +73,11 @@ public class AppTest {
       s.setSo(so);
       try{
         sf.saveSolicitud(s);
-     // }catch(SQLException sql){
-        //  posible =false;
-      }catch(Exception e){
-          posible=false;
-      }
+      }catch(ServicesFacadeException bs){
+         if(bs.getCause().equals("PROBLEMA_BASE_DATOS")){
+            posible =false;
+         }
+       }
       Assert.assertFalse(posible);
   }
   
@@ -99,7 +100,7 @@ public class AppTest {
         boolean fine= true;
         ArrayList<Solicitud> solicitudes = sf.loadAllSolicitud();
         for (Solicitud s : solicitudes) {
-          if(!s.getFecha_rad().equals(d)){
+          if(!s.getFecha_rad().equals(d) && fine){
               fine= false;
           }
       }
@@ -109,14 +110,24 @@ public class AppTest {
   
   @Test
   public void laboratoriosConSistemaOperativoTest(){
-      ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-      Solicitud s = new Solicitud();
-      s.setSoftware("DevC++");
-      s.setLink_descarga("http://dev-c.softonic.com/");
-      s.setLink_licencia("licencia");
-      SistemaOperativo so = new SistemaOperativo("Windows", "8.1");
-      s.setSo(so);
-      Assert.assertTrue(false);
+      Connection conn;
+      boolean fine = true;
+        try {
+            conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+            Statement stmt = conn.createStatement();
+            stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
+            stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");      
+            stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(2,'Windows','8.1', 1)");
+            stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo)"
+                    + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
+      
+            conn.commit();
+      
+       } catch (SQLException ex) {
+           fine=false;
+        }
+      
+      Assert.assertFalse(fine);
   }
   @Test
   public void solicitudesSinRespuestaTest(){
@@ -140,9 +151,8 @@ public class AppTest {
       ArrayList<Solicitud> s =sf.loadAllSolicitud();
       boolean fine = true;
       for (Solicitud s1 : s) {
-              if(!s1.getJustificacion().equals(null)){
+              if(!s1.getJustificacion().contentEquals(null) && fine){
                   fine = false;
-                  break;
               }
           }
       Assert.assertTrue(fine);

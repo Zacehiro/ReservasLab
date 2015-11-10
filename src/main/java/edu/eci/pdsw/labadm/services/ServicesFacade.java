@@ -16,6 +16,7 @@ import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.logging.Logger;
  */
 public class ServicesFacade {
     private DaoFactory df = null;
-    private String[] so = {"Windows","Mac OS X","Linux"};
+    private ArrayList<SistemaOperativo> sos ;
     private static ServicesFacade instance=null;
     private final Properties properties=new Properties();
     
@@ -51,8 +52,12 @@ public class ServicesFacade {
         return instance;
     }
 
-    public String[] getSo() {
-        return so;
+    public ArrayList<SistemaOperativo> getSos() {
+        df = DaoFactory.getInstance(properties);
+        //DaoSistemaOperativo dso = df.getDaoSistemaOpertaivo();
+        sos = new ArrayList<SistemaOperativo>(Arrays.asList(new SistemaOperativo("Windows", "8.1"),new SistemaOperativo("Linux", "Ubuntu")));
+        //sos = dso.loadAll();
+        return sos;
     }
     
     /**
@@ -82,7 +87,8 @@ public class ServicesFacade {
      * @return ArrayList con laboratorios.
      */
     public ArrayList<Laboratorio> loadLaboratorioPosible(SistemaOperativo so){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<Laboratorio>(Arrays.asList(new Laboratorio("ing.software", 1, 20, true), new Laboratorio("redes", 2, 15, true)));
     }
     
     /**
