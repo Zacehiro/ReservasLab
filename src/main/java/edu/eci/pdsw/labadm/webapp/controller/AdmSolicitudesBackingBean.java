@@ -37,7 +37,7 @@ public class AdmSolicitudesBackingBean {
 
     
     //trae todas las solicitudes que no han sido atendidas
-    public List<Solicitud> getSolicitudes(){
+    public List<Solicitud> getSolicitudes() throws ServicesFacadeException{
         return ServicesFacade.getInstance("config.properties").loadSolicitudSinResp();
     }
     

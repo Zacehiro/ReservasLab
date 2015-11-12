@@ -53,7 +53,6 @@ public class H2Test {
         
     try {
         solicitudesRespondidas = sf.loadSolicitudResp();
-        
         for (Solicitud s : solicitudesRespondidas) {
             assertTrue(s.getEstado().equals("aprobada")||s.getEstado().equals("negada"));
         }
@@ -115,7 +114,7 @@ public class H2Test {
     }
     
     @Test
-    public void c5Test() {
+    public void c5Test() throws ServicesFacadeException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesSinRespuesta=sf.loadSolicitudSinResp();
         for (Solicitud s : solicitudesSinRespuesta) {

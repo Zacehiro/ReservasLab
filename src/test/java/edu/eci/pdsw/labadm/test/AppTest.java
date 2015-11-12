@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -84,7 +85,7 @@ public class AppTest {
   }
   
   @Test
-  public void autoGeneraFechaRadicacionTest(){
+  public void autoGeneraFechaRadicacionTest() throws ServicesFacadeException{
        Connection conn;
     try {
         conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
@@ -100,7 +101,7 @@ public class AppTest {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         Date d = new Date();
         boolean fine= true;
-        ArrayList<Solicitud> solicitudes = sf.loadAllSolicitud();
+        List<Solicitud> solicitudes = sf.loadAllSolicitud();
         for (Solicitud s : solicitudes) {
           if(!s.getFecha_rad().equals(d) && fine){
               fine= false;
@@ -132,7 +133,7 @@ public class AppTest {
       Assert.assertFalse(fine);
   }
   @Test
-  public void solicitudesSinRespuestaTest(){
+  public void solicitudesSinRespuestaTest() throws ServicesFacadeException{
       Connection conn;
     try {
       conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
@@ -150,7 +151,7 @@ public class AppTest {
     }
      
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-      ArrayList<Solicitud> s =sf.loadAllSolicitud();
+      List<Solicitud> s =sf.loadAllSolicitud();
       boolean fine = true;
       for (Solicitud s1 : s) {
               if(!s1.getJustificacion().contentEquals(null) && fine){

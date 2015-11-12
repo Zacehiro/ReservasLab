@@ -21,6 +21,8 @@ import edu.eci.pdsw.labadm.persistence.DaoUsuario;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoSolicitud;
+import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoUsuario;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -111,18 +113,22 @@ public class JDBCDaoFactory extends DaoFactory {
     }
 
     @Override
-    public DaoLaboratorio getDaoLaboratorio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DaoLaboratorio getDaoLaboratorio() throws PersistenceException {
+        this.beginSession();
+        //return new JDBCDaoLaboratorio(connectionInstance.get());
+        return null;
     }
 
     @Override
-    public DaoUsuario getDaoUsuario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DaoUsuario getDaoUsuario() throws PersistenceException {
+        this.beginSession();
+        return new JDBCDaoUsuario(connectionInstance.get());
     }
 
     @Override
-    public DaoSolicitud getDaoSolicitud() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DaoSolicitud getDaoSolicitud() throws PersistenceException {
+        this.beginSession();
+        return new JDBCDaoSolicitud(connectionInstance.get());
     }
 
 }

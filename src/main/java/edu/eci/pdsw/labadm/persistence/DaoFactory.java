@@ -53,11 +53,11 @@ public abstract class DaoFactory {
     
     public abstract void beginSession() throws PersistenceException;
     
-    public abstract DaoLaboratorio getDaoLaboratorio();
+    public abstract DaoLaboratorio getDaoLaboratorio() throws PersistenceException;
     
-    public abstract DaoUsuario getDaoUsuario();
+    public abstract DaoUsuario getDaoUsuario() throws PersistenceException;
     
-    public abstract DaoSolicitud getDaoSolicitud();
+    public abstract DaoSolicitud getDaoSolicitud() throws PersistenceException;
     
     public abstract void commitTransaction() throws PersistenceException;
     

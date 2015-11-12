@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,7 +65,12 @@ public class ServicesFacade {
      */
     public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
-        DaoSolicitud ds=df.getDaoSolicitud();
+        DaoSolicitud ds;
+        try {
+            ds = df.getDaoSolicitud();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
         if(s!=null){
             if(((s.getEstado().equals("aprobada"))&&(!s.getFecha_resp().equals(new Date(0,0,0)))&&(s.getJustificacion().equals("")))||((s.getEstado().equals("negada"))&&(s.getFecha_posible().equals(new Date(0,0,0)))&&(!s.getJustificacion().equals("")))){
                 try {
@@ -83,7 +90,7 @@ public class ServicesFacade {
      * @param SistemaOperativo
      * @return ArrayList con laboratorios.
      */
-    public ArrayList<Laboratorio> loadLaboratorioPosible(SistemaOperativo so){
+    public List<Laboratorio> loadLaboratorioPosible(SistemaOperativo so){
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return new ArrayList<Laboratorio>(Arrays.asList(new Laboratorio("ing.software", 1, 20, true), new Laboratorio("redes", 2, 15, true)));
     }
@@ -92,47 +99,59 @@ public class ServicesFacade {
      * Carga todas las solicitudes realizadas anteriormente que ya hallan sido respondidas.
      * @return ArrayList con las solicitudes respondidas.
      */
-    public ArrayList<Solicitud> loadAllSolicitud(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<Solicitud> loadSolicitudResp() throws ServicesFacadeException{
-        df= DaoFactory.getInstance(properties);
-        DaoSolicitud ds= df.getDaoSolicitud();
-        List<Solicitud> ans=new ArrayList<>();
+    public List<Solicitud> loadAllSolicitud() throws ServicesFacadeException{
+        df=DaoFactory.getInstance(properties);
+        DaoSolicitud ds;
         try {
-            for (Solicitud sol : ds.loadAll()) {
-                if(sol.getEstado()!=null){
-                    ans.add(sol);
-                }
-            }
+            ds = df.getDaoSolicitud();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
-        return ans;
+        try {
+            return ds.loadAll();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+    }
+    
+    /**
+     * Retorna Solicitudes con Respuesta
+     * @return Lista con Solicitudes Respondidas
+     * @throws ServicesFacadeException Error de lectura en Base de Datos
+     */
+    public List<Solicitud> loadSolicitudResp() throws ServicesFacadeException{
+        df= DaoFactory.getInstance(properties);
+        DaoSolicitud ds;
+        try {
+            ds = df.getDaoSolicitud();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+        try {
+            return ds.loadWithAnswer();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
     }
 
-
-    public List<Solicitud> loadSolicitudSinResp(){
+    /**
+     * Retorna solicitudes no respondidas aun
+     * @return Lista con Solicitudes no Respondidas
+     * @throws ServicesFacadeException Error de Lectura en la Base de Datos
+     */
+    public List<Solicitud> loadSolicitudSinResp() throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
-        /*DaoSolicitud ds= df.getDaoSolicitud();*/
-        List<Solicitud> ans=new ArrayList<>();
-        /*
+        DaoSolicitud ds;
         try {
-            for (Solicitud sol : ds.loadAll()) {
-                if(sol.getEstado()==null){
-                    ans.add(sol);
-                }
-            }
+            ds = df.getDaoSolicitud();
         } catch (PersistenceException ex) {
-            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        Laboratorio templab= new Laboratorio("Redes", 1,8, true);
-        Usuario u=new Usuario(12,"Carlos","carlos@eci.co",2);
-        Software s=new Software("Wolfram","2.0",6);
-        Solicitud temp= new Solicitud(1, s, "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null,u);
-        ans.add(temp);
-        return ans;
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+        try {
+            return ds.loadWithoutAnswer();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
     }
     
     /**
@@ -145,8 +164,8 @@ public class ServicesFacade {
     
     public void deleteSolicitud(int sol) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
-        DaoSolicitud ds=df.getDaoSolicitud();
         try {
+            DaoSolicitud ds=df.getDaoSolicitud();
             ds.delete(sol);
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);

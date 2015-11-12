@@ -10,6 +10,7 @@ import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import java.util.ArrayList;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -34,7 +35,7 @@ public class ReservasLabBackingBean {
 
     public void setLabs(SistemaOperativo so) {
         sf = ServicesFacade.getInstance("config.properties");
-        ArrayList<Laboratorio> lab = new ArrayList<Laboratorio>();
+        List<Laboratorio> lab = new ArrayList<Laboratorio>();
         lab = sf.loadLaboratorioPosible(so);
         for(int i =0; i<lab.size();i++){
             labs.add(lab.get(i).getNombre());
