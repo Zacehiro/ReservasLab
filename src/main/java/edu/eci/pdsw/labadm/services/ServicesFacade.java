@@ -70,26 +70,37 @@ public class ServicesFacade {
      * Guarda una Solicitud realizada por un usuario.
      * @param Solicitud
      */
-    public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
+    public void saveSolicitudaCondicional(Solicitud s) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
+            if(s!=null){
+                if(((s.getEstado().equals("aprobada"))&&(!s.getFecha_resp().equals(new Date(0,0,0)))&&(s.getJustificacion().equals("")))||((s.getEstado().equals("negada"))&&(s.getFecha_posible().equals(new Date(0,0,0)))&&(!s.getJustificacion().equals("")))){
+                        ds.save(s);
+                }else{
+                    throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_GUARDAR_SOLICITUD);
+                }
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_SOLICITUD_NO_SELECCIONADA);
+            }
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
-        if(s!=null){
-            if(((s.getEstado().equals("aprobada"))&&(!s.getFecha_resp().equals(new Date(0,0,0)))&&(s.getJustificacion().equals("")))||((s.getEstado().equals("negada"))&&(s.getFecha_posible().equals(new Date(0,0,0)))&&(!s.getJustificacion().equals("")))){
-                try {
-                    ds.save(s);
-                } catch (PersistenceException ex) {
-                    throw  new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-                }
+    }
+    
+    public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
+          df=DaoFactory.getInstance(properties);
+          DaoSolicitud ds;
+        try {
+            ds = df.getDaoSolicitud();
+            if(s.getLink_licencia().contains(".") && s.getLink_descarga().contains(".")){
+                ds.save(s);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_GUARDAR_SOLICITUD);
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
             }
-        }else{
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_SOLICITUD_NO_SELECCIONADA);
+        }catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
     }
     /**

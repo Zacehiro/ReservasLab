@@ -77,7 +77,7 @@ public class AppTest {
       try{
         sf.saveSolicitud(s);
       }catch(ServicesFacadeException bs){
-         if(bs.getCause().equals("PROBLEMA_BASE_DATOS")){
+         if(bs.getMessage().equals(ServicesFacadeException.PROBLEMA_BASE_DATOS)){
             posible =false;
          }
        }
@@ -93,18 +93,20 @@ public class AppTest {
         Statement stmt = conn.createStatement();
         stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
         stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values (1,'camilo', 'camilo@hotmail.com', 1)");
+        stmt.execute("INSERT INTO SOFTWARE(ID_software, nombre, version) VALUES (1,'openmaint','15')");
         stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) values(1,'Windows','8.1')");
-        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo) values (1,1,'openmaint','http//:www.openmaint.com','http//:www.openmaint.com/descargas',null,null,null,null,1,1)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id,ID_software, Link_licencia, Link_descarga, Estado, Fecha_respuesta, Fecha_posible_instalacion, Justificacion, Usuario_id, ID_sistema_operativo) values (1,1,1,'http//:www.openmaint.com','http//:www.openmaint.com/descargas',null,null,null,null,1,1)");
         conn.commit();
     } catch (SQLException ex) {
         Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
     }
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         Date d = new Date();
+        System.out.println("fecha "+ d);
         boolean fine= true;
         List<Solicitud> solicitudes = sf.loadAllSolicitud();
         for (Solicitud s : solicitudes) {
-          if(!s.getFecha_rad().equals(d) && fine){
+          if(!(s.getFecha_rad().getDay()==d.getDay() && s.getFecha_rad().getMonth()==d.getMonth() && s.getFecha_rad().getYear() == d.getYear()) && fine){
               fine= false;
           }
       }
@@ -120,9 +122,10 @@ public class AppTest {
             conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
             Statement stmt = conn.createStatement();
             stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
-            stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");      
+            stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");
+            stmt.execute("INSERT INTO SOFTWARE(ID_software, nombre, version) VALUES (1,'opas','15')");
             stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(2,'Windows','8.1', 1)");
-            stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo)"
+            stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo)"
                     + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
       
             conn.commit();
@@ -142,9 +145,10 @@ public class AppTest {
       stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
       stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");      
       stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(1,'Windows','8.1', 1)");
-      stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, SISTEMA_OPERATIVO_ID_sistema_operativo)"
-              + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
       stmt.execute("INSERT INTO SOFTWARE (ID_software, nombre, version) values(1,'glass','1')");
+      stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, ID_software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo)"
+              + " values(1,1,1, 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
+      
       
       conn.commit();
       } catch (SQLException ex) {
@@ -155,7 +159,7 @@ public class AppTest {
       List<Solicitud> s =sf.loadAllSolicitud();
       boolean fine = true;
       for (Solicitud s1 : s) {
-              if(!s1.getJustificacion().contentEquals(null) && fine){
+              if(!(s1.getJustificacion() == null) && fine){
                   fine = false;
               }
           }
