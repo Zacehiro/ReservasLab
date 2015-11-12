@@ -1,6 +1,7 @@
 package edu.eci.pdsw.labadm.test;
 
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
@@ -66,10 +67,11 @@ public class AppTest {
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
       boolean posible=true;
       Solicitud s = new Solicitud();
-      s.setSoftware("DevC++");
+      Software sof=new Software("Wolfram","2.0",6);
+      s.setSoftware(sof);
       s.setLink_descarga("http://dev-c.softonic.com/");
       s.setLink_licencia("licencia");
-      SistemaOperativo so = new SistemaOperativo("Windows", "8.1");
+      SistemaOperativo so = new SistemaOperativo("Windows", "8.1",7);
       s.setSo(so);
       try{
         sf.saveSolicitud(s);

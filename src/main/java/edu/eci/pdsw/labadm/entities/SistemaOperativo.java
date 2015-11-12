@@ -12,10 +12,20 @@ package edu.eci.pdsw.labadm.entities;
 public class SistemaOperativo {
     private String nombre;
     private String version;
-    
-    public SistemaOperativo(String nombre, String version){
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+     
+    public SistemaOperativo(String nombre, String version,int id){
         this.nombre=nombre;
         this.version=version;
+        this.id=id;
     }
 
     public String getNombre() {

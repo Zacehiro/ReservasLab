@@ -7,22 +7,19 @@ package edu.eci.pdsw.labadm.services;
 
 import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.entities.Usuario;
 import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
-import edu.eci.pdsw.labadm.persistence.DaoUsuario;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +52,7 @@ public class ServicesFacade {
     public ArrayList<SistemaOperativo> getSos() {
         df = DaoFactory.getInstance(properties);
         //DaoSistemaOperativo dso = df.getDaoSistemaOpertaivo();
-        sos = new ArrayList<SistemaOperativo>(Arrays.asList(new SistemaOperativo("Windows", "8.1"),new SistemaOperativo("Linux", "Ubuntu")));
+        sos = new ArrayList<SistemaOperativo>(Arrays.asList(new SistemaOperativo("Windows", "8.1",1),new SistemaOperativo("Linux", "Ubuntu",2)));
         //sos = dso.loadAll();
         return sos;
     }
@@ -131,7 +128,9 @@ public class ServicesFacade {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }*/
         Laboratorio templab= new Laboratorio("Redes", 1,8, true);
-        Solicitud temp= new Solicitud(1, "Sotware", "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null);
+        Usuario u=new Usuario(12,"Carlos","carlos@eci.co",2);
+        Software s=new Software("Wolfram","2.0",6);
+        Solicitud temp= new Solicitud(1, s, "www.licencia", "www.descargas", null,new Date(2015, 07, 24), null, null, null, templab, null,u);
         ans.add(temp);
         return ans;
     }
