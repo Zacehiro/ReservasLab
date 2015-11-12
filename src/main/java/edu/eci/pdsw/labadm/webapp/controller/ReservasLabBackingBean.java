@@ -9,8 +9,11 @@ import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
+import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -37,15 +40,20 @@ public class ReservasLabBackingBean {
     public void setLabs(SistemaOperativo so) {
         sf = ServicesFacade.getInstance("config.properties");
         List<Laboratorio> lab = new ArrayList<Laboratorio>();
-        //lab = sf.loadLaboratorioPosible(so);
-        for(int i =0; i<lab.size();i++){
-            labs.add(lab.get(i).getNombre());
+        try {
+            lab = sf.loadLaboratorioPosible(so);
+            for(int i =0; i<lab.size();i++){
+                labs.add(lab.get(i).getNombre());
+            }
+        } catch (ServicesFacadeException ex) {
+            Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public ArrayList<String> getSos() {
         sf =ServicesFacade.getInstance("config.properties");
-        ArrayList<SistemaOperativo> sito;
+        List<SistemaOperativo> sito;
         sito = sf.getSos();
         for (int i=0; i<sito.size();i++) {
             sos.add(sito.get(i).getNombre());
