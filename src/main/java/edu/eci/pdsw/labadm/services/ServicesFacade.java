@@ -11,6 +11,7 @@ import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.entities.Usuario;
 import edu.eci.pdsw.labadm.persistence.DaoFactory;
+import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
@@ -90,9 +91,20 @@ public class ServicesFacade {
      * @param SistemaOperativo
      * @return ArrayList con laboratorios.
      */
-    public List<Laboratorio> loadLaboratorioPosible(SistemaOperativo so){
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return new ArrayList<Laboratorio>(Arrays.asList(new Laboratorio("ing.software", 1, 20, true), new Laboratorio("redes", 2, 15, true)));
+
+    public List<Laboratorio> loadLaboratorioPosible(SistemaOperativo so) throws ServicesFacadeException{
+        df= DaoFactory.getInstance(properties);
+        DaoLaboratorio dl;
+        try {
+            dl = df.getDaoLaboratorio();
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+        try {
+            return dl.loadBySo(so);
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
     }
     
     /**
