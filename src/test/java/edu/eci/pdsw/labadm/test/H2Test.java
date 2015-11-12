@@ -114,11 +114,17 @@ public class H2Test {
     }
     
     @Test
-    public void c5Test() throws ServicesFacadeException {
+    public void c5Test() {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesSinRespuesta=sf.loadSolicitudSinResp();
+        
+    try {
+        List<Solicitud> solicitudesSinRespuesta;
+        solicitudesSinRespuesta = sf.loadSolicitudSinResp();
         for (Solicitud s : solicitudesSinRespuesta) {
             assertTrue(s.getFecha_resp()==null);
+        }
+    } catch (ServicesFacadeException ex) {
+        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 } 

@@ -387,7 +387,6 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             }
           
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;

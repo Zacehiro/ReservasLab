@@ -80,42 +80,34 @@ CREATE TABLE software_laboratorio (
 -- Reference:  Laboratorio_sistema_operativo_LABORATORIO (table: Laboratorio_sistema_operativo)
 
 
-ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_LABORATORIO FOREIGN KEY Laboratorio_sistema_operativo_LABORATORIO (LABORATORIO_ID_laboratorio)
+ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_LABORATORIO FOREIGN KEY (LABORATORIO_ID_laboratorio)
     REFERENCES LABORATORIO (ID_laboratorio);
--- Reference:  Laboratorio_sistema_operativo_SISTEMA_OPERATIVO (table: Laboratorio_sistema_operativo)
 
 
-ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_SISTEMA_OPERATIVO FOREIGN KEY Laboratorio_sistema_operativo_SISTEMA_OPERATIVO (SISTEMA_OPERATIVO_ID_sistema_operativo)
+ALTER TABLE Laboratorio_sistema_operativo ADD CONSTRAINT Laboratorio_sistema_operativo_SISTEMA_OPERATIVO FOREIGN KEY (SISTEMA_OPERATIVO_ID_sistema_operativo)
     REFERENCES SISTEMA_OPERATIVO (ID_sistema_operativo);
--- Reference:  SOLICITUD_SISTEMA_OPERATIVO (table: SOLICITUD)
 
 
-ALTER TABLE SOLICITUD ADD CONSTRAINT SOLICITUD_SISTEMA_OPERATIVO FOREIGN KEY SOLICITUD_SISTEMA_OPERATIVO (ID_sistema_operativo)
-    REFERENCES SISTEMA_OPERATIVO (ID_sistema_operativo);
--- Reference:  SOLICITUD_SOFTWARE (table: SOLICITUD)
+ALTER TABLE SOLICITUD ADD CONSTRAINT SOLICITUD_SISTEMA_OPERATIVO FOREIGN KEY (ID_sistema_operativo)    REFERENCES SISTEMA_OPERATIVO (ID_sistema_operativo);
 
 
-ALTER TABLE SOLICITUD ADD CONSTRAINT SOLICITUD_SOFTWARE FOREIGN KEY SOLICITUD_SOFTWARE (ID_software)
+ALTER TABLE SOLICITUD ADD CONSTRAINT SOLICITUD_SOFTWARE FOREIGN KEY (ID_software)
     REFERENCES SOFTWARE (ID_software);
--- Reference:  Solicitud_Laboratorio (table: SOLICITUD)
 
 
-ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Laboratorio FOREIGN KEY Solicitud_Laboratorio (Laboratorio_id)
+ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Laboratorio FOREIGN KEY (Laboratorio_id)
     REFERENCES LABORATORIO (ID_laboratorio);
--- Reference:  Solicitud_Usuario (table: SOLICITUD)
 
 
-ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Usuario FOREIGN KEY Solicitud_Usuario (Usuario_id)
+ALTER TABLE SOLICITUD ADD CONSTRAINT Solicitud_Usuario FOREIGN KEY (Usuario_id)
     REFERENCES USUARIO (ID_usuario);
--- Reference:  software_laboratorio_LABORATORIO (table: software_laboratorio)
 
 
-ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_LABORATORIO FOREIGN KEY software_laboratorio_LABORATORIO (LABORATORIO_ID_laboratorio)
+ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_LABORATORIO FOREIGN KEY (LABORATORIO_ID_laboratorio)
     REFERENCES LABORATORIO (ID_laboratorio);
--- Reference:  software_laboratorio_SOFTWARE (table: software_laboratorio)
 
 
-ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_SOFTWARE FOREIGN KEY software_laboratorio_SOFTWARE (SOFTWARE_ID_software)
+ALTER TABLE software_laboratorio ADD CONSTRAINT software_laboratorio_SOFTWARE FOREIGN KEY (SOFTWARE_ID_software)
     REFERENCES SOFTWARE (ID_software);
 
 
