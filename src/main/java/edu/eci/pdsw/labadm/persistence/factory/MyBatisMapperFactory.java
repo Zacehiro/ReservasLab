@@ -8,6 +8,7 @@ package edu.eci.pdsw.labadm.persistence.factory;
 import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoUsuario;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
+import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
@@ -76,6 +77,11 @@ public class MyBatisMapperFactory extends DaoFactory {
 
     @Override
     public DaoSolicitud getDaoSolicitud() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

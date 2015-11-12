@@ -68,7 +68,7 @@ public class AppTest {
       ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
       boolean posible=true;
       Solicitud s = new Solicitud();
-      Software sof=new Software("Wolfram","2.0",6);
+      Software sof=new Software("Wolfram", "10",1);
       s.setSoftware(sof);
       s.setLink_descarga("http://dev-c.softonic.com/");
       s.setLink_licencia("licencia");
@@ -82,6 +82,7 @@ public class AppTest {
          }
        }
       Assert.assertFalse("El mail o la pagina no son correctos",posible);
+      
   }
   
   @Test
@@ -161,4 +162,4 @@ public class AppTest {
       Assert.assertTrue("Las solicitudes recien insertadas poseen respuesta",fine);
   }
 } 
-
+    

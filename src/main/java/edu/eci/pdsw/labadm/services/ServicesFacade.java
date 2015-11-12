@@ -12,6 +12,7 @@ import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.entities.Usuario;
 import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
+import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.util.logging.Logger;
  */
 public class ServicesFacade {
     private DaoFactory df = null;
-    private ArrayList<SistemaOperativo> sos ;
+    private List<SistemaOperativo> sos ;
     private static ServicesFacade instance=null;
     private final Properties properties=new Properties();
     
@@ -52,11 +53,16 @@ public class ServicesFacade {
         return instance;
     }
 
-    public ArrayList<SistemaOperativo> getSos() {
+    public List<SistemaOperativo> getSos() {
         df = DaoFactory.getInstance(properties);
-        //DaoSistemaOperativo dso = df.getDaoSistemaOpertaivo();
-        sos = new ArrayList<SistemaOperativo>(Arrays.asList(new SistemaOperativo("Windows", "8.1",1),new SistemaOperativo("Linux", "Ubuntu",2)));
-        //sos = dso.loadAll();
+        DaoSistemaOperativo dso;
+        try {
+            dso = df.getDaoSistemaOperativo();
+            sos = dso.loadAll();
+            
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return sos;
     }
     

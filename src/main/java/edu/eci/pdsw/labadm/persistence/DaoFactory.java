@@ -55,6 +55,8 @@ public abstract class DaoFactory {
     
     public abstract DaoLaboratorio getDaoLaboratorio() throws PersistenceException;
     
+    public abstract DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException;
+    
     public abstract DaoUsuario getDaoUsuario() throws PersistenceException;
     
     public abstract DaoSolicitud getDaoSolicitud() throws PersistenceException;
