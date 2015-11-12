@@ -35,7 +35,7 @@ public class ReservasLabBackingBean {
     public void setLabs(SistemaOperativo so) {
         sf = ServicesFacade.getInstance("config.properties");
         ArrayList<Laboratorio> lab = new ArrayList<Laboratorio>();
-        lab = sf.loadLaboratorioPosible(so);
+        //lab = sf.loadLaboratorioPosible(so);
         for(int i =0; i<lab.size();i++){
             labs.add(lab.get(i).getNombre());
         }
