@@ -175,20 +175,20 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
                     ArrayList<SistemaOperativo> so1= new ArrayList<>();
                     rss = ps.executeQuery();
                     if(rss.next()){
-                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        so1.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                         while (rss.next()){
-                            so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                            so1.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                         }
                     }lab.setSos(so);
                     ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                             " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                     ps.setInt(1, lab.getId());
-                    sof= new ArrayList<>();
+                    ArrayList<Software> sof1= new ArrayList<>();
                     rss2=ps.executeQuery();
                     if(rss2.next()){
-                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        sof1.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                         while (rss2.next()){
-                            sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                            sof1.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                         }
                     }
                     lab.setSoftware(sof);

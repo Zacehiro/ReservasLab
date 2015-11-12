@@ -74,22 +74,23 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
                                         " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<SistemaOperativo> sos= new ArrayList<>();
-                    rs=ps.executeQuery();
-                if(rs.next()){
-                    sos.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sos.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss = ps.executeQuery();
+                if(rss.next()){
+                    sos.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                    while (rss.next()){
+                        sos.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                     }
-                }lab.setSos(sos);
+                }
+                lab.setSos(sos);
                 ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                                         " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss2=ps.executeQuery();
+                if(rss2.next()){
+                    sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                    while (rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                     }
                 }lab.setSoftware(sof);
                 ans.add(lab);
@@ -150,6 +151,32 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
                     }
                 }lab.setSoftware(sof);
                 ans.add(lab);
+                while (rs.next()){
+                   lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                    ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
+                                            " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    ArrayList<SistemaOperativo> so1= new ArrayList<>();
+                    rs=ps.executeQuery();
+                    if(rs.next()){
+                        so1.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                        while (rs.next()){
+                            so1.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                        }
+                    }lab.setSos(so);
+                    ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
+                                            " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    ArrayList<Software> sof1= new ArrayList<>();
+                    rs=ps.executeQuery();
+                    if(rs.next()){
+                        sof1.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                        while (rs.next()){
+                            sof1.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                        }
+                    }lab.setSoftware(sof);
+                    ans.add(lab);
+                }
             }
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading a request.",ex);
