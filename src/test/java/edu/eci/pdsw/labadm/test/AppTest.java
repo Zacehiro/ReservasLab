@@ -81,7 +81,7 @@ public class AppTest {
             posible =false;
          }
        }
-      Assert.assertFalse(posible);
+      Assert.assertFalse("El mail o la pagina no son correctos",posible);
   }
   
   @Test
@@ -107,7 +107,7 @@ public class AppTest {
               fine= false;
           }
       }
-        Assert.assertTrue(fine);
+        Assert.assertTrue("No se autogenera la fecha de radicacion",fine);
         
   }
   
@@ -130,7 +130,7 @@ public class AppTest {
            fine=false;
         }
       
-      Assert.assertFalse(fine);
+      Assert.assertFalse("La solicitud no posee un laboratorio con el sistema operativo",fine);
   }
   @Test
   public void solicitudesSinRespuestaTest() throws ServicesFacadeException{
@@ -158,7 +158,7 @@ public class AppTest {
                   fine = false;
               }
           }
-      Assert.assertTrue(fine);
+      Assert.assertTrue("Las solicitudes recien insertadas poseen respuesta",fine);
   }
 } 
 

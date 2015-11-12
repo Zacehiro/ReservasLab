@@ -30,6 +30,7 @@ public class ReservasLabBackingBean {
     
     
     public ArrayList<String> getLabs() {
+        setLabs(so);
         return labs;
     }
 
@@ -101,6 +102,7 @@ public class ReservasLabBackingBean {
         if(sistemaoperativo!=null){
             setLabs(so);
         }
+        System.out.println("sistema operativo "+sistemaoperativo);
         
     }
   
