@@ -43,6 +43,7 @@ public class AdmSolicitudesBackingBean {
     
     public void nuevaRespuesta(){
         try {
+            System.out.println("bean SIENTROPORQAQUQIERdsa"+resp);
             if(resp){
                 solselc.setEstado("aprobada");
             }else{

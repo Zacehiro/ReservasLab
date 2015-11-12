@@ -67,48 +67,38 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         Solicitud sol;
         PreparedStatement ps;
         try {
-            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud,"+
-                                        " solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,"+
-                                        " solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,"+
-                                        " solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,"+
-                                        " usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us, "+
-                                        " laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,"+
-                                        " laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,"+
-                                        " software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version"+
-                                        " FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario"+
-                                        " JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio"+
-                                        " JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo"+
-                                        " JOIN SOFTWARE AS software ON solicitud.ID_software=software.ID_software"+
-                                        " WHERE solicitud.ID_solicitud=? ORDER BY solicitud.Fecha_Radicacion");
-            ps.setInt(1, id);
+            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us,laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software  WHERE solicitud.ID_solicitud=? ORDER BY solicitud.Fecha_Radicacion");
+            ps.setInt(1, id); 
             ResultSet rs=ps.executeQuery();
             int labid=rs.getInt("labid");
-            Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
-            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
             if (rs.next()){
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+                sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
                 ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
                                         " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<SistemaOperativo> so= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss = ps.executeQuery();
+                if(rss.next()){
+                    so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                    while (rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                     }
-                }lab.setSos(so);
+                }
+                lab.setSos(so);
                 ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                                         " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss2=ps.executeQuery();
+                if(rss2.next()){
+                    sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                    while (rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                     }
                 }lab.setSoftware(sof);
             }
@@ -133,54 +123,82 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         PreparedStatement ps;
         List<Solicitud> ans=new ArrayList<>();
         try {
-            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud,"+
-                                        " solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,"+
-                                        " solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,"+
-                                        " solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,"+
-                                        " usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us, "+
-                                        " laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,"+
-                                        " laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,"+
-                                        " software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version"+
-                                        " FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario"+
-                                        " JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio"+
-                                        " JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo"+
-                                        " JOIN SOFTWARE AS software ON solicitud.ID_software=software.ID_software"+
-                                        " ORDER BY solicitud.Fecha_Radicacion");
+            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us,laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software ORDER BY solicitud.Fecha_Radicacion");
+          
             ResultSet rs=ps.executeQuery();
-            int labid=rs.getInt("labid");
-            Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
-            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+            
+            
             if (!rs.next()){
                 throw new PersistenceException("No requests found.");
             }else{
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+                sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
                 ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
                                         " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<SistemaOperativo> so= new ArrayList<>();
-                    rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss = ps.executeQuery();
+                if(rss.next()){
+                    so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                    while (rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                     }
-                }lab.setSos(so);
+                }
+                lab.setSos(so);
                 ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                                         " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss2=ps.executeQuery();
+                if(rss2.next()){
+                    sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                    while (rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                     }
                 }lab.setSoftware(sof);
                 ans.add(sol);
+                
+                while (rs.next()){
+                    lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                    u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                    sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                    s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+                    sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                    ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
+                            " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    ArrayList<SistemaOperativo> so1= new ArrayList<>();
+                    rss = ps.executeQuery();
+                    if(rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        while (rss.next()){
+                            so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        }
+                    }lab.setSos(so);
+                    ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
+                            " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    sof= new ArrayList<>();
+                    rss2=ps.executeQuery();
+                    if(rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        while (rss2.next()){
+                            sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        }
+                    }
+                    lab.setSoftware(sof);
+                    ans.add(sol);
+                    
+                }
             }
+          
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;
@@ -205,81 +223,83 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         PreparedStatement ps;
         List<Solicitud> ans=new ArrayList<>();
         try {
-            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud,"+
-                                        " solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,"+
-                                        " solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,"+
-                                        " solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,"+
-                                        " usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us, "+
-                                        " laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,"+
-                                        " laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,"+
-                                        " software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version"+
-                                        " FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario"+
-                                        " JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio"+
-                                        " JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo"+
-                                        " JOIN SOFTWARE AS software ON solicitud.ID_software=software.ID_software"+
-                                        " WHERE solicitud.Estado=? ORDER BY solicitud.Fecha_Radicacion");
+            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us,laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software  WHERE solicitud.Estado is ? ORDER BY solicitud.Fecha_Radicacion");
+            
             ps.setString(1, null);
             ResultSet rs=ps.executeQuery();
-            int labid=rs.getInt("labid");
-            Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
-            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+            
+            
             if (!rs.next()){
                 throw new PersistenceException("No requests found.");
             }else{
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+                sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
                 ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
                                         " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<SistemaOperativo> so= new ArrayList<>();
-                   rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss = ps.executeQuery();
+                if(rss.next()){
+                    so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                    while (rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                     }
-                }lab.setSos(so);
+                }
+                lab.setSos(so);
                 ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                                         " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss2=ps.executeQuery();
+                if(rss2.next()){
+                    sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                    while (rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                     }
                 }lab.setSoftware(sof);
                 ans.add(sol);
-            }
-            while (rs.next()){
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
-                ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
-                                        " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
-                ps.setInt(1, lab.getId());
-                ArrayList<SistemaOperativo> so= new ArrayList<>();
-                   rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                
+                while (rs.next()){
+                    lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                    u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                    sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                    s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+                    sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                    ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
+                            " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    ArrayList<SistemaOperativo> so1= new ArrayList<>();
+                    rss = ps.executeQuery();
+                    if(rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        while (rss.next()){
+                            so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        }
+                    }lab.setSos(so);
+                    ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
+                            " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    sof= new ArrayList<>();
+                    rss2=ps.executeQuery();
+                    if(rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        while (rss2.next()){
+                            sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        }
                     }
-                }lab.setSos(so);
-                ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
-                                        " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
-                ps.setInt(1, lab.getId());
-                ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    }
-                }lab.setSoftware(sof);
-                ans.add(sol);
+                    lab.setSoftware(sof);
+                    ans.add(sol);
+                    
+                }
             }
+          
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;
@@ -287,89 +307,90 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
 
     @Override
     public List<Solicitud> loadWithAnswer() throws PersistenceException {
-         Solicitud sol;
+       Solicitud sol;
         PreparedStatement ps;
         List<Solicitud> ans=new ArrayList<>();
         try {
-            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud,"+
-                                        " solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,"+
-                                        " solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,"+
-                                        " solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,"+
-                                        " usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us, "+
-                                        " laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,"+
-                                        " laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,"+
-                                        " software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version"+
-                                        " FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario"+
-                                        " JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio"+
-                                        " JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo"+
-                                        " JOIN SOFTWARE AS software ON solicitud.ID_software=software.ID_software"+
-                                        " WHERE solicitud.Estado!=? ORDER BY solicitud.Fecha_Radicacion");
-            ps.setString(1,null);
+            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us,laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software  WHERE solicitud.Estado is not ? ORDER BY solicitud.Fecha_Radicacion");
+            
+            ps.setString(1, null);
             ResultSet rs=ps.executeQuery();
-            int labid=rs.getInt("labid");
-            Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
-            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+            
+            
             if (!rs.next()){
                 throw new PersistenceException("No requests found.");
             }else{
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                Laboratorio lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            
+                sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
                 ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
                                         " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<SistemaOperativo> so= new ArrayList<>();
-                    rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss = ps.executeQuery();
+                if(rss.next()){
+                    so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                    while (rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
                     }
-                }lab.setSos(so);
+                }
+                lab.setSos(so);
                 ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
                                         " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
                 ps.setInt(1, lab.getId());
                 ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
+                ResultSet rss2=ps.executeQuery();
+                if(rss2.next()){
+                    sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                    while (rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
                     }
                 }lab.setSoftware(sof);
                 ans.add(sol);
-            }
-            while (rs.next()){
-                sol=new Solicitud(rs.getInt("id_colicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
-                ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
-                                        " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
-                ps.setInt(1, lab.getId());
-                ArrayList<SistemaOperativo> so= new ArrayList<>();
-                    rs=ps.executeQuery();
-                if(rs.next()){
-                    so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        so.add(new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("so_id")));
+                
+                while (rs.next()){
+                    lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
+                    u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                    sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                    s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+                    sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),lab,sos,u);
+                    ps=con.prepareStatement("SELECT tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo AS so_id, sistemao.nombre AS so_nombre, sistemao.version AS so_version"+
+                            " FROM LABORATORIO_SISTEMA_OPERATIVO AS tablaR JOIN SISTEMA_OPERATIVO AS sistemao ON tablaR.SISTEMA_OPERATIVO_ID_sistema_operativo=sistemao.ID_sistema_operativo WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    ArrayList<SistemaOperativo> so1= new ArrayList<>();
+                    rss = ps.executeQuery();
+                    if(rss.next()){
+                        so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        while (rss.next()){
+                            so.add(new SistemaOperativo(rss.getString("so_nombre"),rss.getString("so_version"),rss.getInt("so_id")));
+                        }
+                    }lab.setSos(so);
+                    ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
+                            " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
+                    ps.setInt(1, lab.getId());
+                    sof= new ArrayList<>();
+                    rss2=ps.executeQuery();
+                    if(rss2.next()){
+                        sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        while (rss2.next()){
+                            sof.add(new Software(rss2.getString("so_nombre"), rss2.getString("so_version"),rss2.getInt("so_id")));
+                        }
                     }
-                }lab.setSos(so);
-                ps=con.prepareStatement("SELECT tablaR.SOFTWARE_ID_software AS so_id, software.nombre AS so_nombre, software.version AS so_version"+
-                                        " FROM SOFTWARE_LABORATORIO AS tablaR JOIN SOFTWARE AS software ON tablaR.SOFTWARE_ID_software=software.ID_software WHERE tablaR.LABORATORIO_ID_laboratorio=?");
-                ps.setInt(1, lab.getId());
-                ArrayList<Software> sof= new ArrayList<>();
-                rs=ps.executeQuery();
-                if(rs.next()){
-                    sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    while (rs.next()){
-                        sof.add(new Software(rs.getString("so_nombre"), rs.getString("so_version"),rs.getInt("so_id")));
-                    }
-                }lab.setSoftware(sof);
-                ans.add(sol);
+                    lab.setSoftware(sof);
+                    ans.add(sol);
+                    
+                }
             }
+          
         } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;
     }
-
     
 }

@@ -27,10 +27,10 @@
                         <h:outputText value="#{sol.fecha_rad}"/>
                     </p:column>
                     <p:column headerText="Laboratorio">
-                        <h:outputText value="#{sol.laboratorio}"/>
+                        <h:outputText value="#{sol.laboratorio.nombre}"/>
                     </p:column>
                     <p:column headerText="Software">
-                        <h:outputText value="#{sol.software}"/>
+                        <h:outputText value="#{sol.software.nombre}"/>
                     </p:column>
                     <p:column headerText="Link Licencia">
                         <h:outputText value="#{sol.link_licencia}"/>
@@ -55,7 +55,8 @@
                                         <p:inputText id="justificacion" value="#{admSolicitudesBackingBean.justificacion}"></p:inputText>
                                     </h:panelGrid>
                                     </center>
-                                    <p:commandButton id="respuesta" value="Aceptar" type="button" />
+                                    <p:commandButton id="respuesta" value="Aceptar" type="button" actionListener="#{admSolicitudesBackingBean.nuevaRespuesta()}"/>
+                                    <h:outputText value="#{admSolicitudesBackingBean.popUp}" />
                                 </h:form>
                             </p:panel>
                         </p:overlayPanel>

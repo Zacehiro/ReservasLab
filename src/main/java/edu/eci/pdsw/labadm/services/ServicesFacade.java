@@ -136,10 +136,6 @@ public class ServicesFacade {
         DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-        }
-        try {
             return ds.loadWithAnswer();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
@@ -156,10 +152,6 @@ public class ServicesFacade {
         DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-        }
-        try {
             return ds.loadWithoutAnswer();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
