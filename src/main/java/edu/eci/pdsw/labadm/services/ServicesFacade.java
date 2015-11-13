@@ -112,16 +112,14 @@ public class ServicesFacade {
     public List<Laboratorio> loadLaboratorioPosible(SistemaOperativo so) throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
         DaoLaboratorio dl;
+        List posibles;
         try {
             dl = df.getDaoLaboratorio();
+            posibles = dl.loadBySo(so);
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
-        try {
-            return dl.loadBySo(so);
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-        }
+        return posibles;
     }
     
     /**
@@ -191,5 +189,18 @@ public class ServicesFacade {
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
+    }
+    
+    public SistemaOperativo loadSistemaOperativo(String nombre){
+        df=DaoFactory.getInstance(properties);
+        SistemaOperativo so = null;
+        try {
+            DaoSistemaOperativo dso;
+            dso = df.getDaoSistemaOperativo();
+            so=dso.loadSo(nombre);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return so;
     }
 }

@@ -33,7 +33,6 @@ public class ReservasLabBackingBean {
     
     
     public ArrayList<String> getLabs() {
-        setLabs(so);
         return labs;
     }
 
@@ -48,7 +47,7 @@ public class ReservasLabBackingBean {
         } catch (ServicesFacadeException ex) {
             Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        System.out.println("el tamaño es "+labs.size());
     }
 
     public ArrayList<String> getSos() {
@@ -103,14 +102,14 @@ public class ReservasLabBackingBean {
 
     public void setSistemaoperativo(String sistemaoperativo) {
         this.sistemaoperativo = sistemaoperativo;
-        //obtener sistema operativo por el nombre y cambiarlo llamado al metodo setSo
     }
     
     public void onSoChange() {    
         if(sistemaoperativo!=null){
+            sf = ServicesFacade.getInstance("config.properties");
+            so=sf.loadSistemaOperativo(sistemaoperativo);
             setLabs(so);
         }
-        System.out.println("sistema operativo "+sistemaoperativo);
         
     }
   

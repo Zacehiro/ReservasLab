@@ -22,6 +22,7 @@ import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
+import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoUsuario;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaosistemaoperativo;
@@ -117,8 +118,7 @@ public class JDBCDaoFactory extends DaoFactory {
     @Override
     public DaoLaboratorio getDaoLaboratorio() throws PersistenceException {
         this.beginSession();
-        //return new JDBCDaoLaboratorio(connectionInstance.get());
-        return null;
+        return new JDBCDaoLaboratorio(connectionInstance.get());
     }
 
     @Override
