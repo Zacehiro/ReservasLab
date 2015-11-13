@@ -8,20 +8,20 @@ package edu.eci.pdsw.labadm.webapp.controller;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import edu.eci.pdsw.labadm.services.ServicesFacadeException;
-import java.io.Serializable;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
  * @author tatoo
  */
 @ManagedBean (name = "beanAdmin")
-@SessionScoped
-public class AdmSolicitudesBackingBean implements Serializable{    
+@ViewScoped
+public class AdmSolicitudesBackingBean{    
     private Solicitud solselc ; 
     private boolean resp;
     private Date fechaRealiz;
@@ -31,7 +31,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
 
     public AdmSolicitudesBackingBean() {
         justificacion="";
-        fechaRealiz=new Date(0, 0, 0);
+        fechaRealiz=new Date();
         resp= false;
         solselc = new Solicitud();
         popUp = "";
@@ -46,24 +46,21 @@ public class AdmSolicitudesBackingBean implements Serializable{
     }
     
     public void nuevaRespuesta(){
-        System.out.println("duvan de  mierdqa");
+        
         try {
-            System.out.println("ENTRO AQUI ASFDFGWERGDa");
+            System.out.println("Guardoooo");
             if(resp){
                 solselc.setEstado("aprobada");
-                
-                 System.out.println("Hola+aprobada");
             }else{
                 solselc.setEstado("negada");
             }
             solselc.setJustificacion(justificacion);
-            System.out.println("ñoña"+justificacion);
             solselc.setFecha_posible(fechaRealiz);
-            System.out.println("pipecanson "+fechaRealiz);
             solselc.setFecha_resp(new Date());
             ServicesFacade.getInstance("config.properties").deleteSolicitud(solselc.getId());
             ServicesFacade.getInstance("config.properties").saveSolicitud(solselc);
         } catch (ServicesFacadeException ex) {
+            ex.printStackTrace();
             popUp=ex.getMessage();
         }
     }
@@ -79,30 +76,23 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public Solicitud getSolselc() {
         return solselc;
     }
-
     public void setSolselc(Solicitud solselc) {
         this.solselc = solselc;
     }
     
     public Date getFechaRealiz() {
-        System.out.println("get");
         return fechaRealiz;
     }
 
     public void setFechaRealiz(Date fechaRealiz) {
-        System.out.println("set");
         this.fechaRealiz = fechaRealiz;
     }
 
     public boolean isResp() {
-        
-        System.out.println("holaaaaaaa");
         return resp;
     }
 
     public void setResp(boolean resp) {
-        
-        System.out.println("holapipe");
         this.resp = resp;
     }
     
@@ -112,5 +102,12 @@ public class AdmSolicitudesBackingBean implements Serializable{
 
     public void setJustificacion(String justificacion) {
         this.justificacion = justificacion;
+    }
+    
+    public void addMessage() {
+        String summary = resp ? "Solicitud Aprobada" : "Solicitud Negada";
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+        this.justificacion="";
+        this.fechaRealiz=null;
     }
 }

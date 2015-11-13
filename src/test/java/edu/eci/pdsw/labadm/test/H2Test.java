@@ -37,94 +37,106 @@ public class H2Test {
     public void clearDB() throws SQLException {
         Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
         Statement stmt = conn.createStatement();
-        stmt.execute("delete from SISTEMA_OPERATIVO");
+        stmt.execute("delete from SOLICITUD");
+        stmt.execute("delete from SOFTWARE_LABORATORIO");
         stmt.execute("delete from SOFTWARE");
-        stmt.execute("delete from SOLICITUD");
         stmt.execute("delete from USUARIO");
-        stmt.execute("delete from SOLICITUD");
+        stmt.execute("delete from LABORATORIO_SISTEMA_OPERATIVO");
+        stmt.execute("delete from SISTEMA_OPERATIVO");
         stmt.execute("delete from LABORATORIO");
         conn.commit();
         conn.close();
     }
-    @Test
-    public void c1Test() {
-        ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        List<Solicitud> solicitudesRespondidas;
-        
-    try {
-        solicitudesRespondidas = sf.loadSolicitudResp();
-        for (Solicitud s : solicitudesRespondidas) {
-            assertTrue(s.getEstado().equals("aprobada")||s.getEstado().equals("negada"));
-        }
-    } catch (ServicesFacadeException ex) {
-        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    
+    @Before
+    public void insertData() throws SQLException{
+        Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) VALUES (1, 'Redes', 8, 1)");
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) VALUES (2, 'Plataformas', 12, 1)");
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) VALUES (3, 'Quimica', 13, 1)");
+        stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) VALUES (4, 'B0', 20, 0)");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) VALUES (1, 'Windows', '8.1')");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) VALUES (2, 'Windows', '10')");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) VALUES (3, 'Ubuntu', '14.4')");
+        stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) VALUES (4, 'Android', '1.2')");
+        stmt.execute("INSERT INTO LABORATORIO_SISTEMA_OPERATIVO VALUES (1, 1)");
+        stmt.execute("INSERT INTO LABORATORIO_SISTEMA_OPERATIVO VALUES (2, 1)");
+        stmt.execute("INSERT INTO LABORATORIO_SISTEMA_OPERATIVO VALUES (1, 2)");
+        stmt.execute("INSERT INTO LABORATORIO_SISTEMA_OPERATIVO VALUES (2, 3)");        
+        stmt.execute("INSERT INTO USUARIO VALUES (1, 'Pipe', 'Pipe@hotmail.com', 2)");
+        stmt.execute("INSERT INTO USUARIO VALUES (2, 'Andrés', 'andres@hotmail.com', 1)");
+        stmt.execute("INSERT INTO USUARIO VALUES (3, 'Felipe', 'felipe@adas.com', 1)");
+        stmt.execute("INSERT INTO USUARIO VALUES (4, 'juan', 'juan@sdfsdm.do', 3)");
+        stmt.execute("INSERT INTO SOFTWARE VALUES (1, 'Mathematica', '2.00')");
+        stmt.execute("INSERT INTO SOFTWARE VALUES (2, 'TeamViewer', '11')");
+        stmt.execute("INSERT INTO SOFTWARE VALUES (3, 'Spotify', '6')");
+        stmt.execute("INSERT INTO SOFTWARE VALUES (4, 'Netbeans', '8')");
+        stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (2, 1)");
+        stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 1)");
+        stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 2)");
+        stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 4)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (1, 1, 1, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 1, 2)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (2, 2, 2, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 3, 1)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (3, 3, 3, 'www.lic.com', 'www.des.com', 'aprobada', '2015-11-12', '2015-11-24', null, null, 2, 1)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (4, 4, 4, 'www.lic.com', 'www.des.com', 'negada', '2015-11-12', null, null, 'Imposible', 4, 3)");
+        conn.commit();
+        conn.close();
     }
     
     @Test
-    public void c2Test() {
+    public void c1Test() throws ServicesFacadeException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas;
-        
-    try {
+        solicitudesRespondidas = sf.loadSolicitudResp();
+        for (Solicitud s : solicitudesRespondidas) {
+            assertTrue("Las Solicitudes Respondidas Tienen Un Estado", s.getEstado().equals("aprobada")||s.getEstado().equals("negada"));
+        }
+    }
+    
+    @Test
+    public void c2Test() throws ServicesFacadeException {
+        ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
+        List<Solicitud> solicitudesRespondidas;
         solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("aprobada")){
-                assertTrue(s.getFecha_posible()!=null);
+                assertTrue("Si se agrego una fecha de posible instalación", s.getFecha_posible()!=null);
             }
         }
-    } catch (ServicesFacadeException ex) {
-        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
     }
     
     @Test
-    public void c3Test() {
+    public void c3Test() throws ServicesFacadeException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas;
-    try {
         solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("negada")){
-                assertTrue(s.getJustificacion()!=null);
+                assertTrue("Si se agrego una justificacion por negar la solicitud", s.getJustificacion()!=null);
             }
-        }
-    } catch (ServicesFacadeException ex) {
-        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
+        }   
     }
     
     @Test
-    public void c4Test() {
+    public void c4Test() throws ServicesFacadeException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         List<Solicitud> solicitudesRespondidas;
-    try {
         solicitudesRespondidas = sf.loadSolicitudResp();
         for (Solicitud s : solicitudesRespondidas) {
             if(s.getEstado().equals("negada")){
-                assertTrue(s.getFecha_posible()==null);
+                assertTrue("No se agrego fecha de instalacion por negar la solicitud", s.getFecha_posible()==null);
             }
-        }
-    } catch (ServicesFacadeException ex) {
-        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
-    }
-        
+        }  
     }
     
     @Test
-    public void c5Test() {
+    public void c5Test() throws ServicesFacadeException {
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
-        
-    try {
         List<Solicitud> solicitudesSinRespuesta;
         solicitudesSinRespuesta = sf.loadSolicitudSinResp();
         for (Solicitud s : solicitudesSinRespuesta) {
-            assertTrue(s.getFecha_resp()==null);
-        }
-    } catch (ServicesFacadeException ex) {
-        Logger.getLogger(H2Test.class.getName()).log(Level.SEVERE, null, ex);
+            assertTrue("Las solicitudes din respuesta no tienen fecha de respuesta", s.getFecha_resp()==null);
         }
     }
 } 

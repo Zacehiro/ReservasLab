@@ -17,8 +17,7 @@
             <p align="left">
                 Las siguientes son todas las solicitudes que se han radicado.
             </p>
-            <h:form id="formulario">
-                
+            <h:form id="todo">
                 <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudes}" selectionMode="single" selection="#{beanAdmin.solselc}" rowKey="#{sol.id}" style="margin-top: 10px">
                     <f:facet name="header">
                         Solicitudes
@@ -38,30 +37,29 @@
                     <p:column headerText="Link Descarga">
                         <h:outputText value="#{sol.link_descarga}"/>
                     </p:column>
-                    
-                    
                 </p:dataTable>
-                
-                <p:commandButton id="adminBtn" value="Respuesta" type="button" />
-                <p:overlayPanel id="adminPanel" for="adminBtn" hideEffect="fade" dynamic="true" style="width:600px">
+                <p:commandButton id="adminBtn" value="Respuesta" type="button" ajax="false"/>
+                <p:overlayPanel id="adminPanel" for="todo:adminBtn" hideEffect="fade" dynamic="true" style="width:600px">
                     <p:panel header="Formulario" style="margin-top: 10px">
-                        <h:form>
+                        <h:form id="form2">
+                            <p:growl id="msg" />
                             <center>
                             <h:panelGrid columns="2" cellpadding="5">
-                                <h:outputText value="Acepta dar aprobacion a la solicitud: " />
-                                <p:selectBooleanButton id="resp" value="#{beanAdmin.resp}" onLabel="Yes" offLabel="No" style="width:60px" />
-                                <p:outputLabel for="restricted" value="Fecha de realizacion:" />
-                                <p:calendar id="restricted" value="#{beanAdmin.fechaRealiz}" mindate="1/1/15" maxdate="7/1/17" />
-                                <h:outputText value="Justificacion en caso de ser negada: " />
-                                <p:inputText id="justificacion" value="#{beanAdmin.justificacion}"></p:inputText>
+                                <p:outputLabel for="restricted" value="Aprobacion de la solicitud:" />
+                                <p:selectBooleanCheckbox value="#{beanAdmin.resp}">
+                                    <p:ajax update="form2" listener="#{beanAdmin.addMessage()}"/>
+                                </p:selectBooleanCheckbox>
+                                <p:outputLabel for="restricted" value="Fecha de realizacion:" />                                
+                                <p:calendar id="restricted" value="#{beanAdmin.fechaRealiz}" disabled="#{!beanAdmin.resp}" />
+
+                                <h:outputText value="Justificacion en caso de ser negada: "/>
+                                <p:inputTextarea rows="6" cols="33" value="#{beanAdmin.justificacion}" disabled="#{beanAdmin.resp}"/>
                             </h:panelGrid>
                             </center>
-                            <p:commandButton id="respuesta" value="Aceptar"   actionListener="#{beanAdmin.nuevaRespuesta()}"></p:commandButton>
-                            <h:outputText value="#{beanAdmin.popUp}" />
+                            <p:commandButton id="respuesta" value="Aceptar" actionListener="#{beanAdmin.nuevaRespuesta()}" ajax="false"/>
                         </h:form>
                     </p:panel>
                 </p:overlayPanel>
-                   
             </h:form>
         </h:body>
     </body>

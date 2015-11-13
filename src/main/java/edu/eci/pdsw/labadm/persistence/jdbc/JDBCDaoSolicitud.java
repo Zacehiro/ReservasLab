@@ -124,11 +124,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         List<Solicitud> ans=new ArrayList<>();
         try {
             ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us,laboratorio.ID_laboratorio AS labid, laboratorio.nombre AS labn, laboratorio.cantidad_equipos AS can_equ,laboratorio.videobeam AS labv, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN LABORATORIO AS laboratorio ON solicitud.Laboratorio_id=laboratorio.ID_laboratorio JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software ORDER BY solicitud.Fecha_Radicacion");
-          
             ResultSet rs=ps.executeQuery();
-            
-            
-            
             if (!rs.next()){
                 throw new PersistenceException("No requests found.");
             }else{
@@ -162,7 +158,6 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
                     }
                 }lab.setSoftware(sof);
                 ans.add(sol);
-                
                 while (rs.next()){
                     lab=new Laboratorio(rs.getString("labn"),rs.getInt("labid"),rs.getInt( "can_equ"),rs.getBoolean("labv"));
                     u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
@@ -193,12 +188,10 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
                     }
                     lab.setSoftware(sof);
                     ans.add(sol);
-                    
                 }
             }
           
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;
@@ -213,7 +206,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             ps.execute();
             con.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(JDBCDaoSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("An error ocurred while loadin a request.", ex);
         }  
     }
 
@@ -299,7 +292,6 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             }
           
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;

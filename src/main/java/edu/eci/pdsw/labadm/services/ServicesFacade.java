@@ -131,13 +131,13 @@ public class ServicesFacade {
         DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-        }
-        try {
             return ds.loadAll();
         } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            if(ex.getMessage().equals("No requests found.")){
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            }
         }
     }
     
@@ -153,7 +153,11 @@ public class ServicesFacade {
             ds = df.getDaoSolicitud();
             return ds.loadWithAnswer();
         } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            if(ex.getMessage().equals("No requests found.")){
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            }
         }
     }
 
@@ -169,7 +173,11 @@ public class ServicesFacade {
             ds = df.getDaoSolicitud();
             return ds.loadWithoutAnswer();
         } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            if(ex.getMessage().equals("No requests found.")){
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            }
         }
     }
     
