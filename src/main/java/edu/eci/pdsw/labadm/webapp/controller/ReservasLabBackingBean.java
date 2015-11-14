@@ -47,7 +47,6 @@ public class ReservasLabBackingBean {
         } catch (ServicesFacadeException ex) {
             Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("el tamaño es "+labs.size());
     }
 
     public ArrayList<String> getSos() {
