@@ -15,7 +15,7 @@
         <h:body>
             <p:separator />
             <p align="left">
-                Las siguientes son todas las solicitudes que se han radicado.
+                Las siguientes son todas las solicitudes que se han radicado. Seleccione una solicitud para responderla.
             </p>
             <h:form id="todo">
                 <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudes}" selectionMode="single" selection="#{beanAdmin.solselc}" rowKey="#{sol.id}" style="margin-top: 10px">
@@ -38,8 +38,8 @@
                         <h:outputText value="#{sol.link_descarga}"/>
                     </p:column>
                 </p:dataTable>
-                <p:commandButton id="adminBtn" value="Respuesta" type="button" ajax="false"/>
-                <p:overlayPanel id="adminPanel" for="todo:adminBtn" hideEffect="fade" dynamic="true" style="width:600px">
+                <p:commandButton id="adminBtn" value="Respuesta" type="button" disabled="#{beanAdmin.selected}"/>
+                <p:overlayPanel for="todo:adminBtn" hideEffect="fade" dynamic="true" style="width:600px">
                     <p:panel header="Formulario" style="margin-top: 10px">
                         <h:form id="form2">
                             <p:growl id="msg" />
@@ -51,7 +51,6 @@
                                 </p:selectBooleanCheckbox>
                                 <p:outputLabel for="restricted" value="Fecha de realizacion:" />                                
                                 <p:calendar id="restricted" value="#{beanAdmin.fechaRealiz}" disabled="#{!beanAdmin.resp}" />
-
                                 <h:outputText value="Justificacion en caso de ser negada: "/>
                                 <p:inputTextarea rows="6" cols="33" value="#{beanAdmin.justificacion}" disabled="#{beanAdmin.resp}"/>
                             </h:panelGrid>

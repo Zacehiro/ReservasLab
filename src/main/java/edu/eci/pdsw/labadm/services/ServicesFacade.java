@@ -67,31 +67,13 @@ public class ServicesFacade {
     }
     
     /**
-     * Guarda una Solicitud realizada por un usuario.
-     * @param Solicitud
+     * Guarda la soliditud parametro en la base de datos.
+     * @param s Solicitud a guardar
+     * @throws ServicesFacadeException Problema al leer en la base de datos.
      */
-    public void saveSolicitudaCondicional(Solicitud s) throws ServicesFacadeException{
+    public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds;
-        try {
-            ds = df.getDaoSolicitud();
-            if(s!=null){
-                if(((s.getEstado().equals("aprobada"))&&(!s.getFecha_resp().equals(new Date(0,0,0)))&&(s.getJustificacion().equals("")))||((s.getEstado().equals("negada"))&&(s.getFecha_posible().equals(new Date(0,0,0)))&&(!s.getJustificacion().equals("")))){
-                        ds.save(s);
-                }else{
-                    throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_GUARDAR_SOLICITUD);
-                }
-            }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_SOLICITUD_NO_SELECCIONADA);
-            }
-        } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
-        }
-    }
-    
-    public void saveSolicitud(Solicitud s) throws ServicesFacadeException{
-          df=DaoFactory.getInstance(properties);
-          DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
             if(s.getLink_licencia().contains(".") && s.getLink_descarga().contains(".")){
@@ -101,6 +83,21 @@ public class ServicesFacade {
             }
         }catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+        }
+    }
+    
+    /**
+     * Actualiza una solicitud de acuerdo a la existente en ls base de datos.
+     * @param s Solicitud a actualizar.
+     * @throws ServicesFacadeException Problemas al actualizar en la base de datos.
+     */
+    public void updateSolicitud(Solicitud s) throws ServicesFacadeException{
+        try {
+            df=DaoFactory.getInstance(properties);
+            DaoSolicitud ds=df.getDaoSolicitud();
+            ds.update(s);
+        } catch (PersistenceException ex) {
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
     }
     /**
@@ -172,6 +169,27 @@ public class ServicesFacade {
         try {
             ds = df.getDaoSolicitud();
             return ds.loadWithoutAnswer();
+        } catch (PersistenceException ex) {
+            if(ex.getMessage().equals("No requests found.")){
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            }
+        }
+    }
+    
+    /**
+     * Retorna una solicitud de acuerdo al identificador del parametro
+     * @param id Identificador de la Solicitud requerida
+     * @return Soliditud Requierida
+     * @throws ServicesFacadeException Problemas en la base de datos.
+     */
+    public Solicitud loadSolicitud(int id) throws ServicesFacadeException{
+        df= DaoFactory.getInstance(properties);
+        DaoSolicitud ds;
+        try {
+            ds = df.getDaoSolicitud();
+            return ds.loadSolicitud(id);
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);

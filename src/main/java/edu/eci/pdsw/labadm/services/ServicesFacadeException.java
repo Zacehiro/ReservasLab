@@ -20,5 +20,7 @@ public class ServicesFacadeException extends Exception{
     public ServicesFacadeException(String message) {
         super(message);
     }
-    
+    public ServicesFacadeException(String message, Throwable cause){
+        super(message, cause);
+    }
 }

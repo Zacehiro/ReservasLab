@@ -8,11 +8,12 @@ package edu.eci.pdsw.labadm.webapp.controller;
 import edu.eci.pdsw.labadm.entities.Solicitud;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import edu.eci.pdsw.labadm.services.ServicesFacadeException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -20,57 +21,39 @@ import javax.faces.context.FacesContext;
  * @author tatoo
  */
 @ManagedBean (name = "beanAdmin")
-@ViewScoped
-public class AdmSolicitudesBackingBean{    
+@ApplicationScoped
+public class AdmSolicitudesBackingBean implements Serializable{    
     private Solicitud solselc ; 
     private boolean resp;
     private Date fechaRealiz;
     private String justificacion;
-    //Este atributo es para avisar al usuario que no es posible dar respuesta a la solicitud con los datos dados
-    private String popUp;
 
     public AdmSolicitudesBackingBean() {
         justificacion="";
-        fechaRealiz=new Date();
+        fechaRealiz=null;
         resp= false;
-        solselc = new Solicitud();
-        popUp = "";
+        solselc =null;
     }
 
- 
-
+    public boolean isSelected(){
+        return solselc!=null;
+    }
     
     //trae todas las solicitudes que no han sido atendidas
     public List<Solicitud> getSolicitudes() throws ServicesFacadeException{
         return ServicesFacade.getInstance("config.properties").loadSolicitudSinResp();
     }
     
-    public void nuevaRespuesta(){
-        
-        try {
-            System.out.println("Guardoooo");
-            if(resp){
-                solselc.setEstado("aprobada");
-            }else{
-                solselc.setEstado("negada");
-            }
-            solselc.setJustificacion(justificacion);
-            solselc.setFecha_posible(fechaRealiz);
-            solselc.setFecha_resp(new Date());
-            ServicesFacade.getInstance("config.properties").deleteSolicitud(solselc.getId());
-            ServicesFacade.getInstance("config.properties").saveSolicitud(solselc);
-        } catch (ServicesFacadeException ex) {
-            ex.printStackTrace();
-            popUp=ex.getMessage();
+    public void nuevaRespuesta() throws ServicesFacadeException{
+        if(resp){
+            solselc.setEstado("aprobada");
+        }else{
+            solselc.setEstado("negada");
         }
-    }
-
-    public String getPopUp() {
-        return popUp;
-    }
-
-    public void setPopUp(String popUp) {
-        this.popUp = popUp;
+        solselc.setJustificacion(justificacion);
+        solselc.setFecha_posible(fechaRealiz);
+        solselc.setFecha_resp(new Date());
+        ServicesFacade.getInstance("config.properties").updateSolicitud(solselc);
     }
     
     public Solicitud getSolselc() {

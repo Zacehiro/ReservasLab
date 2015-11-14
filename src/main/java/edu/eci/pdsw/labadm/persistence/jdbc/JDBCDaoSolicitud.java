@@ -5,7 +5,6 @@
  */
 package edu.eci.pdsw.labadm.persistence.jdbc;
 
-import static com.mysql.jdbc.Messages.getString;
 import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Software;
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -38,27 +35,72 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
 
     @Override
     public void save(Solicitud s) throws PersistenceException {
-       PreparedStatement ps;
+        PreparedStatement ps;
         try {
             ps=con.prepareStatement("INSERT INTO `SOLICITUD`(`ID_solicitud`, `Laboratorio_id`, `ID_software`, `Link_licencia`, `Link_descarga`,"+
                                     " `Estado`, `Fecha_radicacion`, `Fecha_posible_instalacion`, `Fecha_respuesta`, `Justificacion`,"+
-                                    " `Usuario_id`,`ID_sistema_operativo`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                    " `Usuario_id`,`ID_sistema_operativo`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1,s.getId());
             ps.setInt(2, s.getLaboratorio().getId());
             ps.setInt(3, s.getSoftware().getId());
             ps.setString(4, s.getLink_licencia());
             ps.setString(5, s.getLink_descarga());
             ps.setString(6, s.getEstado());
-            ps.setDate(7, (java.sql.Date) s.getFecha_rad());
-            ps.setDate(8, (java.sql.Date) s.getFecha_posible());
-            ps.setDate(9, (java.sql.Date) s.getFecha_resp());
+            ps.setDate(7, new java.sql.Date(s.getFecha_rad().getTime()));
+            ps.setDate(8,(s.getFecha_posible()==null)? null:new java.sql.Date(s.getFecha_posible().getTime()));
+            ps.setDate(9,(s.getFecha_resp()==null)? null:new java.sql.Date(s.getFecha_resp().getTime()));
             ps.setString(10, s.getJustificacion());
             ps.setInt(11, s.getUsuario().getId());
             ps.setInt(12, s.getSo().getId());
-            
+            ps.execute();
             con.commit();
         } catch (SQLException ex) {
-            Logger.getLogger(JDBCDaoSolicitud.class.getName()).log(Level.SEVERE, null, ex);
+            throw new PersistenceException("An error ocurred while saving.", ex);
+        }
+    }
+    @Override
+    public void delete(int s) throws PersistenceException {
+        PreparedStatement ps;
+        try {
+            ps=con.prepareStatement("DELETE FROM SOLICITUD WHERE SOLICITUD.ID_solicitud=?");
+            ps.setInt(1, s);
+            ps.execute();
+            con.commit();
+        } catch (SQLException ex) {
+            throw new PersistenceException("An error ocurred while loadin a request.", ex);
+        }
+    }
+    
+    @Override
+    public void update(Solicitud s) throws PersistenceException {
+        PreparedStatement ps;
+        try {
+            ps=con.prepareStatement("DELETE FROM SOLICITUD WHERE SOLICITUD.ID_solicitud=?");
+            ps.setInt(1, s.getId());
+            ps.execute();
+        } catch (SQLException ex) {
+            throw new PersistenceException("An error ocurred deleting.", ex);
+        }
+        try {
+            ps=con.prepareStatement("INSERT INTO `SOLICITUD`(`ID_solicitud`, `Laboratorio_id`, `ID_software`, `Link_licencia`, `Link_descarga`,"+
+                                    " `Estado`, `Fecha_radicacion`, `Fecha_posible_instalacion`, `Fecha_respuesta`, `Justificacion`,"+
+                                    " `Usuario_id`,`ID_sistema_operativo`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps.setInt(1,s.getId());
+            ps.setInt(2, s.getLaboratorio().getId());
+            ps.setInt(3, s.getSoftware().getId());
+            ps.setString(4, s.getLink_licencia());
+            ps.setString(5, s.getLink_descarga());
+            ps.setString(6, s.getEstado());
+            ps.setDate(7, new java.sql.Date(s.getFecha_rad().getTime()));
+            ps.setDate(8,(s.getFecha_posible()==null)? null:new java.sql.Date(s.getFecha_posible().getTime()));
+            ps.setDate(9,(s.getFecha_resp()==null)? null:new java.sql.Date(s.getFecha_resp().getTime()));
+            ps.setString(10, s.getJustificacion());
+            ps.setInt(11, s.getUsuario().getId());
+            ps.setInt(12, s.getSo().getId());
+            ps.execute();
+            con.commit();
+        } catch (SQLException ex) {
+            throw new PersistenceException("An error occured saving", ex);
         }
     }
 
@@ -195,21 +237,8 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             throw new PersistenceException("An error ocurred while loading a request.",ex);
         }
         return ans;
-    }
-
-    @Override
-    public void delete(int s) throws PersistenceException {
-        PreparedStatement ps;
-        try {
-            ps=con.prepareStatement("DELETE FROM SOLICITUD WHERE SOLICITUD.ID_solicitud=?");
-            ps.setInt(1, s);
-            ps.execute();
-            con.commit();
-        } catch (SQLException ex) {
-            throw new PersistenceException("An error ocurred while loadin a request.", ex);
-        }  
-    }
-
+    }    
+    
     @Override
     public List<Solicitud> loadWithoutAnswer() throws PersistenceException {
         Solicitud sol;
