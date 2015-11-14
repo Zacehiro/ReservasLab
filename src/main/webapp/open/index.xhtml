@@ -13,10 +13,9 @@
     role user = <p:outputLabel value="#{loginBean.subject.hasRole('user')}"/>
     role admin = <p:outputLabel value="#{loginBean.subject.hasRole('admin')}"/>
     role employee = <p:outputLabel value="#{loginBean.subject.hasRole('employee')}"/>
-    
-    <p:commandLink action=""></p:commandLink>
-    </pre>
         
+    </pre>
+    <p:commandLink value="logout" action="../logout"></p:commandLink>    
     
 </h:body>
 </html>

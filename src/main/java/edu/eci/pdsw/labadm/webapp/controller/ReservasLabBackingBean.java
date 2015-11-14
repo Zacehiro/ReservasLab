@@ -64,6 +64,12 @@ public class ReservasLabBackingBean {
     }
 
     public ArrayList<Solicitud> getSol() {
+        sf= ServicesFacade.getInstance("config.properties");
+        try {
+            sol= (ArrayList<Solicitud>) sf.loadSolicitudResp();
+        } catch (ServicesFacadeException ex) {
+            Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return sol;
     }
 

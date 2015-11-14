@@ -1,5 +1,6 @@
 package edu.eci.pdsw.labadm.test;
 
+import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
@@ -124,12 +125,25 @@ public class AppTest {
             stmt.execute("INSERT INTO LABORATORIO (ID_laboratorio, nombre, cantidad_equipos, videobeam) values(1,'Ingenieria De Software',20, true)");
             stmt.execute("INSERT INTO USUARIO (ID_usuario, nombre, email, tipo_usuario) values(1,'Tatiana','tatiana@mail.com', 1)");
             stmt.execute("INSERT INTO SOFTWARE(ID_software, nombre, version) VALUES (1,'opas','15')");
-            stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version, Solicitud_id) values(2,'Windows','8.1', 1)");
+            stmt.execute("INSERT INTO SISTEMA_OPERATIVO (ID_sistema_operativo, nombre, version) values(1,'Windows','8.1')");
+            stmt.execute("INSERT INTO `LABORATORIO_SISTEMA_OPERATIVO`(`LABORATORIO_ID_laboratorio`, `SISTEMA_OPERATIVO_ID_sistema_operativo`) VALUES (1,1)");
             stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, Laboratorio_id, Software, Link_licencia, Link_descarga, Estado, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo)"
                     + " values(1,1,'Dulces', 'http//:www.Dulces.co', 'http//:www.Dulces.co/download', null, null, null, null, 1,1)");
       
             conn.commit();
-      
+            ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
+          try {
+              SistemaOperativo sof = sf.loadSistemaOperativo("Windows");
+              ArrayList<Laboratorio> labs = new ArrayList<Laboratorio>();
+              labs = (ArrayList<Laboratorio>) sf.loadLaboratorioPosible(sof);
+              for (Laboratorio lab : labs) {
+                  if(!(lab.getNombre().equalsIgnoreCase("Windows"))){
+                      fine=false;
+                  }
+              }
+          } catch (ServicesFacadeException ex) {
+              Logger.getLogger(AppTest.class.getName()).log(Level.SEVERE, null, ex);
+          }
        } catch (SQLException ex) {
            fine=false;
         }
