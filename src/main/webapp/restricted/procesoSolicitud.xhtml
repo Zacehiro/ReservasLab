@@ -16,18 +16,18 @@ and open the template in the editor.
         <h2 style="text-align: center">Solicitud de Software</h2>
         <p:separator/>
         <p:panel header="Solicitudes" style="margin-top: 30px">
-            <p:dataTable id="solAnt">
+            <p:dataTable id="solAnt" var="sol" value="#{reservasLabBackingBean.sol}">
                 <p:column headerText="Aprobado  ">
-                    <h:outputText value="jajaja"/>
+                    <h:outputText value="#{sol.estado}"/>
                 </p:column>
                 <p:column headerText="Fecha de instalación">
-                    <h:outputText value="jajaja"/>
+                    <h:outputText value="#{sol.fecha_posible}"/>
                 </p:column>
                 <p:column headerText="Fecha de Negación">
-                    <h:outputText value="jajaja"/>
+                    <h:outputText value="#{sol.fecha_resp}"/>
                 </p:column>
                 <p:column headerText="Causa">
-                    <h:outputText value="jajaja"/>
+                    <h:outputText value="#{sol.justificacion}"/>
                 </p:column>
             </p:dataTable>
         </p:panel>

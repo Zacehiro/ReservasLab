@@ -202,6 +202,9 @@ public class ServicesFacade {
     public SistemaOperativo loadSistemaOperativo(String nombre){
         df=DaoFactory.getInstance(properties);
         SistemaOperativo so = null;
+        String[] nombres = new String[100];
+        nombres = nombre.split(" ");
+        nombre =nombres[0];
         try {
             DaoSistemaOperativo dso;
             dso = df.getDaoSistemaOperativo();

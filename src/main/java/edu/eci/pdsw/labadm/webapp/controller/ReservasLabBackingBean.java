@@ -30,7 +30,7 @@ public class ReservasLabBackingBean {
     private String sistemaoperativo;
     private SistemaOperativo so;
     private ServicesFacade sf;
-    
+
     
     public ArrayList<String> getLabs() {
         return labs;
@@ -47,7 +47,6 @@ public class ReservasLabBackingBean {
         } catch (ServicesFacadeException ex) {
             Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("el tamaño es "+labs.size());
     }
 
     public ArrayList<String> getSos() {
@@ -55,7 +54,7 @@ public class ReservasLabBackingBean {
         List<SistemaOperativo> sito;
         sito = sf.getSos();
         for (int i=0; i<sito.size();i++) {
-            sos.add(sito.get(i).getNombre());
+            sos.add(sito.get(i).getNombre()+" "+sito.get(i).getVersion());
         }
         return sos;
     }
@@ -65,6 +64,12 @@ public class ReservasLabBackingBean {
     }
 
     public ArrayList<Solicitud> getSol() {
+        sf = ServicesFacade.getInstance("config.properties");
+        try {
+            sol=(ArrayList<Solicitud>) sf.loadAllSolicitud();
+        } catch (ServicesFacadeException ex) {
+            Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return sol;
     }
 
@@ -105,13 +110,25 @@ public class ReservasLabBackingBean {
     }
     
     public void onSoChange() {    
-        if(sistemaoperativo!=null){
+        if(sistemaoperativo!=null || sistemaoperativo!=""){
             sf = ServicesFacade.getInstance("config.properties");
             so=sf.loadSistemaOperativo(sistemaoperativo);
             setLabs(so);
         }
         
     }
-  
+    
+    public void saveSolicitud(){
+        try {
+            sf=ServicesFacade.getInstance("config.properties");
+            Solicitud s = new Solicitud();
+            s.setLink_descarga(linkDescarga);
+            s.setLink_licencia(linkSoftware);
+            s.setSo(so);
+            sf.saveSolicitud(s);
+        } catch (ServicesFacadeException ex) {
+            Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

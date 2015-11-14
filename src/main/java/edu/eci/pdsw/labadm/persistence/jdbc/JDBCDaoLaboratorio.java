@@ -59,7 +59,6 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
 
     @Override
     public List<Laboratorio> loadBySo(SistemaOperativo so) throws PersistenceException {
-        System.out.println("Entrooooooooooooooooooooooooooooooooooooo");
         Laboratorio lab;
         PreparedStatement ps;
         List<Laboratorio> ans=new ArrayList<>();

@@ -20,30 +20,28 @@
             <p:panel header="Formulario" style="margin-top: 10px">
                 <h:form id="solicitud">
                 <center>
-                    
                     <h:panelGrid id="panel1" columns="2" cellpadding="5">
-                    <p:outputLabel for="link" value="Link del programa: "></p:outputLabel>
-                    <p:inputText id="link"></p:inputText>
+                    <p:outputLabel for="link" value="Link licencia del programa: "></p:outputLabel>
+                    <p:inputText id="link" required="true" value="#{reservasLabBackingBean.linkSoftware}"></p:inputText>    
                     <p:outputLabel for="linkDes" value="Link de descarga: "></p:outputLabel>
-                    <p:inputText id="linkDes"></p:inputText>
+                    <p:inputText id="linkDes" required="true" value="#{reservasLabBackingBean.linkDescarga}"></p:inputText>
                     <p:selectOneMenu id="so" value="#{reservasLabBackingBean.sistemaoperativo}">
                         <p:ajax listener="#{reservasLabBackingBean.onSoChange()}" update=":solicitud:labsTable" />
                         <f:selectItem itemLabel="Selecione el Sistema Operativo" itemValue="" noSelectionOption="true"></f:selectItem>
                         <f:selectItems value="#{reservasLabBackingBean.sos}" ></f:selectItems>
                     </p:selectOneMenu>
                 </h:panelGrid>
-                    <p:commandButton id="siguiente" value="Siguiente" type="button" />
-                <p:overlayPanel id="labsPanel" for="siguiente" hideEffect="fade" dynamic="true" style="width:600px">
+                <h:panelGrid id="labsPanel"  style="width:600px">
                     <p:dataTable id="labsTable" var="labs" value="#{reservasLabBackingBean.labs}" rows="10">
                         <p:column headerText="Laboratorios disponibles para la instalación">
                             <h:outputText value="#{labs}" />
                         </p:column>
                     </p:dataTable>
-                    <p:commandButton id="cancel" type="Button" value="Cancelar" style="float: left"/>
-                    <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" style="float: right" action="procesoSolicitud"/>
-                </p:overlayPanel>
+                </h:panelGrid>
+                    <p:commandButton id="cancel" type="Button" value="Cancelar"/>
+                    <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" action="procesoSolicitud" actionListener="#{reservasLabBackingBean.saveSolicitud}"/>
                 </center>
-                
+                    <h:outputLink value="../logout" style="color: red">logout</h:outputLink>
             </h:form>
             </p:panel>
         </h:body>
