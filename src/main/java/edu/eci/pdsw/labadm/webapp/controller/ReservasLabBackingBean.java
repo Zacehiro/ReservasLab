@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 public class ReservasLabBackingBean {
     private ArrayList<String> sos = new ArrayList<String>();
     private ArrayList<Solicitud> sol;
+    private Solicitud solicitud;
     private ArrayList<String> labs = new ArrayList<String>();
     private String linkDescarga;
     private String linkSoftware;
@@ -31,6 +32,18 @@ public class ReservasLabBackingBean {
     private SistemaOperativo so;
     private ServicesFacade sf;
     
+    public void saveSolicitud(){
+        solicitud = new Solicitud();
+        solicitud.setLink_descarga(linkDescarga);
+        solicitud.setLink_licencia(linkSoftware);
+        solicitud.setSo(so);
+        sf = ServicesFacade.getInstance("config.properties");
+        try {
+            sf.saveSolicitud(solicitud);
+        } catch (ServicesFacadeException ex) {
+            Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public ArrayList<String> getLabs() {
         return labs;

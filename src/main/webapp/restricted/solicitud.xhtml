@@ -20,11 +20,15 @@
             <p:panel header="Formulario" style="margin-top: 10px">
                 <h:form id="solicitud">
                 <center>
-                    <h:panelGrid id="panel1" columns="2" cellpadding="5">
+                    <h:panelGrid id="panel1" columns="3" cellpadding="5">
                     <p:outputLabel for="link" value="Link licencia del programa: "></p:outputLabel>
-                    <p:inputText id="link" required="true" value="#{reservasLabBackingBean.linkSoftware}"></p:inputText>    
+                    <p:inputText id="link" required="true" value="#{reservasLabBackingBean.linkSoftware}"></p:inputText>
+                    <p:message for="link" display="text" />
+                    
                     <p:outputLabel for="linkDes" value="Link de descarga: "></p:outputLabel>
                     <p:inputText id="linkDes" required="true" value="#{reservasLabBackingBean.linkDescarga}"></p:inputText>
+                    <p:message for="linkDes" display="text" />
+                    
                     <p:selectOneMenu id="so" value="#{reservasLabBackingBean.sistemaoperativo}">
                         <p:ajax listener="#{reservasLabBackingBean.onSoChange()}" update=":solicitud:labsTable" />
                         <f:selectItem itemLabel="Selecione el Sistema Operativo" itemValue="" noSelectionOption="true"></f:selectItem>
@@ -38,8 +42,8 @@
                         </p:column>
                     </p:dataTable>
                 </h:panelGrid>
-                    <p:commandButton id="cancel" type="Button" value="Cancelar"/>
-                    <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" action="procesoSolicitud" actionListener="#{reservasLabBackingBean.saveSolicitud}"/>
+                    <p:commandButton id="cancel" type="Button" value="Cancelar" action="index"/>
+                    <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" action="procesoSolicitud" actionListener="#{reservasLabBackingBean.saveSolicitud }" update="panel1" />
                 </center>
                     <h:outputLink value="../logout" style="color: red">logout</h:outputLink>
             </h:form>
