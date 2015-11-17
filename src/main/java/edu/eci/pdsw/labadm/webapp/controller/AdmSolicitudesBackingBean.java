@@ -29,7 +29,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
     private String justificacion;
 
     public AdmSolicitudesBackingBean() {
-        justificacion="";
+        justificacion=null;
         fechaRealiz=null;
         resp= false;
         solselc =null;
@@ -90,7 +90,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public void addMessage() {
         String summary = resp ? "Solicitud Aprobada" : "Solicitud Negada";
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
-        this.justificacion="";
+        this.justificacion=null;
         this.fechaRealiz=null;
     }
 }
