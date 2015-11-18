@@ -27,6 +27,10 @@ public class Software {
         this.version=version;
         this.id=id;
     }
+    
+    public Software(){
+        
+    }
 
     public String getNombre() {
         return nombre;

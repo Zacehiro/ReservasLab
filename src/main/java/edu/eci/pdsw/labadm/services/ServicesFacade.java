@@ -145,10 +145,11 @@ public class ServicesFacade {
      */
     public List<Solicitud> loadSolicitudResp() throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
+        List<Solicitud> sol = new ArrayList<Solicitud>();
         DaoSolicitud ds;
         try {
             ds = df.getDaoSolicitud();
-            return ds.loadWithAnswer();
+            sol=ds.loadWithAnswer();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
@@ -156,6 +157,7 @@ public class ServicesFacade {
                 throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
             }
         }
+        return sol;
     }
 
     /**
