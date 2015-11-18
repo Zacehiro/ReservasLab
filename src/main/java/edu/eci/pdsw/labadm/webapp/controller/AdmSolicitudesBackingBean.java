@@ -27,7 +27,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
     private boolean resp;
     private Date fechaRealiz;
     private String justificacion;
-
+    
     public AdmSolicitudesBackingBean() {
         justificacion=null;
         fechaRealiz=null;
@@ -90,6 +90,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public void setJustificacion(String justificacion) {
         this.justificacion = justificacion;
     }
+    
     
     public void clearData() {
         this.justificacion=null;

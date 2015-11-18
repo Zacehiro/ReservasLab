@@ -78,7 +78,7 @@ public class ReservasLabBackingBean {
         List<SistemaOperativo> sito;
         sito = sf.getSos();
         for (int i=0; i<sito.size();i++) {
-            sos.add(sito.get(i).getNombre());
+            sos.add(sito.get(i).getNombre()+" Ver: "+sito.get(i).getVersion());
         }
         return sos;
     }
