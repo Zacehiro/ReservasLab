@@ -28,6 +28,11 @@ public class Laboratorio {
         sos=new ArrayList<SistemaOperativo>();
         software= new ArrayList<Software>();
     }
+    
+    public Laboratorio (){
+        sos=new ArrayList<SistemaOperativo>();
+        software= new ArrayList<Software>();
+    }
 
     public String getNombre() {
         return nombre;

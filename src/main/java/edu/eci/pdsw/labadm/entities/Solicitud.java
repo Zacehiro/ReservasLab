@@ -54,7 +54,17 @@ public class Solicitud {
     }
     
     public Solicitud(){
-        
+        estado=null;
+        fecha_posible=null;
+        fecha_rad=null;
+        fecha_resp=null;
+        justificacion=null;
+        link_descarga=null;
+        link_licencia=null;
+        software=new Software();
+        laboratorio=new Laboratorio();
+        so=null;
+        usuario=null;
     }
     
     public Laboratorio getLaboratorio() {

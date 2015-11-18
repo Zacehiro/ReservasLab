@@ -7,10 +7,13 @@ package edu.eci.pdsw.labadm.webapp.controller;
 
 import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
+import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
+import edu.eci.pdsw.labadm.entities.Usuario;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,13 +34,17 @@ public class ReservasLabBackingBean {
     private String sistemaoperativo;
     private SistemaOperativo so;
     private ServicesFacade sf;
+    private final Usuario usr = new Usuario(1, "Edwin", "edwin.ceron@mail", 1);
     
     public void saveSolicitud(){
-        solicitud = new Solicitud();
-        solicitud.setLink_descarga(linkDescarga);
-        solicitud.setLink_licencia(linkSoftware);
-        solicitud.setSo(so);
         sf = ServicesFacade.getInstance("config.properties");
+        solicitud = new Solicitud();
+        solicitud.setFecha_rad(new Date());
+        solicitud.setLink_descarga(linkDescarga);
+        solicitud.setUsuario(usr);
+        solicitud.setLink_licencia(linkSoftware);
+        so=sf.loadSistemaOperativo(sistemaoperativo);
+        solicitud.setSo(so);
         try {
             sf.saveSolicitud(solicitud);
         } catch (ServicesFacadeException ex) {
