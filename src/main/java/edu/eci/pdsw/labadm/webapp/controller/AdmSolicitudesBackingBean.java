@@ -43,6 +43,10 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public List<Solicitud> getSolicitudes() throws ServicesFacadeException{
         return ServicesFacade.getInstance("config.properties").loadSolicitudSinResp();
     }
+    //trae todas las solicitudes atendidas
+    public List<Solicitud> getSolicitudesAtendidas() throws ServicesFacadeException{
+        return ServicesFacade.getInstance("config.properties").loadSolicitudResp();
+    }
     
     public void nuevaRespuesta() throws ServicesFacadeException{
         if(resp){
@@ -87,9 +91,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
         this.justificacion = justificacion;
     }
     
-    public void addMessage() {
-        String summary = resp ? "Solicitud Aprobada" : "Solicitud Negada";
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+    public void clearData() {
         this.justificacion=null;
         this.fechaRealiz=null;
     }

@@ -37,22 +37,29 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
     public void save(Solicitud s) throws PersistenceException {
         PreparedStatement ps;
         try {
+            //Autogenerar ID
+            ps=con.prepareStatement("SELECT COUNT(*) AS cantidad FROM SOLICITUD");
+            ResultSet rs=ps.executeQuery();
+            rs.next();
+            int id=rs.getInt("cantidad")+1;
+            s.setId(id);
+            //......
             ps=con.prepareStatement("INSERT INTO `SOLICITUD`(`ID_solicitud`, `Laboratorio_id`, `ID_software`, `Link_licencia`, "
                     + "`Link_descarga`, `Estado`, `Fecha_radicacion`, `Fecha_posible_instalacion`, `Fecha_respuesta`, `Justificacion`, `Usuario_id`, `ID_sistema_operativo`) "
-                    + " VALUES (null,?,?,?,?,?,?,?,?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, s.getLaboratorio().getId());
-            ps.setInt(2, s.getSoftware().getId());
-            ps.setString(3, s.getLink_licencia());
-            ps.setString(4, s.getLink_descarga());
-            ps.setString(5, s.getEstado());
-            ps.setDate(6, new java.sql.Date(s.getFecha_rad().getTime()));
-            ps.setDate(7,(s.getFecha_posible()==null)? null:new java.sql.Date(s.getFecha_posible().getTime()));
-            ps.setDate(8,(s.getFecha_resp()==null)? null:new java.sql.Date(s.getFecha_resp().getTime()));
-            ps.setString(9, s.getJustificacion());
-            ps.setInt(10, s.getUsuario().getId());
-            ps.setInt(11, s.getSo().getId());
-            ps.executeUpdate();
-            System.out.println("termino!!!!!!!!!!!!!!!!!");
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+            ps.setInt(1, s.getId());
+            ps.setInt(2, s.getLaboratorio().getId());
+            ps.setInt(3, s.getSoftware().getId());
+            ps.setString(4, s.getLink_licencia());
+            ps.setString(5, s.getLink_descarga());
+            ps.setString(6, s.getEstado());
+            ps.setDate(7, new java.sql.Date(s.getFecha_rad().getTime()));
+            ps.setDate(8,(s.getFecha_posible()==null)? null:new java.sql.Date(s.getFecha_posible().getTime()));
+            ps.setDate(9,(s.getFecha_resp()==null)? null:new java.sql.Date(s.getFecha_resp().getTime()));
+            ps.setString(10, s.getJustificacion());
+            ps.setInt(11, s.getUsuario().getId());
+            ps.setInt(12, s.getSo().getId());
+            ps.execute();
             con.commit();
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while saving.", ex);

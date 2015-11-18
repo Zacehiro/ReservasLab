@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class Solicitud {
     private int id;
+
+    
     private Software software;
     private String link_licencia;
     private String link_descarga;
@@ -51,6 +53,10 @@ public class Solicitud {
     
     public int getId() {
         return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
     }
     
     public Solicitud(){

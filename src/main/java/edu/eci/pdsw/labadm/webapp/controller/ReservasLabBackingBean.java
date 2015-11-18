@@ -45,6 +45,10 @@ public class ReservasLabBackingBean {
         solicitud.setLink_licencia(linkSoftware);
         so=sf.loadSistemaOperativo(sistemaoperativo);
         solicitud.setSo(so);
+        ///Agregado por Felipe (Aca se asignan de acuerdo a un listado que se le muestra al usuario de laboratorios y softwares)
+        solicitud.setLaboratorio(new Laboratorio("www.goo.com", 1, 13, true));
+        solicitud.setSoftware(new Software("Audacity", "www.goog.com", 1));
+        ///.....
         try {
             sf.saveSolicitud(solicitud);
         } catch (ServicesFacadeException ex) {

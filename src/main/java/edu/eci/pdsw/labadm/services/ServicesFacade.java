@@ -79,10 +79,10 @@ public class ServicesFacade {
             if(s.getLink_licencia().contains(".") && s.getLink_descarga().contains(".")){
                 ds.save(s);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                throw new ServicesFacadeException(ServicesFacadeException.WRONG_LINK_TYPED);
             }
         }catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
     }
     
@@ -131,9 +131,9 @@ public class ServicesFacade {
             return ds.loadAll();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
-                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
             }
         }
     }
