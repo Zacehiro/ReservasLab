@@ -151,9 +151,9 @@ public class ServicesFacade {
             return ds.loadWithAnswer();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
-                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
             }
         }
     }
@@ -171,9 +171,9 @@ public class ServicesFacade {
             return ds.loadWithoutAnswer();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
-                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
             }
         }
     }
@@ -192,9 +192,9 @@ public class ServicesFacade {
             return ds.loadSolicitud(id);
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
-                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY);
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
             }else{
-                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
             }
         }
     }
@@ -213,7 +213,7 @@ public class ServicesFacade {
             DaoSolicitud ds=df.getDaoSolicitud();
             ds.delete(sol);
         } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
     }
     
