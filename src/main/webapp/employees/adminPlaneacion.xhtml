@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Responder Solicitudes Software</title>
+</h:head>
+<body>
+    <div align="center">
+    <p:graphicImage value="Imagenes/Fondo2.png" />
+    </div>
+    <hr align="center">
+    <h2 style="text-align: center">Solicitudes pendientes por Realizar</h2>
+    <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>
+    </hr>
+    <h:body>
+        <h:form id="todo" >
+            <p:dataTable id="sol" var="sol" value="#{BeanAdmin.SolicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
+                <f:facet name="header">
+                    Solicitudes pendientes 
+                </f:facet>
+                <p:column headerText="Fecha de radicación">
+                    <h:outputText value="#{sol.fecha_rad}"/>
+                </p:column>
+                <p:column headerText="Laboratorio">
+                    <h:outputText value="#{sol.laboratorio.nombre}"/>
+                </p:column>
+                <p:column headerText="Software">
+                    <h:outputText value="#{sol.software.nombre}"/>
+                </p:column>
+                <p:column headerText="Link Licencia">
+                    <h:outputText value="#{sol.link_licencia}"/>
+                </p:column>
+                <p:column headerText="Link Descarga">
+                    <h:outputText value="#{sol.link_descarga}"/>
+                </p:column>
+                <p:column headerText="Estado de Instalación">
+                    <h:outputText value="#{sol.estado}"/>
+                </p:column>
+                
+            </p:dataTable>
+            
+            <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
+        </h:form>
+        
+    </h:body>
+</body>
+</html>

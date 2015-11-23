@@ -4,15 +4,21 @@
 <h:head>
 </h:head>
 <h:body>
-    <h1>Acceso a Empleados</h1>
-    <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>
     <h:form id="inicio">
-        <h:panelGrid id="panelBotones">
-            <center>
+        <p:fieldset legend="Acceso a Monitores" style="margin-bottom:30px">
+        <div align="center">
+            
+            <h:panelGrid columns="1" cellpadding="5">
+                <p:graphicImage value="Imagenes/Escudo.JPG"/>
                 <p:commandButton id="botonDarRespuesta" value="Realiza una Respuesta de Solicitud" action="adminSolicitud"/>
-            </center>
-        </h:panelGrid>
-    </h:form>   
+                <p:commandButton id="botonActividadesRealizar" value="Realiza una Solucion a Solicitud" action="adminPlaneacion"/>
+
+                </h:panelGrid>
+            
+        </div>
+        </p:fieldset>
+    <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>     
+    </h:form> 
         
     
 </h:body>
