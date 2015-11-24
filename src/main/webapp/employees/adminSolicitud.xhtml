@@ -13,19 +13,21 @@
     </div>
     <hr align="center">
     <h2 style="text-align: center">Responder Solicitudes Software</h2>
+    
     <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>
+    
     </hr>
     <h:body>
         <h:form id="todo">
+            <div align="right">
+            <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
+            </div>
             <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudes}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
                 <f:facet name="header">
                     Solicitudes sin Responder
                 </f:facet>
                 <p:column headerText="Fecha de radicacion">
                     <h:outputText value="#{sol.fecha_rad}"/>
-                </p:column>
-                <p:column headerText="Laboratorio">
-                    <h:outputText value="#{sol.laboratorio.nombre}"/>
                 </p:column>
                 <p:column headerText="Software">
                     <h:outputText value="#{sol.software.nombre}"/>
@@ -37,7 +39,9 @@
                     <h:outputText value="#{sol.link_descarga}"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton id="sel" value="Seleccionar" update="todo"/>
+            <div align="center">
+                <p:commandButton id="sel" value="Seleccionar" update="todo"/>
+            </div>
             <p:panel id="panel1" visible="#{beanAdmin.selected}" header="Formulario" style="margin-top: 10px">
                 <h:panelGrid columns="2" cellpadding="5">
                     <p:outputLabel for="restricted" value="Aprobacion de la solicitud:" />
@@ -50,14 +54,12 @@
                     <p:inputTextarea rows="6" cols="33" value="#{beanAdmin.justificacion}" disabled="#{beanAdmin.resp}"/>
                 </h:panelGrid>
                 <p:commandButton id="respuesta" value="Aceptar" actionListener="#{beanAdmin.nuevaRespuesta}" update="todo"/>
+                
             </p:panel>
             <p:dataTable id="sol2" var="sol2" value="#{beanAdmin.solicitudesAtendidas}" rowKey="#{sol2.id}">
                 <f:facet name="header">
-                    Solicitudes Respondidas
+                    Solicitudes con Respuesta
                 </f:facet>
-                <p:column headerText="Laboratorio">
-                    <h:outputText value="#{sol2.laboratorio.nombre}"/>
-                </p:column>
                 <p:column headerText="Software">
                     <h:outputText value="#{sol2.software.nombre}"/>
                 </p:column>
@@ -77,6 +79,7 @@
                     <h:outputText value="#{sol2.justificacion}"/>
                 </p:column>
             </p:dataTable>
+            
         </h:form>
     </h:body>
 </body>
