@@ -23,15 +23,12 @@
         
         <h:form id="todo" >
             <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
-            <p:dataTable id="sol" var="sol" value="#{BeanAdmin.SolicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
+            <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
                 <f:facet name="header">
                     Solicitudes pendientes 
                 </f:facet>
                 <p:column headerText="Fecha de radicación">
                     <h:outputText value="#{sol.fecha_rad}"/>
-                </p:column>
-                <p:column headerText="Laboratorio">
-                    <h:outputText value="#{sol.laboratorio.nombre}"/>
                 </p:column>
                 <p:column headerText="Software">
                     <h:outputText value="#{sol.software.nombre}"/>
@@ -43,7 +40,7 @@
                     <h:outputText value="#{sol.link_descarga}"/>
                 </p:column>
                 <p:column headerText="Estado de Instalación">
-                    <h:outputText value="#{sol.estado}"/>
+                    <h:outputText value="#{sol.software_instalado}"/>
                 </p:column>
                 
             </p:dataTable>
