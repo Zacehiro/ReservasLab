@@ -46,7 +46,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             //......
             ps=con.prepareStatement("INSERT INTO `SOLICITUD`(`ID_solicitud`, `ID_software`, `Link_licencia`, "
                     + "`Link_descarga`, `Estado`, `Fecha_radicacion`, `Fecha_posible_instalacion`, `Fecha_respuesta`, `Justificacion`, `Usuario_id`, `ID_sistema_operativo`) "
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1, s.getId());
             ps.setInt(2, s.getSoftware().getId());
             ps.setString(3, s.getLink_licencia());
@@ -90,7 +90,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         try {
             ps=con.prepareStatement("INSERT INTO `SOLICITUD`(`ID_solicitud`, `ID_software`, `Link_licencia`, `Link_descarga`,"+
                                     " `Estado`, `Fecha_radicacion`, `Fecha_posible_instalacion`, `Fecha_respuesta`, `Justificacion`,"+
-                                    " `Usuario_id`,`ID_sistema_operativo`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                                    " `Usuario_id`,`ID_sistema_operativo`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
             ps.setInt(1,s.getId());
             ps.setInt(2, s.getSoftware().getId());
             ps.setString(3, s.getLink_licencia());
