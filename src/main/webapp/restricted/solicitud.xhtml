@@ -38,7 +38,7 @@
                 <h:panelGrid id="labsPanel"  style="width:600px">
                     <p:dataTable id="labsTable" var="labs" value="#{reservasLabBackingBean.labs}" rows="10">
                         <p:column headerText="Laboratorios disponibles para la instalación">
-                            <h:outputText value="#{labs}" />
+                            <h:outputText value="#{labs.nombre}" />
                         </p:column>
                     </p:dataTable>
                 </h:panelGrid>

@@ -28,13 +28,14 @@ public class ReservasLabBackingBean {
     private ArrayList<String> sos = new ArrayList<String>();
     private ArrayList<Solicitud> sol;
     private Solicitud solicitud;
-    private ArrayList<String> labs = new ArrayList<String>();
+    private List<Laboratorio> labs = new ArrayList<Laboratorio>();
     private String linkDescarga;
     private String linkSoftware;
     private String sistemaoperativo;
     private SistemaOperativo so;
     private ServicesFacade sf;
     private final Usuario usr = new Usuario(1, "Edwin", "edwin.ceron@mail", 1);
+
     
     public void saveSolicitud(){
         sf = ServicesFacade.getInstance("config.properties");
@@ -46,7 +47,7 @@ public class ReservasLabBackingBean {
         so=sf.loadSistemaOperativo(sistemaoperativo);
         solicitud.setSo(so);
         ///Agregado por Felipe (Aca se asignan de acuerdo a un listado que se le muestra al usuario de laboratorios y softwares)
-        solicitud.setLaboratorio(new Laboratorio("www.goo.com", 1, 13, true));
+        solicitud.setLaboratorio(new Laboratorio());
         solicitud.setSoftware(new Software("Audacity", "www.goog.com", 1));
         ///.....
         try {
@@ -56,18 +57,14 @@ public class ReservasLabBackingBean {
         }
     }
     
-    public ArrayList<String> getLabs() {
+    public List<Laboratorio> getLabs() {
         return labs;
     }
 
     public void setLabs(SistemaOperativo so) {
         sf = ServicesFacade.getInstance("config.properties");
-        List<Laboratorio> lab = new ArrayList<Laboratorio>();
         try {
-            lab = sf.loadLaboratorioPosible(so);
-            for(int i =0; i<lab.size();i++){
-                labs.add(lab.get(i).getNombre());
-            }
+            labs = sf.loadLaboratorioPosible(so);
         } catch (ServicesFacadeException ex) {
             Logger.getLogger(ReservasLabBackingBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +75,7 @@ public class ReservasLabBackingBean {
         List<SistemaOperativo> sito;
         sito = sf.getSos();
         for (int i=0; i<sito.size();i++) {
-            sos.add(sito.get(i).getNombre()+" Ver: "+sito.get(i).getVersion());
+            sos.add(sito.get(i).getNombre()+" "+sito.get(i).getVersion());
         }
         return sos;
     }
@@ -136,7 +133,9 @@ public class ReservasLabBackingBean {
     public void onSoChange() {    
         if(sistemaoperativo!=null){
             sf = ServicesFacade.getInstance("config.properties");
-            so=sf.loadSistemaOperativo(sistemaoperativo);
+            String [] siso = sistemaoperativo.split(" ");
+            //agregar la version a la consulta
+            so=sf.loadSistemaOperativo(siso[0]);
             setLabs(so);
         }
         
