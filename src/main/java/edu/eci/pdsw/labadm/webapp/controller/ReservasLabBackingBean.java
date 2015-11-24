@@ -151,7 +151,6 @@ public class ReservasLabBackingBean {
         if(sistemaoperativo!=null){
             sf = ServicesFacade.getInstance("config.properties");
             String [] siso = sistemaoperativo.split(" ");
-            //agregar la version a la consulta
             so=sf.loadSistemaOperativo(siso[0], siso[1]);
             setLabs(so);
         }

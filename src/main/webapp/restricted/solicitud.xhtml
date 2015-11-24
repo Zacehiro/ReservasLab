@@ -39,7 +39,7 @@
                     <p:message for="linkDes" display="text" />
                     
                     <p:selectOneMenu id="so" value="#{reservasLabBackingBean.sistemaoperativo}">
-                        <p:ajax listener="#{reservasLabBackingBean.onSoChange()}" update=":solicitud:labsTable" />
+                        <p:ajax listener="#{reservasLabBackingBean.onSoChange}" update=":solicitud:labsTable" />
                         <f:selectItem itemLabel="Selecione el Sistema Operativo" itemValue="" noSelectionOption="true"></f:selectItem>
                         <f:selectItems value="#{reservasLabBackingBean.sos}" ></f:selectItems>
                     </p:selectOneMenu>
