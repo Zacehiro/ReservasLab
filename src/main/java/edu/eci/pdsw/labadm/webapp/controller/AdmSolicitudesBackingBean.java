@@ -38,6 +38,9 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public boolean isSelected(){
         return solselc!=null;
     }
+    public boolean selectedCambio(){
+        return solselc==null;
+    }
     
     //trae todas las solicitudes que no han sido atendidas
     public List<Solicitud> getSolicitudes() throws ServicesFacadeException{
