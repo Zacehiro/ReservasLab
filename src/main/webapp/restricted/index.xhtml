@@ -4,18 +4,20 @@
 <h:head>
 </h:head>
 <h:body>
-    <center>
-        <h1>Se ha autenticado como profesor</h1>
-        <h2>Opciones</h2>
-    </center>
-    <h:outputLink value="../logout" style="color: red; alignment-adjust: central">Cerrar Sesión</h:outputLink>
+    
     <h:form id="inicio">
-        <h:panelGrid id="panelBotones">
-            <center>
+        <p:fieldset legend="Acceso a Profesores" style="margin-bottom:30px">
+        <div align="center">
+            
+            <h:panelGrid columns="1" cellpadding="5">
+                <p:graphicImage value="Imagenes/Escudo.JPG"/>
                 <p:commandButton id="botonRegistro" value="Realiza una solicitud" action="solicitud"/>
                 <p:commandButton id="botonConsulta" value="Consultar solicitudes" action="procesoSolicitud"/>
-            </center>
-        </h:panelGrid>
+
+            </h:panelGrid>
+        </div>
+        </p:fieldset>
+        <h:outputLink value="../logout" style="color: red; alignment-adjust: central">Cerrar Sesión</h:outputLink>
     </h:form>   
 </h:body>
 </html>
