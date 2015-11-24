@@ -80,12 +80,13 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
     }
     
     @Override
-    public SistemaOperativo loadSo(String nombre) throws PersistenceException{
+    public SistemaOperativo loadSo(String nombre, String version) throws PersistenceException{
         SistemaOperativo so;
         PreparedStatement ps;
         try {
-            ps = con.prepareStatement("SELECT * FROM `SISTEMA_OPERATIVO` WHERE nombre = ?");
+            ps = con.prepareStatement("SELECT * FROM `SISTEMA_OPERATIVO` WHERE nombre = ? AND version = ?");
             ps.setString(1, nombre);
+            ps.setString(2, version);
             ResultSet rs=ps.executeQuery();
             if (!rs.next()){
                 throw new PersistenceException("No IOs found.");

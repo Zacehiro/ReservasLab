@@ -32,24 +32,41 @@ public class ReservasLabBackingBean {
     private String linkDescarga;
     private String linkSoftware;
     private String sistemaoperativo;
+    private String nombre;
+    private String version;
     private SistemaOperativo so;
     private ServicesFacade sf;
     private final Usuario usr = new Usuario(1, "Edwin", "edwin.ceron@mail", 1);
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
     
     public void saveSolicitud(){
         sf = ServicesFacade.getInstance("config.properties");
         solicitud = new Solicitud();
+        Software soft =new Software(nombre, version);
+        sf.saveSoftware(soft);
         solicitud.setFecha_rad(new Date());
         solicitud.setLink_descarga(linkDescarga);
         solicitud.setUsuario(usr);
         solicitud.setLink_licencia(linkSoftware);
-        so=sf.loadSistemaOperativo(sistemaoperativo);
+        String [] siso = sistemaoperativo.split(" ");
+        so=sf.loadSistemaOperativo(siso[0],siso[1]);
         solicitud.setSo(so);
-        ///Agregado por Felipe (Aca se asignan de acuerdo a un listado que se le muestra al usuario de laboratorios y softwares)
-        solicitud.setLaboratorio(new Laboratorio());
-        solicitud.setSoftware(new Software("Audacity", "www.goog.com", 1));
-        ///.....
+        solicitud.setSoftware(soft);
         try {
             sf.saveSolicitud(solicitud);
         } catch (ServicesFacadeException ex) {
@@ -135,7 +152,7 @@ public class ReservasLabBackingBean {
             sf = ServicesFacade.getInstance("config.properties");
             String [] siso = sistemaoperativo.split(" ");
             //agregar la version a la consulta
-            so=sf.loadSistemaOperativo(siso[0]);
+            so=sf.loadSistemaOperativo(siso[0], siso[1]);
             setLabs(so);
         }
         

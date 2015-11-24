@@ -28,6 +28,11 @@ public class Software {
         this.id=id;
     }
     
+    public Software(String nombre, String version){
+        this.nombre=nombre;
+        this.version=version;
+    }
+    
     public Software(){
         
     }

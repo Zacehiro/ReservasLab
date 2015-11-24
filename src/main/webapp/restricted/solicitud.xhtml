@@ -21,6 +21,15 @@
                 <h:form id="solicitud">
                 <center>
                     <h:panelGrid id="panel1" columns="3" cellpadding="5">
+                        
+                    <p:outputLabel for="nombre" value="Nombre del programa: "></p:outputLabel>
+                    <p:inputText id="nombre" required="true" value="#{reservasLabBackingBean.nombre}"></p:inputText>
+                    <p:message for="nombre" display="text" />
+                    
+                    <p:outputLabel for="version" value="Version del programa: "></p:outputLabel>
+                    <p:inputText id="version" required="true" value="#{reservasLabBackingBean.version}"></p:inputText>
+                    <p:message for="version" display="text" />
+                        
                     <p:outputLabel for="link" value="Link licencia del programa: "></p:outputLabel>
                     <p:inputText id="link" required="true" value="#{reservasLabBackingBean.linkSoftware}"></p:inputText>
                     <p:message for="link" display="text" />

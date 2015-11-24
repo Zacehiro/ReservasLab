@@ -4,7 +4,6 @@ import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
-import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.labadm.services.ServicesFacade;
 import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.sql.Connection;
@@ -18,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Assert;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 
 import org.junit.Test;
@@ -133,7 +131,7 @@ public class AppTest {
             conn.commit();
             ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
           try {
-              SistemaOperativo sof = sf.loadSistemaOperativo("Windows");
+              SistemaOperativo sof = sf.loadSistemaOperativo("Windows","8.1");
               ArrayList<Laboratorio> labs = new ArrayList<Laboratorio>();
               labs = (ArrayList<Laboratorio>) sf.loadLaboratorioPosible(sof);
               for (Laboratorio lab : labs) {

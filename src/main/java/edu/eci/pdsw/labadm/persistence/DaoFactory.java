@@ -17,16 +17,7 @@
 package edu.eci.pdsw.labadm.persistence;
 
 import edu.eci.pdsw.labadm.persistence.factory.JDBCDaoFactory;
-import edu.eci.pdsw.labadm.persistence.factory.MyBatisMapperFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author hcadavid
@@ -58,6 +49,8 @@ public abstract class DaoFactory {
     public abstract DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException;
     
     public abstract DaoUsuario getDaoUsuario() throws PersistenceException;
+    
+    public abstract DaoSoftware getDaoSoftware() throws PersistenceException;
     
     public abstract DaoSolicitud getDaoSolicitud() throws PersistenceException;
     

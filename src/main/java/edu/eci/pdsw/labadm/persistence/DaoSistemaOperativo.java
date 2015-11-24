@@ -17,5 +17,5 @@ public interface DaoSistemaOperativo {
         public void save(SistemaOperativo s) throws PersistenceException;
         public void Update(SistemaOperativo s) throws PersistenceException;
         public List<SistemaOperativo> loadAll() throws PersistenceException;
-        public SistemaOperativo loadSo(String nombre) throws PersistenceException;
+        public SistemaOperativo loadSo(String nombre, String version) throws PersistenceException;
 }

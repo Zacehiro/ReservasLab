@@ -20,9 +20,11 @@ import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoUsuario;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
+import edu.eci.pdsw.labadm.persistence.DaoSoftware;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoLaboratorio;
+import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoSoftware;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaoUsuario;
 import edu.eci.pdsw.labadm.persistence.jdbc.JDBCDaosistemaoperativo;
@@ -137,6 +139,12 @@ public class JDBCDaoFactory extends DaoFactory {
     public DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException {
         this.beginSession();
         return new JDBCDaosistemaoperativo(connectionInstance.get());
+    }
+
+    @Override
+    public DaoSoftware getDaoSoftware() throws PersistenceException {
+        this.beginSession();
+        return new JDBCDaoSoftware(connectionInstance.get());
     }
 
 }

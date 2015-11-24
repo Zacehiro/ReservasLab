@@ -9,17 +9,15 @@ import edu.eci.pdsw.labadm.entities.Laboratorio;
 import edu.eci.pdsw.labadm.entities.SistemaOperativo;
 import edu.eci.pdsw.labadm.entities.Software;
 import edu.eci.pdsw.labadm.entities.Solicitud;
-import edu.eci.pdsw.labadm.entities.Usuario;
 import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
+import edu.eci.pdsw.labadm.persistence.DaoSoftware;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -219,24 +217,27 @@ public class ServicesFacade {
         }
     }
     
-    public SistemaOperativo loadSistemaOperativo(String nombre){
+    public SistemaOperativo loadSistemaOperativo(String nombre, String version){
         df=DaoFactory.getInstance(properties);
         SistemaOperativo so = null;
         try {
             DaoSistemaOperativo dso;
             dso = df.getDaoSistemaOperativo();
-            so=dso.loadSo(nombre);
+            so=dso.loadSo(nombre, version);
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return so;
     }
-    /**
-     * Retorna Solicitudes con Respuesta y que han sido aprovadas
-     * @return Lista con Solicitudes con respuesta y aceptadas
-     * @throws ServicesFacadeException Error de lectura en Base de Datos
-     */
-    public List<Solicitud> loadSolicitudRespAcep() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public void saveSoftware(Software sof){
+        df = DaoFactory.getInstance(properties);
+        try {
+            DaoSoftware dsf;
+            dsf = df.getDaoSoftware();
+            dsf.save(sof);
+        } catch (PersistenceException ex) {
+            Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

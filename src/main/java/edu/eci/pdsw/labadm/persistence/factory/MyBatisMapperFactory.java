@@ -9,13 +9,11 @@ import edu.eci.pdsw.labadm.persistence.DaoFactory;
 import edu.eci.pdsw.labadm.persistence.DaoUsuario;
 import edu.eci.pdsw.labadm.persistence.DaoLaboratorio;
 import edu.eci.pdsw.labadm.persistence.DaoSistemaOperativo;
+import edu.eci.pdsw.labadm.persistence.DaoSoftware;
 import edu.eci.pdsw.labadm.persistence.DaoSolicitud;
 import edu.eci.pdsw.labadm.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -82,6 +80,11 @@ public class MyBatisMapperFactory extends DaoFactory {
 
     @Override
     public DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public DaoSoftware getDaoSoftware() throws PersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
