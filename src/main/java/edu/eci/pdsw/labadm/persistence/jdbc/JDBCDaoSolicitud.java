@@ -193,7 +193,7 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
 
     @Override
     public List<Solicitud> loadWithAnswer() throws PersistenceException {
-       Solicitud sol;
+        Solicitud sol;
         PreparedStatement ps;
         List<Solicitud> ans=new ArrayList<>();
         try {
@@ -221,7 +221,30 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
 
     @Override
     public List<Solicitud> loadAppproved() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Solicitud sol;
+        PreparedStatement ps;
+        List<Solicitud> ans=new ArrayList<>();
+        try {
+            ps = con.prepareStatement("SELECT solicitud.ID_solicitud AS id_solicitud, solicitud.Link_licencia AS licencia, solicitud.Link_descarga AS descarga, solicitud.Estado AS estado,solicitud.Fecha_radicacion AS fecha_rad, solicitud.Fecha_posible_instalacion AS fecha_instalacion,solicitud.Fecha_respuesta AS fecha_resp, solicitud.Justificacion AS justificacion,solicitud.Software_instalado AS software_ins,usuario.ID_Usuario AS id_usuario, usuario.nombre AS usuario_nombre, usuario.email AS email, usuario.tipo_usuario AS tipo_us, sistemaop.ID_sistema_operativo AS id_so, sistemaop.nombre AS so_nombre, sistemaop.version AS so_version,software.ID_software AS software_id, software.nombre AS soft_nombre, software.version AS soft_version FROM SOLICITUD AS solicitud JOIN USUARIO AS usuario ON solicitud.Usuario_id=usuario.ID_usuario JOIN SISTEMA_OPERATIVO AS sistemaop ON sistemaop.ID_sistema_operativo=solicitud.ID_sistema_operativo JOIN SOFTWARE AS software ON solicitud.ID_software = software.ID_software WHERE solicitud.Software_instalado=? ORDER BY solicitud.Fecha_Radicacion DESC");
+            ps.setInt(1, 0);
+            ResultSet rs=ps.executeQuery();
+            rs.next();
+            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+            sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),sos,u,rs.getBoolean("software_ins"));
+            ans.add(sol);
+            while (rs.next()){
+                u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+                sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),sos,u,rs.getBoolean("software_ins"));
+                ans.add(sol);
+            }
+        } catch (SQLException ex) {
+            throw new PersistenceException("An error ocurred while loading a request.",ex);
+        }
+        return ans;
     }
  
 }
