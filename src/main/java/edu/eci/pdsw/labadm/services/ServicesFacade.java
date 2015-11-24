@@ -199,12 +199,19 @@ public class ServicesFacade {
         }
     }
     
-    /**
-     * Carga todos los sistemas operativos que estan vigentes en los laboratorios.
-     * @return ArrayList<SistemaOperativo> lista con los sistemas operativos 
-     */
-    public ArrayList<SistemaOperativo> loadAllSo(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Solicitud> loadSolicitudSinInstalar() throws ServicesFacadeException{
+        df= DaoFactory.getInstance(properties);
+        DaoSolicitud ds;
+        try {
+            ds=df.getDaoSolicitud();
+            return ds.loadAppproved();
+        } catch (PersistenceException ex) {
+            if(ex.getMessage().equals("No requests found.")){
+                throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
+            }else{
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
+            }
+        }
     }
     
     public void deleteSolicitud(int sol) throws ServicesFacadeException{

@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 @ApplicationScoped
 public class AdmSolicitudesBackingBean implements Serializable{    
     private Solicitud solselc ; 
+    private Solicitud solselc2; 
     private boolean resp;
     private Date fechaRealiz;
     private String justificacion;
@@ -52,7 +53,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
     }
     //tre todas las solicitudes que ya fueron atendidas y aceptadas
     public List<Solicitud> getSolicitudesAceptadas() throws ServicesFacadeException{
-        return ServicesFacade.getInstance("config.properties").loadSolicitudResp();
+        return ServicesFacade.getInstance("config.properties").loadSolicitudSinInstalar();
     }
     public void nuevaRespuesta() throws ServicesFacadeException{
         if(resp){
@@ -64,6 +65,20 @@ public class AdmSolicitudesBackingBean implements Serializable{
         solselc.setFecha_posible(fechaRealiz);
         solselc.setFecha_resp(new Date());
         ServicesFacade.getInstance("config.properties").updateSolicitud(solselc);
+    }
+    
+    
+    public Solicitud getSolselc2() {
+        return solselc2;
+    }
+
+    public void setSolselc2(Solicitud solselc2) {
+        this.solselc2 = solselc2;
+    }
+    
+    public void seleccionada() throws ServicesFacadeException{
+        this.solselc2.setSoftware_instalado(true);
+        ServicesFacade.getInstance("config.properties").updateSolicitud(solselc2);
     }
     
     public Solicitud getSolselc() {
