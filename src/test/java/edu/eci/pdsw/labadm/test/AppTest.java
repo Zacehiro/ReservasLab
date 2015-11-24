@@ -40,12 +40,12 @@ public class AppTest {
         Connection conn = DriverManager.getConnection("jdbc:h2:file:./target/db/testdb;MODE=MYSQL", "sa", "");
         Statement stmt = conn.createStatement();
         stmt.execute("delete from SOLICITUD");
+        stmt.execute("delete from SOFTWARE_LABORATORIO");
+        stmt.execute("delete from SOFTWARE");
+        stmt.execute("delete from USUARIO");
+        stmt.execute("delete from LABORATORIO_SISTEMA_OPERATIVO");
         stmt.execute("delete from SISTEMA_OPERATIVO");
         stmt.execute("delete from LABORATORIO");
-        stmt.execute("delete from USUARIO");
-        stmt.execute("delete from SOFTWARE");
-        stmt.execute("delete from Laboratorio_sistema_operativo");
-        stmt.execute("delete from software_laboratorio");
         conn.commit();
         conn.close();
     }
@@ -76,7 +76,7 @@ public class AppTest {
       try{
         sf.saveSolicitud(s);
       }catch(ServicesFacadeException bs){
-         if(bs.getMessage().equals(ServicesFacadeException.PROBLEMA_BASE_DATOS)){
+         if(bs.getMessage().equals(ServicesFacadeException.WRONG_LINK_TYPED)){
             posible =false;
          }
        }
