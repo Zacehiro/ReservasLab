@@ -47,7 +47,10 @@ public class AdmSolicitudesBackingBean implements Serializable{
     public List<Solicitud> getSolicitudesAtendidas() throws ServicesFacadeException{
         return ServicesFacade.getInstance("config.properties").loadSolicitudResp();
     }
-    
+    //tre todas las solicitudes que ya fueron atendidas y aceptadas
+    public List<Solicitud> getSolicitudesAceptadas() throws ServicesFacadeException{
+        return ServicesFacade.getInstance("config.properties").loadSolicitudRespAcep();
+    }
     public void nuevaRespuesta() throws ServicesFacadeException{
         if(resp){
             solselc.setEstado("aprobada");

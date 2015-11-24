@@ -231,4 +231,12 @@ public class ServicesFacade {
         }
         return so;
     }
+    /**
+     * Retorna Solicitudes con Respuesta y que han sido aprovadas
+     * @return Lista con Solicitudes con respuesta y aceptadas
+     * @throws ServicesFacadeException Error de lectura en Base de Datos
+     */
+    public List<Solicitud> loadSolicitudRespAcep() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
