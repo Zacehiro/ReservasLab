@@ -76,10 +76,10 @@ public class H2Test {
         stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 1)");
         stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 2)");
         stmt.execute("INSERT INTO SOFTWARE_LABORATORIO VALUES (3, 4)");
-        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (1, 1, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 1, 2)");
-        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (2, 2, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 3, 1)");
-        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (3, 3, 'www.lic.com', 'www.des.com', 'aprobada', '2015-11-12', '2015-11-24', null, null, 2, 1)");
-        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo) VALUES (4, 4, 'www.lic.com', 'www.des.com', 'negada', '2015-11-12', null, null, 'Imposible', 4, 3)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo, Software_instalado) VALUES (1, 1, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 1, 2, 0)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo, Software_instalado) VALUES (2, 2, 'www.lic.com', 'www.des.com', null, '2015-11-12', null, null, null, 3, 1, 0)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo, Software_instalado) VALUES (3, 3, 'www.lic.com', 'www.des.com', 'aprobada', '2015-11-12', '2015-11-24', null, null, 2, 1, 0)");
+        stmt.execute("INSERT INTO SOLICITUD (ID_solicitud, ID_software, Link_licencia, Link_descarga, Estado, Fecha_radicacion, Fecha_posible_instalacion, Fecha_respuesta, Justificacion, Usuario_id, ID_sistema_operativo, Software_instalado) VALUES (4, 4, 'www.lic.com', 'www.des.com', 'negada', '2015-11-12', null, null, 'Imposible', 4, 3, 0)");
         conn.commit();
         conn.close();
     }

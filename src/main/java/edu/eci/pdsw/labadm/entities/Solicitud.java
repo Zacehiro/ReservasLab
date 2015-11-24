@@ -25,9 +25,18 @@ public class Solicitud {
     private String justificacion;
     private SistemaOperativo so;
     private Usuario usuario;
+    private Boolean Software_instalado;
+
+    public Boolean getSoftware_instalado() {
+        return Software_instalado;
+    }
+
+    public void setSoftware_instalado(Boolean Software_instalado) {
+        this.Software_instalado = Software_instalado;
+    }
 
 
-    public Solicitud(int id, Software software, String link_licencia, String link_descarga, String estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, SistemaOperativo so, Usuario u){
+    public Solicitud(int id, Software software, String link_licencia, String link_descarga, String estado, Date fecha_rad, Date fecha_posible, Date fecha_resp, String justificacion, SistemaOperativo so, Usuario u, Boolean Software_instalado){
         this.id=id;
         this.estado=estado;
         this.fecha_posible=fecha_posible;
@@ -39,6 +48,7 @@ public class Solicitud {
         this.software=software;
         this.so=so;
         this.usuario=u;
+        this.Software_instalado=Software_instalado;
     }
 
     public Usuario getUsuario() {

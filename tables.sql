@@ -51,6 +51,7 @@ CREATE TABLE SOLICITUD (
     Usuario_id int  NOT NULL,
     ID_sistema_operativo int  NOT NULL,
     ID_software int  NOT NULL,
+    Software_instalado bool  NOT NULL,
     CONSTRAINT SOLICITUD_pk PRIMARY KEY (ID_solicitud)
 );
 
