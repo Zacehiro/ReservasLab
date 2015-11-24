@@ -55,7 +55,7 @@
                     <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" action="procesoSolicitud" actionListener="#{reservasLabBackingBean.saveSolicitud }" update="panel1" ajax="true"/>
                     <p:ajaxExceptionHandler type="edu.eci.pdsw.labadm.services.ServicesFacadeException" update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
                 </center>
-                    <h:outputLink value="../logout" style="color: red">logout</h:outputLink>
+                    <h:outputLink value="../logout" style="color: red">Cerrar Sesión</h:outputLink>
                     <p:dialog id="exceptionDialog" header="Exception occured!" widgetVar="exceptionDialog" height="500px">
                         Message: asdasd <br/>
                     </p:dialog>

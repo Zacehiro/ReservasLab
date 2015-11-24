@@ -101,9 +101,9 @@ public class AppTest {
     }
         ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
         Date d = new Date();
-        System.out.println("fecha "+ d);
         boolean fine= true;
         List<Solicitud> solicitudes = sf.loadAllSolicitud();
+        System.out.println("asdasd "+solicitudes);
         for (Solicitud s : solicitudes) {
           if(!(s.getFecha_rad().getDay()==d.getDay() && s.getFecha_rad().getMonth()==d.getMonth() && s.getFecha_rad().getYear() == d.getYear()) && fine){
               fine= false;
