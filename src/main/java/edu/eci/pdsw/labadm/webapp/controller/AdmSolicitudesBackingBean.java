@@ -76,7 +76,7 @@ public class AdmSolicitudesBackingBean implements Serializable{
         this.solselc2 = solselc2;
     }
     
-    public void seleccionada() throws ServicesFacadeException{
+    public void seleccionadaInstalada() throws ServicesFacadeException{
         this.solselc2.setSoftware_instalado(true);
         ServicesFacade.getInstance("config.properties").updateSolicitud(solselc2);
     }
