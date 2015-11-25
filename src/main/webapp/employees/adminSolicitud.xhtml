@@ -11,17 +11,20 @@
     <div align="center">
     <p:graphicImage value="Imagenes/Fondo2.png" />
     </div>
+    
     <hr align="center">
+    <div align="right">
+        <h:outputLink value="../logout" style="color: red">Cerrar Sesion</h:outputLink>
+    </div>
     <h2 style="text-align: center">Responder Solicitudes Software</h2>
     
-    <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>
+    
     
     </hr>
     <h:body>
         <h:form id="todo">
-            <div align="right">
             <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
-            </div>
+            
             <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudes}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
                 <f:facet name="header">
                     Solicitudes sin Responder

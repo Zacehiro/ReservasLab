@@ -8,10 +8,18 @@
         <title>Solicitud de Software </title>
     </h:head>
     <body>
-        <h1 style="text-align: center">Laboratorio de Ingeniería de Sistemas</h1>
+        <div align="center">
+        <p:graphicImage value="Imagenes/Fondo2.png" />
+        </div>
         <hr align="center">
+        <div align="right">
+            <h:outputLink value="../logout" style="color: red">Cerrar Sesión</h:outputLink>
+        </div>
         <h2 style="text-align: center">Solicitud de software</h2>
         </hr>
+        <h:form>
+        <p:commandButton id="regresar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
+        </h:form>
         <h:body>
             <p:separator />
             <p align="left">
@@ -55,7 +63,6 @@
                     <p:commandButton id="acepto" type="Button" value="Enviar Solicitud" action="procesoSolicitud" actionListener="#{reservasLabBackingBean.saveSolicitud }" update="panel1" ajax="true"/>
                     <p:ajaxExceptionHandler type="edu.eci.pdsw.labadm.services.ServicesFacadeException" update="exceptionDialog" onexception="PF('exceptionDialog').show();" />
                 </center>
-                    <h:outputLink value="../logout" style="color: red">logout</h:outputLink>
                     <p:dialog id="exceptionDialog" header="Exception occured!" widgetVar="exceptionDialog" height="500px">
                         Message: asdasd <br/>
                     </p:dialog>

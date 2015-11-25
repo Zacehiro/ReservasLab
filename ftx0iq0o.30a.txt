@@ -1,0 +1,21 @@
+﻿cambios en las presentaciones solicitud y adminsolicitud para exportar a heroku
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is ahead of 'origin/master' by 22 commits.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   src/main/java/edu/eci/pdsw/labadm/webapp/controller/ReservasLabBackingBean.java
+#	modified:   src/main/webapp/employees/adminSolicitud.xhtml
+#	modified:   src/main/webapp/restricted/solicitud.xhtml
+#
+# Changes not staged for commit:
+#	modified:   src/main/webapp/restricted/index.xhtml
+#	modified:   src/main/webapp/restricted/procesoSolicitud.xhtml
+#	modified:   src/main/webapp/restricted/solicitud.xhtml
+#	modified:   src/test/java/edu/eci/pdsw/labadm/test/AppTest.java
+#	modified:   tables.sql
+#
+

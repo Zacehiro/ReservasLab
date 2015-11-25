@@ -11,21 +11,24 @@
     <div align="center">
     <p:graphicImage value="Imagenes/Fondo2.png" />
     </div>
+    
     <hr align="center">
+    <div align="right">
+        <h:outputLink value="../logout" style="color: red">Cerrar Sesion</h:outputLink>
+    </div>
     <h2 style="text-align: center">Solicitudes pendientes por Realizar</h2>
-    <h:outputLink value="../logout">Cerrar Sesion</h:outputLink>
     </hr>
+    
     <h:body>
+        
         <h:form id="todo" >
-            <p:dataTable id="sol" var="sol" value="#{BeanAdmin.SolicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
+            <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
+            <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
                 <f:facet name="header">
                     Solicitudes pendientes 
                 </f:facet>
                 <p:column headerText="Fecha de radicación">
                     <h:outputText value="#{sol.fecha_rad}"/>
-                </p:column>
-                <p:column headerText="Laboratorio">
-                    <h:outputText value="#{sol.laboratorio.nombre}"/>
                 </p:column>
                 <p:column headerText="Software">
                     <h:outputText value="#{sol.software.nombre}"/>
@@ -37,12 +40,29 @@
                     <h:outputText value="#{sol.link_descarga}"/>
                 </p:column>
                 <p:column headerText="Estado de Instalación">
-                    <h:outputText value="#{sol.estado}"/>
+                    <h:outputText value="#{sol.software_instalado}"/>
                 </p:column>
                 
             </p:dataTable>
             
-            <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
+            <div align="center">
+                <p:commandButton id="sel" value="Seleccionar" update="todo"/>
+            </div>
+            <p:panel id="panel1" visible="#{beanAdmin.selected}" header="Formulario" style="margin-top: 10px">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:outputLabel for="restricted" value="Aprobacion de la solicitud:" />
+                    <p:selectBooleanCheckbox value="#{beanAdmin.resp}">
+                        <p:ajax update="todo:panel1" listener="#{beanAdmin.clearData}"/>
+                    </p:selectBooleanCheckbox>
+                    <p:outputLabel for="restricted" value="Fecha de realizacion:" />                                
+                    <p:calendar id="restricted" value="#{beanAdmin.fechaRealiz}" disabled="#{!beanAdmin.resp}" />
+                    <h:outputText value="Justificacion en caso de ser negada: "/>
+                    <p:inputTextarea rows="6" cols="33" value="#{beanAdmin.justificacion}" disabled="#{beanAdmin.resp}"/>
+                </h:panelGrid>
+                <p:commandButton id="respuesta" value="Aceptar" actionListener="#{beanAdmin.nuevaRespuesta}" update="todo"/>
+                
+            </p:panel>
+            
         </h:form>
         
     </h:body>
