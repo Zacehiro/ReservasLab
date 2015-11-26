@@ -135,8 +135,9 @@ public class ServicesFacade {
         try {
             df.beginSession();
             ds = df.getDaoSolicitud();
+            List<Solicitud> s = ds.loadAll();
             df.endSession();
-            return ds.loadAll();
+            return s;
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
@@ -181,8 +182,9 @@ public class ServicesFacade {
         try {
             df.beginSession();
             ds = df.getDaoSolicitud();
+            List<Solicitud> s = ds.loadWithoutAnswer();
             df.endSession();
-            return ds.loadWithoutAnswer();
+            return s;
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
@@ -204,8 +206,9 @@ public class ServicesFacade {
         try {
             df.beginSession();
             ds = df.getDaoSolicitud();
+            Solicitud s = ds.loadSolicitud(id);
             df.endSession();
-            return ds.loadSolicitud(id);
+            return s;
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
@@ -221,8 +224,9 @@ public class ServicesFacade {
         try {
             df.beginSession();
             ds=df.getDaoSolicitud();
+            List<Solicitud> s = ds.loadAppproved();
             df.endSession();
-            return ds.loadAppproved();
+            return s;
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
