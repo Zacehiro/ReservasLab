@@ -230,16 +230,10 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             ps.setInt(1, 0);
             ps.setString(2, "aprobada");
             ResultSet rs=ps.executeQuery();
-            rs.next();
-            Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-            SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-            Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
-            sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),sos,u,rs.getBoolean("software_ins"));
-            ans.add(sol);
             while (rs.next()){
-                u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
-                sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
-                s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
+                Usuario u= new Usuario(rs.getInt("id_usuario"), rs.getString("usuario_nombre") , rs.getString ("email"), rs.getInt("tipo_us"));
+                SistemaOperativo sos=new SistemaOperativo(rs.getString("so_nombre"),rs.getString("so_version"),rs.getInt("id_so"));
+                Software s=new Software(rs.getString("soft_nombre"),rs.getString("soft_version"),rs.getInt("software_id"));
                 sol=new Solicitud(rs.getInt("id_solicitud"),s,rs.getString("licencia"),rs.getString("descarga"),rs.getString("estado"),rs.getTimestamp("fecha_rad"),rs.getTimestamp("fecha_instalacion"),rs.getTimestamp("fecha_resp"), rs.getString("justificacion"),sos,u,rs.getBoolean("software_ins"));
                 ans.add(sol);
             }
