@@ -119,31 +119,26 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public DaoLaboratorio getDaoLaboratorio() throws PersistenceException {
-        this.beginSession();
         return new JDBCDaoLaboratorio(connectionInstance.get());
     }
 
     @Override
     public DaoUsuario getDaoUsuario() throws PersistenceException {
-        this.beginSession();
         return new JDBCDaoUsuario(connectionInstance.get());
     }
 
     @Override
     public DaoSolicitud getDaoSolicitud() throws PersistenceException {
-        this.beginSession();
         return new JDBCDaoSolicitud(connectionInstance.get());
     }
 
     @Override
     public DaoSistemaOperativo getDaoSistemaOperativo() throws PersistenceException {
-        this.beginSession();
         return new JDBCDaosistemaoperativo(connectionInstance.get());
     }
 
     @Override
     public DaoSoftware getDaoSoftware() throws PersistenceException {
-        this.beginSession();
         return new JDBCDaoSoftware(connectionInstance.get());
     }
 

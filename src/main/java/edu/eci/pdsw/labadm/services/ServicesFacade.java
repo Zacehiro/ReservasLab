@@ -55,8 +55,10 @@ public class ServicesFacade {
         df = DaoFactory.getInstance(properties);
         DaoSistemaOperativo dso;
         try {
+            df.beginSession();
             dso = df.getDaoSistemaOperativo();
             sos = dso.loadAll();
+            df.endSession();
             
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,12 +75,14 @@ public class ServicesFacade {
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds = df.getDaoSolicitud();
             if(s.getLink_licencia().contains(".") && s.getLink_descarga().contains(".")){
                 ds.save(s);
             }else{
                 throw new ServicesFacadeException(ServicesFacadeException.WRONG_LINK_TYPED);
             }
+            df.endSession();
         }catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
@@ -92,8 +96,10 @@ public class ServicesFacade {
     public void updateSolicitud(Solicitud s) throws ServicesFacadeException{
         try {
             df=DaoFactory.getInstance(properties);
+            df.beginSession();
             DaoSolicitud ds=df.getDaoSolicitud();
             ds.update(s);
+            df.endSession();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
@@ -109,8 +115,10 @@ public class ServicesFacade {
         DaoLaboratorio dl;
         List posibles;
         try {
+            df.beginSession();
             dl = df.getDaoLaboratorio();
             posibles = dl.loadBySo(so);
+            df.endSession();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
         }
@@ -125,7 +133,9 @@ public class ServicesFacade {
         df=DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds = df.getDaoSolicitud();
+            df.endSession();
             return ds.loadAll();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
@@ -146,8 +156,10 @@ public class ServicesFacade {
         List<Solicitud> sol = new ArrayList<Solicitud>();
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds = df.getDaoSolicitud();
             sol=ds.loadWithAnswer();
+            df.endSession();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
                 throw new ServicesFacadeException(ServicesFacadeException.NO_CRITERIA_OR_EMPTY, ex);
@@ -167,7 +179,9 @@ public class ServicesFacade {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds = df.getDaoSolicitud();
+            df.endSession();
             return ds.loadWithoutAnswer();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
@@ -188,7 +202,9 @@ public class ServicesFacade {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds = df.getDaoSolicitud();
+            df.endSession();
             return ds.loadSolicitud(id);
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
@@ -203,7 +219,9 @@ public class ServicesFacade {
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds;
         try {
+            df.beginSession();
             ds=df.getDaoSolicitud();
+            df.endSession();
             return ds.loadAppproved();
         } catch (PersistenceException ex) {
             if(ex.getMessage().equals("No requests found.")){
@@ -217,8 +235,10 @@ public class ServicesFacade {
     public void deleteSolicitud(int sol) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         try {
+            df.beginSession();
             DaoSolicitud ds=df.getDaoSolicitud();
             ds.delete(sol);
+            df.endSession();
         } catch (PersistenceException ex) {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
@@ -228,9 +248,11 @@ public class ServicesFacade {
         df=DaoFactory.getInstance(properties);
         SistemaOperativo so = null;
         try {
+            df.beginSession();
             DaoSistemaOperativo dso;
             dso = df.getDaoSistemaOperativo();
             so=dso.loadSo(nombre, version);
+            df.endSession();
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -240,9 +262,11 @@ public class ServicesFacade {
     public void saveSoftware(Software sof){
         df = DaoFactory.getInstance(properties);
         try {
+            df.beginSession();
             DaoSoftware dsf;
             dsf = df.getDaoSoftware();
             dsf.save(sof);
+            df.endSession();
         } catch (PersistenceException ex) {
             Logger.getLogger(ServicesFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
