@@ -23,7 +23,7 @@
         
         <h:form id="todo" >
             <p:commandButton id="botonActividadesRealizar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
-            <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc}">
+            <p:dataTable id="sol" var="sol" value="#{beanAdmin.solicitudesAceptadas}" rowKey="#{sol.id}" selectionMode="single" selection="#{beanAdmin.solselc2}">
                 <f:facet name="header">
                     Solicitudes pendientes 
                 </f:facet>

@@ -4,7 +4,6 @@
  */
 package edu.eci.pdsw.labadm.bean.security;
 
-import java.io.File;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;

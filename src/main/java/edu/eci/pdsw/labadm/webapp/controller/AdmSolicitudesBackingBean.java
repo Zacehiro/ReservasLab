@@ -11,10 +11,8 @@ import edu.eci.pdsw.labadm.services.ServicesFacadeException;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -65,6 +63,8 @@ public class AdmSolicitudesBackingBean implements Serializable{
         solselc.setFecha_posible(fechaRealiz);
         solselc.setFecha_resp(new Date());
         ServicesFacade.getInstance("config.properties").updateSolicitud(solselc);
+        clearData();
+        solselc=null;
     }
     
     

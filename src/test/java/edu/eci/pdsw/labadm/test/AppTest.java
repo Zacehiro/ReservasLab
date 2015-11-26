@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -132,8 +131,8 @@ public class AppTest {
             ServicesFacade sf = ServicesFacade.getInstance("h2-applicationconfig.properties");
           try {
               SistemaOperativo sof = sf.loadSistemaOperativo("Windows","8.1");
-              ArrayList<Laboratorio> labs = new ArrayList<Laboratorio>();
-              labs = (ArrayList<Laboratorio>) sf.loadLaboratorioPosible(sof);
+              List<Laboratorio> labs;
+              labs = sf.loadLaboratorioPosible(sof);
               for (Laboratorio lab : labs) {
                   if(!(lab.getNombre().equalsIgnoreCase("Windows"))){
                       fine=false;

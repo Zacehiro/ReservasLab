@@ -67,6 +67,7 @@ public class ReservasLabBackingBean {
         so=sf.loadSistemaOperativo(siso[0],siso[1]);
         solicitud.setSo(so);
         solicitud.setSoftware(soft);
+        solicitud.setSoftware_instalado(false);
         try {
             sf.saveSolicitud(solicitud);
         } catch (ServicesFacadeException ex) {

@@ -1,9 +1,3 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2015-11-08 21:15:02.671
-
-
-
-
 -- tables
 -- Table LABORATORIO
 CREATE TABLE LABORATORIO (

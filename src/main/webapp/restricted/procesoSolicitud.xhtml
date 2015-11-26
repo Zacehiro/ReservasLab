@@ -25,6 +25,12 @@ and open the template in the editor.
         <p:commandButton id="regresar" value="Volver" action="index" icon="ui-icon-arrowrefresh-1-w"/>
         <p:panel header="Solicitudes" style="margin-top: 30px">
             <p:dataTable id="solAnt" var="sol" value="#{reservasLabBackingBean.sol}">
+                <p:column headerText="Software">
+                    <h:outputText value="#{sol.software.nombre}"/>
+                </p:column>
+                <p:column headerText="Version">
+                    <h:outputText value="#{sol.software.version}"/>
+                </p:column>
                 <p:column headerText="Aprobado  ">
                     <h:outputText value="#{sol.estado}"/>
                 </p:column>
