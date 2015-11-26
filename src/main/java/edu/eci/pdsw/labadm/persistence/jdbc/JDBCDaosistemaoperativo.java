@@ -64,11 +64,6 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
         try {
             ps = con.prepareStatement("SELECT ID_sistema_operativo, nombre, version FROM `SISTEMA_OPERATIVO`");
             ResultSet rs=ps.executeQuery();
-            if (!rs.next()){
-                throw new PersistenceException("No IOs found.");
-            }else{
-                ans.add(new SistemaOperativo(rs.getString(2), rs.getString(3), rs.getInt(1)));
-            }
             while (rs.next()){
                 ans.add(new SistemaOperativo(rs.getString(2), rs.getString(3), rs.getInt(1)));
             }
@@ -88,12 +83,8 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
             ps.setString(1, nombre);
             ps.setString(2, version);
             ResultSet rs=ps.executeQuery();
-            if (!rs.next()){
-                throw new PersistenceException("No IOs found.");
-            }else{
-                so=new SistemaOperativo(rs.getString(2), rs.getString(3), rs.getInt(1));
-            }
-                
+            rs.next();
+            so=new SistemaOperativo(rs.getString(2), rs.getString(3), rs.getInt(1));
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading a product.",ex);
         }

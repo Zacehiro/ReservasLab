@@ -51,14 +51,8 @@ public class JDBCDaoUsuario implements DaoUsuario{
             ps = con.prepareStatement("select nombre, email, tipo_usuario from USUARIO where ID_usuario=?");
             ps.setInt(1, id);
             ResultSet rs=ps.executeQuery();
-            
-            if (rs.next()){
-                return new Usuario(id, rs.getString(1), rs.getString(2), rs.getInt(3));
-            }
-            else{
-                throw new PersistenceException("No row with the given id:"+id);
-            }
-            
+            rs.next();
+            return new Usuario(id, rs.getString(1), rs.getString(2), rs.getInt(3));
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading an user.",ex);
         }
@@ -86,11 +80,6 @@ public class JDBCDaoUsuario implements DaoUsuario{
         try {
             ps = con.prepareStatement("select ID_usuario, nombre, email,tipo_usuario from USUARIO");
             ResultSet rs=ps.executeQuery();
-            if (!rs.next()){
-                throw new PersistenceException("No users found.");
-            }else{
-                ans.add(new Usuario(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getInt(4)));
-            }
             while (rs.next()){
                 ans.add(new Usuario(rs.getInt(1), rs.getString(2), rs.getString(3),rs.getInt(4)));
             }

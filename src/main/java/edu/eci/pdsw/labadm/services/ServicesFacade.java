@@ -113,14 +113,16 @@ public class ServicesFacade {
     public List<Laboratorio> loadLaboratorioPosible(SistemaOperativo so) throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
         DaoLaboratorio dl;
-        List posibles;
+        List posibles = new ArrayList<Laboratorio>();
         try {
             df.beginSession();
             dl = df.getDaoLaboratorio();
             posibles = dl.loadBySo(so);
             df.endSession();
         } catch (PersistenceException ex) {
-            throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            if(!(ex.getMessage().equals("No requests found."))){
+                throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS);
+            }
         }
         return posibles;
     }
