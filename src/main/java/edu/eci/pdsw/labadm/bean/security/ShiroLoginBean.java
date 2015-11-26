@@ -18,7 +18,7 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 
 
-@ManagedBean (name = "shiroLoginBean")
+@ManagedBean //(name = "shiroLoginBean")
 @ViewScoped
 public class ShiroLoginBean implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(ShiroLoginBean.class);
