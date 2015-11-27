@@ -23,11 +23,20 @@ import java.util.logging.Logger;
  */
 public class JDBCDaoUsuario implements DaoUsuario{
     Connection con;
-
+    
+    /**
+     * Creación del JDBCDaoUsuario.
+     * @param con conexión del Dao.
+     */
     public JDBCDaoUsuario(Connection con) {
         this.con = con;
     }
     
+    /**
+     * Guardar un usuario en la base de datos.
+     * @param u usuario que se va a guardar en la base de datos.
+     * @throws PersistenceException 
+     */
     @Override
     public void save(Usuario u) throws PersistenceException {
         PreparedStatement ps;
@@ -44,6 +53,12 @@ public class JDBCDaoUsuario implements DaoUsuario{
         }
     }
 
+    /**
+     * Consultar un usuario específico.
+     * @param id numero de id del usuario que se desea consultar.
+     * @return el usuario si este es encontrado, un usuario nulo si este no existe.
+     * @throws PersistenceException 
+     */
     @Override
     public Usuario load(int id) throws PersistenceException {
         PreparedStatement ps;
@@ -58,6 +73,11 @@ public class JDBCDaoUsuario implements DaoUsuario{
         }
     }
 
+    /**
+     * Actualizar la información de un usuario existente.
+     * @param u usuario que va a ser actualizado.
+     * @throws PersistenceException 
+     */
     @Override
     public void Update(Usuario u) throws PersistenceException {
         PreparedStatement ps;
@@ -72,7 +92,11 @@ public class JDBCDaoUsuario implements DaoUsuario{
         }  
     }
 
-
+    /**
+     * Consultar todos los usuarios existentes de la base de datos.
+     * @return una lista con todas los usuarios existentes, si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Usuario> loadAll() throws PersistenceException {
         List<Usuario> ans= new ArrayList<>();

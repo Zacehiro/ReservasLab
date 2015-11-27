@@ -22,10 +22,18 @@ public class JDBCDaoSoftware implements DaoSoftware {
     
     Connection con;
     
+    /**
+     * Creacion del JDBCDaoSoftware.
+     * @param con conexion del Dao.
+     */
     public JDBCDaoSoftware(Connection con){
         this.con=con;
     }
     
+    /**
+     * Guardar un software en la base de datos.
+     * @param soft software que se desea guardar.
+     */
     @Override
     public void save(Software soft) {
         PreparedStatement ps;
@@ -44,11 +52,6 @@ public class JDBCDaoSoftware implements DaoSoftware {
         } catch (SQLException ex) {
             Logger.getLogger(JDBCDaoSoftware.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    @Override
-    public void load(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

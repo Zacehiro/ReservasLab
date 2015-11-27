@@ -25,10 +25,20 @@ import java.util.logging.Logger;
 public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
 
     Connection con;
-
+    
+    /**
+     * Creacion del JDBCDaoSistemaoperativo
+     * @param con conexion del Dao.
+     */
     public JDBCDaosistemaoperativo(Connection con) {
         this.con = con;
     }
+    
+    /**
+     * Guardar un sistema operativo en la base de datos.
+     * @param s sistema operativo que se desea guardar.
+     * @throws PersistenceException 
+     */
     @Override
     public void save(SistemaOperativo s) throws PersistenceException {
         try {
@@ -43,6 +53,11 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
         }
     }
 
+    /**
+     * Actualizar la informacion de un sistema opertivo existente en la base de datos.
+     * @param s sistema operativo que se va a actualizar.
+     * @throws PersistenceException 
+     */
     @Override
     public void Update(SistemaOperativo s) throws PersistenceException {
        PreparedStatement ps;
@@ -57,6 +72,11 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
         }  
     }
 
+    /**
+     * Consultar todos los sistemas operativos existentes en la base de datos.
+     * @return una lista con todas los sistemas operativos existentes, si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<SistemaOperativo> loadAll() throws PersistenceException {
        List<SistemaOperativo> ans= new ArrayList<>();
@@ -74,6 +94,13 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
         return ans;
     }
     
+    /**
+     * Consultar un sistema operativo especifico de la base de datos.
+     * @param nombre nombre del sistema opertivo que se desea consultar.
+     * @param version version del sistema opertivo que se desea consultar.
+     * @return sistema operativo existente, un sistema operativo nulo si no se encuentra en la base de datos. 
+     * @throws PersistenceException 
+     */
     @Override
     public SistemaOperativo loadSo(String nombre, String version) throws PersistenceException{
         SistemaOperativo so;
@@ -90,5 +117,4 @@ public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
         }
         return so;
     }
-    
 }

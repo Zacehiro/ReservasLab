@@ -28,11 +28,20 @@ import java.util.List;
 public class JDBCDaoSolicitud implements DaoSolicitud{
     
     Connection con;
-
+    
+    /**
+     * Creacion de JDBCDaoSolicitud.
+     * @param con conexion del Dao.
+     */
     public JDBCDaoSolicitud(Connection con){
         this.con = con;
     }
-
+    
+    /**
+     * Guardar una solicitud en la base de datos.
+     * @param s solicitud que se desea guardar.
+     * @throws PersistenceException 
+     */
     @Override
     public void save(Solicitud s) throws PersistenceException {
         PreparedStatement ps;
@@ -65,6 +74,12 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
             throw new PersistenceException("An error ocurred while saving.", ex);
         }
     }
+    
+    /**
+     * Eliminar una solicitud de la base de datos.
+     * @param s solicitud que se desea eliminar de la base de datos.
+     * @throws PersistenceException 
+     */
     @Override
     public void delete(int s) throws PersistenceException {
         PreparedStatement ps;
@@ -78,6 +93,11 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         }
     }
     
+    /**
+     * Actualizar la información de una solicitud existente en la base de datos.
+     * @param s solicitud que va a ser actualizada.
+     * @throws PersistenceException 
+     */
     @Override
     public void update(Solicitud s) throws PersistenceException {
         PreparedStatement ps;
@@ -111,6 +131,12 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         }
     }
 
+    /**
+     * Consultar una solicitud especifica de la base de datos.
+     * @param id numero de id de la solicitud que se va a consultar.
+     * @return la solicitud especificada si esta es encontrada, solicitud nula si no existe en la base de datos.
+     * @throws PersistenceException 
+     */
     @Override
     public Solicitud loadSolicitud(int id) throws PersistenceException {
         Solicitud sol;
@@ -131,8 +157,8 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
     }
 
     /**
-     *
-     * @return
+     *Consultar todas las solicitudes existentes en la base de datos.
+     * @return una lista con todas las solicitudes existentes, si no hay retorna una lista vacia.
      * @throws PersistenceException
      */
     @Override
@@ -157,6 +183,11 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         return ans;
     }    
     
+    /**
+     * Consultar las solicitudes existentes que no tiene respuesta.
+     * @return una lista con todas las solicitudes sin respuesta existentes, si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Solicitud> loadWithoutAnswer() throws PersistenceException {
         Solicitud sol;
@@ -179,6 +210,11 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         return ans;
     }
 
+    /**
+     * Consultar todas las solicitudes existentes que ya han sido respondidas.
+     * @return una lista con todas las solicitudes con respuesta existentes, si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Solicitud> loadWithAnswer() throws PersistenceException {
         Solicitud sol;
@@ -202,6 +238,12 @@ public class JDBCDaoSolicitud implements DaoSolicitud{
         return ans;
     }
 
+    /**
+     * Consultar las solicitudes existentes que no han sido instaladas pero ya estan aprobadas.
+     * @return una lista con todas las solicitudes aprobadas aun sin instalar existentes, 
+     *         si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Solicitud> loadAppproved() throws PersistenceException {
         Solicitud sol;

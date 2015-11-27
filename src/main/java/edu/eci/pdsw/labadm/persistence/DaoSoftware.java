@@ -13,5 +13,4 @@ import edu.eci.pdsw.labadm.entities.Software;
  */
 public interface DaoSoftware {
     public void save(Software soft);
-    public void load(int id);
 }

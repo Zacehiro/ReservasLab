@@ -25,11 +25,20 @@ import java.util.logging.Logger;
  */
 public class JDBCDaoLaboratorio implements DaoLaboratorio {
     Connection con;
-
+    
+    /**
+     * Creacion del JDBCDaoLaboratorio.
+     * @param con conexion del Dao.
+     */
     public JDBCDaoLaboratorio(Connection con) {
         this.con = con;
     }
 
+    /**
+     * Guardar un laboratorio en la base de datos.
+     * @param l laboratorio que se va a guardar en la base de datos.
+     * @throws PersistenceException 
+     */
     @Override
     public void save(Laboratorio l) throws PersistenceException {
           PreparedStatement ps;
@@ -57,6 +66,13 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
         }
     }
 
+    /**
+     * Cosultar los laboratorios existentes en los que se encuantra un sistema operativo especifico.
+     * @param so sistema operativo que debe tener el laboratorio.
+     * @return una lista con todas los laboratorios con ese sistema operativo existentes,
+     *         si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Laboratorio> loadBySo(SistemaOperativo so) throws PersistenceException {
         Laboratorio lab;
@@ -101,6 +117,11 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
         return ans;
     }
 
+    /**
+     * Actualizar la información de un laboratorio.
+     * @param l laboratorio del cual se va a consultar la informacion.
+     * @throws PersistenceException 
+     */
     @Override
     public void Update(Laboratorio l) throws PersistenceException {
         PreparedStatement ps;
@@ -115,6 +136,11 @@ public class JDBCDaoLaboratorio implements DaoLaboratorio {
         }  
     }
 
+    /**
+     * Consultar todo los laboratorios existentes de la base de datos.
+     * @return una lista con todas los laboratorios existentes, si no hay retorna una lista vacia.
+     * @throws PersistenceException 
+     */
     @Override
     public List<Laboratorio> loadAll() throws PersistenceException {
         Laboratorio lab;
