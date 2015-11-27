@@ -54,6 +54,9 @@ public class ReservasLabBackingBean {
         this.version = version;
     }
     
+    /**
+     * Guarda una solicitud y sus componentes (Software, usuario, sistema operativo, ) 
+     */
     public void saveSolicitud(){
         sf = ServicesFacade.getInstance("config.properties");
         solicitud = new Solicitud();
@@ -148,6 +151,9 @@ public class ReservasLabBackingBean {
         this.sistemaoperativo = sistemaoperativo;
     }
     
+    /**
+     * Al cambiar el SistemaOperativo en la UI carga el sistema operativo desde la persistencia
+     */
     public void onSoChange() {    
         if(sistemaoperativo!=null){
             sf = ServicesFacade.getInstance("config.properties");
@@ -157,6 +163,4 @@ public class ReservasLabBackingBean {
         }
         
     }
-  
-    
 }

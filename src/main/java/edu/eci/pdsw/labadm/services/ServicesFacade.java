@@ -220,6 +220,11 @@ public class ServicesFacade {
         }
     }
     
+    /**
+     * Retorna una lista con las Solicitudes que han sido aceptadas pero aun no se han instalado
+     * @return s List<Solicitud> 
+     * @throws ServicesFacadeException 
+     */
     public List<Solicitud> loadSolicitudSinInstalar() throws ServicesFacadeException{
         df= DaoFactory.getInstance(properties);
         DaoSolicitud ds;
@@ -238,6 +243,11 @@ public class ServicesFacade {
         }
     }
     
+    /**
+     * Borra una solicitud dado su id
+     * @param sol entrero identificador de la solicitud
+     * @throws ServicesFacadeException 
+     */
     public void deleteSolicitud(int sol) throws ServicesFacadeException{
         df=DaoFactory.getInstance(properties);
         try {
@@ -249,7 +259,13 @@ public class ServicesFacade {
             throw new ServicesFacadeException(ServicesFacadeException.PROBLEMA_BASE_DATOS, ex);
         }
     }
-    
+
+    /**
+     * Carga un sistema operativo por su nombre y version
+     * @param nombre String, nombre del sistema operativo
+     * @param version String, version del sistema operativo
+     * @return SistemaOperativo
+     */
     public SistemaOperativo loadSistemaOperativo(String nombre, String version){
         df=DaoFactory.getInstance(properties);
         SistemaOperativo so = null;
@@ -265,6 +281,10 @@ public class ServicesFacade {
         return so;
     }
     
+    /**
+     * Guarda en la persistenacia un Software
+     * @param sof Software que se desea guardar
+     */
     public void saveSoftware(Software sof){
         df = DaoFactory.getInstance(properties);
         try {
