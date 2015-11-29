@@ -50,7 +50,11 @@ public class ServicesFacade {
         }
         return instance;
     }
-
+    /**
+     * Retorna un listado con todos los sistemas operativos que se encuentran en la base de datos.
+     * @return retorna listado de los los sistemas operativos.
+     * @throws ServicesFacadeException Problema al leer en la base de datos.
+     */
     public List<SistemaOperativo> getSos() {
         df = DaoFactory.getInstance(properties);
         DaoSistemaOperativo dso;
