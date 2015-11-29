@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author usuario
+ * @author Zacehiro
  */
 public class JDBCDaosistemaoperativo implements DaoSistemaOperativo{
 

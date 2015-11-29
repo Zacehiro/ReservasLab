@@ -21,7 +21,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
  *
- * @author usuario
+ * @author Zacehiro
  */
 public class MyBatisMapperFactory extends DaoFactory {
     private static SqlSession sqlss;

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author usuario
+ * @author Zacehiro
  */
 public class JDBCDaoSoftware implements DaoSoftware {
     

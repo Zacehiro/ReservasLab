@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  *
- * @author usuario
+ * @author Zacehiro
  */
 public interface DaoSistemaOperativo {
         public void save(SistemaOperativo s) throws PersistenceException;

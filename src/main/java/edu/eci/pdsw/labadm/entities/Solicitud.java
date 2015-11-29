@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author usuario
+ * @author Zacehiro
  */
 public class Solicitud {
     private int id;

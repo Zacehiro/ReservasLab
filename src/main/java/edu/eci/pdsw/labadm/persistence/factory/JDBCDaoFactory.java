@@ -35,7 +35,7 @@ import java.util.Properties;
 
 /**
  *
- * @author hcadavid
+ * @author Zacehiro
  */
 public class JDBCDaoFactory extends DaoFactory {
 

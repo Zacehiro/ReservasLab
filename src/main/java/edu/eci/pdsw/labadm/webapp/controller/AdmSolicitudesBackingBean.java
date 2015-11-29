@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.eci.pdsw.labadm.webapp.controller;
 
 import edu.eci.pdsw.labadm.entities.Solicitud;
@@ -17,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 /**
  * Componenetes que se asiciaran con la interface del usuario monitor en las cuales ayudara para la 
  * administracion de estos, para poder crear, configurar y utilizar el respaldo de la aplicación
- * @author ZACEHIRO
+ * @author Zacehiro
  */
 @ManagedBean (name = "beanAdmin")
 @ApplicationScoped

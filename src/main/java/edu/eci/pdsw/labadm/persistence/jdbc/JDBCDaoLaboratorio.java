@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author 2101047
+ * @author Zacehiro
  */
 public class JDBCDaoLaboratorio implements DaoLaboratorio {
     Connection con;

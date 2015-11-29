@@ -20,7 +20,7 @@ import edu.eci.pdsw.labadm.persistence.factory.JDBCDaoFactory;
 import java.util.Properties;
 /**
  *
- * @author hcadavid
+ * @author Zacehiro
  */
 public abstract class DaoFactory {
     

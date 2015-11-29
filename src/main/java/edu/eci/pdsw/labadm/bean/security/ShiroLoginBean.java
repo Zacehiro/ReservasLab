@@ -1,6 +1,6 @@
 /**
  * Very simple bean that authenticates the user via Apache Shiro, using JSF
- * @author Daniel Mascarenhas
+ * @author Zacehiro
  */
 package edu.eci.pdsw.labadm.bean.security;
 
