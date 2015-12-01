@@ -156,6 +156,5 @@ public class ReservasLabBackingBean {
             so=sf.loadSistemaOperativo(siso[0], siso[1]);
             setLabs(so);
         }
-        
     }
 }
